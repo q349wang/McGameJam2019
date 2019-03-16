@@ -24,7 +24,7 @@ public class BasePlayer : MonoBehaviour
     float movementSpeed = 0;
 
     // Start is called before the first frame update
-    protected virtual void Start()
+    protected virtual void Reset()
     {
         GetComponent<PlatformerCharacter2D>().m_MaxSpeed = movementSpeed;
     }

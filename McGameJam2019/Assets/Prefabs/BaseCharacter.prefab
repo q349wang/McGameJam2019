@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 1763144348413055305}
   - component: {fileID: 6792619634010515903}
   - component: {fileID: 688054269736528898}
+  - component: {fileID: 9099165408537088927}
   m_Layer: 0
   m_Name: BaseCharacter
   m_TagString: Player
@@ -286,6 +287,19 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &9099165408537088927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3578065717224169321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a95cb544b4746a4faf72a007ecd5352, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healerSprite: {fileID: 21300000, guid: cb178e4c190e12142b191ee3dde661db, type: 3}
 --- !u!1 &3578065717226034150
 GameObject:
   m_ObjectHideFlags: 0

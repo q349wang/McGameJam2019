@@ -324,6 +324,12 @@ namespace Prototype.NetworkLobby
 
         }
 
+        public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+        {
+            Debug.Log("adding server player");
+            base.OnServerAddPlayer(conn, playerControllerId);
+        }
+
         public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
         {
             //This hook allows you to apply state data from the lobby-player to the game-player
@@ -415,7 +421,7 @@ namespace Prototype.NetworkLobby
         public override void OnClientError(NetworkConnection conn, int errorCode)
         {
             ChangeTo(mainMenuPanel);
-            infoPanel.Display("Cient error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
+            infoPanel.Display("Client error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
         }
     }
 }
