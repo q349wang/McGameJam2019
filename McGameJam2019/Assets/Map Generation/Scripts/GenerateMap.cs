@@ -16,14 +16,18 @@ public class GenerateMap : MonoBehaviour
 
     public GameObject crate;
 	public GameObject barrel;
+	public GameObject wall;
 
 	private List<GameObject> obstacles;
+	private List<GameObject> walls;
 	private static readonly System.Random rng = new System.Random();
     // Use this for initialization
     void Start()
     {
 		obstacles = new List<GameObject>();
+		walls = new List<GameObject>();
 		GenerateObstaclesRowPriorityCenterOut(rng.Next(minObstacles, maxObstacles + 1));
+		GenerateWallsRect(0f, 0f, mapWidth, mapHeight);
     }
 
     // Update is called once per frame
@@ -39,6 +43,28 @@ public class GenerateMap : MonoBehaviour
             GenerateObstaclesRowPriorityCenterOut(rng.Next(minObstacles, maxObstacles + 1));
         }
     }
+
+	private void GenerateWallsRect(float x, float y, int w, int h)
+	{
+		for(int i = 0; i < w + 4; i++)
+		{
+			GameObject generated = Instantiate(wall as GameObject);
+			generated.SetActive(true);
+			generated.transform.Translate(new Vector2(x + i - 2, y - 1));
+			walls.Add(generated);
+			generated = Instantiate(generated as GameObject);
+			generated.transform.Translate(new Vector2(0, h + 2));
+		}
+		for(int i = 0; i < h + 2; i++)
+		{
+			GameObject generated = Instantiate(wall as GameObject);
+			generated.SetActive(true);
+			generated.transform.Translate(new Vector2(x - 1, y + i- 1));
+			walls.Add(generated);
+			generated = Instantiate(generated as GameObject);
+			generated.transform.Translate(new Vector2(w + 2, 0));
+		}
+	}
 
 	private void GenerateObstaclesRadial(int maxNumToGen)
 	{
