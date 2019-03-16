@@ -69,15 +69,22 @@ namespace MapGen
         public GameObject crate;
         public GameObject barrel;
         public GameObject wall;
+        public GameObject background;
 
         private List<GameObject> possibleObstacles;
         private List<GameObject> obstacles;
         private RectWall walls;
         private MapSpace[,] mapSpaces;
         private static readonly System.Random rng = new System.Random();
+
+        [SerializeField] private int groupMin;
+        [SerializeField] private int groupMax;
         // Use this for initialization
         void Start()
         {
+            background.SetActive(true);
+            background.GetComponent<SpriteRenderer>().size = new Vector2(mapWidth, mapHeight);
+            background.transform.Translate(new Vector2((float)mapWidth / 2, (float)mapHeight / 2));
             possibleObstacles = new List<GameObject>();
             possibleObstacles.Add(crate);
             possibleObstacles.Add(barrel);
@@ -174,10 +181,22 @@ namespace MapGen
 
             if (cellHeight != 1)
             {
+                int obsIndex = rng.Next(0, possibleObstacles.Count);
+                int toGen = rng.Next(groupMin, groupMax);
                 for (int i = 0; i < cellWidth; i++)
                 {
+                    if (toGen == 0)
+                    {
+                        obsIndex = rng.Next(0, possibleObstacles.Count);
+                        toGen = rng.Next(groupMin, groupMax);
+                    }
                     for (int j = 0; j < cellSize; j++)
                     {
+                        if (toGen == 0)
+                        {
+                            obsIndex = rng.Next(0, possibleObstacles.Count);
+                            toGen = rng.Next(groupMin, groupMax);
+                        }
                         int trueY = ranY * cellSize + cellSize - 1;
                         int trueX = i * cellSize + j;
                         if (i == holeHor[0] || i == holeHor[1])
@@ -185,15 +204,17 @@ namespace MapGen
                             if (j == cellSize - 1 && i != cellWidth - 1)
                             {
                                 Destroy(map[trueX, trueY]);
-                                GameObject generate = GenerateObstacle(trueX + x, trueY + y);
+                                GameObject generate = GenerateSpecificObstacle(trueX + x, trueY + y, obsIndex);
                                 map[trueX, trueY].obstacle = generate;
+                                toGen--;
                             }
                         }
                         else
                         {
                             Destroy(map[trueX, trueY]);
-                            GameObject generate = GenerateObstacle(trueX + x, trueY + y);
+                            GameObject generate = GenerateSpecificObstacle(trueX + x, trueY + y, obsIndex);
                             map[trueX, trueY].obstacle = generate;
+                            toGen--;
                         }
                     }
                 }
@@ -201,10 +222,22 @@ namespace MapGen
 
             if (cellWidth != 1)
             {
+                int obsIndex = rng.Next(0, possibleObstacles.Count);
+                int toGen = rng.Next(groupMin, groupMax);
                 for (int i = 0; i < cellHeight; i++)
                 {
+                    if (toGen == 0)
+                    {
+                        obsIndex = rng.Next(0, possibleObstacles.Count);
+                        toGen = rng.Next(groupMin, groupMax);
+                    }
                     for (int j = 0; j < cellSize; j++)
                     {
+                        if (toGen == 0)
+                        {
+                            obsIndex = rng.Next(0, possibleObstacles.Count);
+                            toGen = rng.Next(groupMin, groupMax);
+                        }
                         int trueX = ranX * cellSize + cellSize - 1;
                         int trueY = i * cellSize + j;
                         if (i == holeVer[0] || i == holeVer[1])
@@ -212,15 +245,17 @@ namespace MapGen
                             if (j == cellSize - 1 && i != cellHeight - 1)
                             {
                                 Destroy(map[trueX, trueY]);
-                                GameObject generate = GenerateObstacle(trueX + x, trueY + y);
+                                GameObject generate = GenerateSpecificObstacle(trueX + x, trueY + y, obsIndex);
                                 map[trueX, trueY].obstacle = generate;
+                                toGen--;
                             }
                         }
                         else
                         {
                             Destroy(map[trueX, trueY]);
-                            GameObject generate = GenerateObstacle(trueX + x, trueY + y);
+                            GameObject generate = GenerateSpecificObstacle(trueX + x, trueY + y, obsIndex);
                             map[trueX, trueY].obstacle = generate;
+                            toGen--;
                         }
                     }
                 }
