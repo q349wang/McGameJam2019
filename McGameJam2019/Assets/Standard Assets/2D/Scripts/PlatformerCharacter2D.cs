@@ -10,6 +10,11 @@ namespace UnityStandardAssets._2D
         [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;  // Amount of maxSpeed applied to crouching movement. 1 = 100%
         [SerializeField] private bool m_AirControl = false;                 // Whether or not a player can steer while jumping;
         [SerializeField] private LayerMask m_WhatIsGround;                  // A mask determining what is ground to the character
+        [SerializeField] private Transform m_Ability1;
+        [SerializeField] private Transform m_Ability2;
+        [SerializeField] private Transform m_Ability3;
+        [SerializeField] private int health;
+        [SerializeField] private int characterClass;
 
         private Transform m_GroundCheck;    // A position marking where to check if the player is grounded.
         const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
@@ -19,12 +24,17 @@ namespace UnityStandardAssets._2D
         private Animator m_Anim;            // Reference to the player's animator component.
         private Rigidbody2D m_Rigidbody2D;
         private bool m_FacingRight = true;  // For determining which way the player is currently facing.
+        private int m_Mana;
+        private bool isStunned = false;
 
         private void Awake()
         {
             // Setting up references.
             m_GroundCheck = transform.Find("GroundCheck");
             m_CeilingCheck = transform.Find("CeilingCheck");
+            m_Ability1 = transform.Find("Ability 1");
+            m_Ability2 = transform.Find("Ability 2");
+            m_Ability3 = transform.Find("Ability 3");
             m_Anim = GetComponent<Animator>();
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
         }
@@ -99,7 +109,24 @@ namespace UnityStandardAssets._2D
             }
         }
 
+        private void UseAbility(float a1, float a2, float a3)
+        {
+            if(a1 > 0)
+            {
+                HealerAbility1 abil = m_Ability1.GetComponent<HealerAbility1>();
+                if(m_Mana >= abil.cost)
+                {
 
+                }
+                //run ability 1
+            } else if(a2 > 0)
+            {
+                //run ability 2
+            } else if (a3 > 0)
+            {
+                //run ability 3
+            }
+        }
         private void Flip()
         {
             // Switch the way the player is labelled as facing.
