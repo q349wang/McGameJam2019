@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -66,15 +67,15 @@ namespace MapGen
         public int minObstacles;
 
 
-        public GameObject crate;
-        public GameObject barrel;
-        public GameObject wall;
         public GameObject background;
+        [SerializeField] private List<GameObject> pickups;
 
-        private List<GameObject> possibleObstacles;
+        [SerializeField] private List<GameObject> possibleObstacles;
         private List<GameObject> obstacles;
         private RectWall walls;
         private MapSpace[,] mapSpaces;
+        private List<GameObject> manaPickups;
+        private List<Tuple<GameObject, int>> weaponPickups;
         private static readonly System.Random rng = new System.Random();
 
         [SerializeField] private int groupMin;
@@ -85,15 +86,14 @@ namespace MapGen
             background.SetActive(true);
             background.GetComponent<SpriteRenderer>().size = new Vector2(mapWidth, mapHeight);
             background.transform.Translate(new Vector2((float)mapWidth / 2, (float)mapHeight / 2));
-            possibleObstacles = new List<GameObject>();
-            possibleObstacles.Add(crate);
-            possibleObstacles.Add(barrel);
-            possibleObstacles.Add(wall);
             obstacles = new List<GameObject>();
             walls = new RectWall();
             mapSpaces = new MapSpace[mapWidth, mapHeight];
+            manaPickups = new List<GameObject>();
+            weaponPickups = new List<Tuple<GameObject, int>>();
             GenerateWallsRect(0f, 0f, mapWidth, mapHeight);
             GenerateMazeScuffedRecursiveDiv(0, 0, mapWidth, mapHeight, mapCellSize, ref mapSpaces, mapCellDepth);
+            GeneratePickups(10, 15, 10, 15, 0, 0, mapWidth, mapHeight, mapCellSize);
         }
 
         // Update is called once per frame
@@ -271,7 +271,7 @@ namespace MapGen
         {
             for (int i = 0; i < w + 2; i++)
             {
-                GameObject generated = Instantiate(wall as GameObject);
+                GameObject generated = Instantiate(possibleObstacles[0] as GameObject);
                 generated.SetActive(true);
                 generated.transform.Translate(new Vector2(x + i - 1, y - 1));
                 walls.south.Add(generated);
@@ -281,7 +281,7 @@ namespace MapGen
             }
             for (int i = 0; i < h; i++)
             {
-                GameObject generated = Instantiate(wall as GameObject);
+                GameObject generated = Instantiate(possibleObstacles[0] as GameObject);
                 generated.SetActive(true);
                 generated.transform.Translate(new Vector2(x - 1, y + i));
                 walls.west.Add(generated);
@@ -328,6 +328,54 @@ namespace MapGen
                 Destroy(space.obstacle);
                 space.obstacle = null;
                 space.isObstacle = false;
+            }
+        }
+
+        private void GeneratePickups(int minMana, int maxMana, int minWeap, int maxWeap, int x, int y, int w, int h, int cellSize)
+        {
+            int numMana = rng.Next(minMana, maxMana);
+            int numWeap = rng.Next(minWeap, maxWeap);
+            int cellWidth = w / cellSize;
+            int cellHeight = h / cellSize;
+            int[,] mapGrid = new int[cellWidth, cellHeight];
+
+            List<Tuple<int, int>> possiblePos = new List<Tuple<int, int>>();
+            for (int i = 0; i < cellWidth; i++)
+            {
+                for (int j = 0; j < cellHeight; j++)
+                {
+                    possiblePos.Add(new Tuple<int, int>(i, j));
+                }
+            }
+            for (int i = 0; i < numMana; i++)
+            {
+                if (possiblePos.Count > 0)
+                {
+                    int random = rng.Next(0, possiblePos.Count);
+                    float trueX = (float) possiblePos[random].Item1 * cellSize + ((float) cellSize) / 2 + (float) x;
+                    float trueY = (float) possiblePos[random].Item2 * cellSize + ((float) cellSize) / 2 + (float) y;
+                    GameObject generated = Instantiate(pickups[0], new Vector2(trueX, trueY), Quaternion.identity);
+                    generated.SetActive(true);
+                    possiblePos.RemoveAt(random);
+                    manaPickups.Add(generated);
+                }
+
+            }
+
+            for (int i = 0; i < numWeap; i++)
+            {
+                if (possiblePos.Count > 0)
+                {
+                    int random = rng.Next(0, possiblePos.Count);
+                    float trueX = (float) possiblePos[random].Item1 * cellSize + ((float) cellSize) / 2 + (float) x;
+                    float trueY = (float) possiblePos[random].Item2 * cellSize + ((float) cellSize) / 2 + (float) y;
+                    int weap = rng.Next(1, 4);
+                    GameObject generated = Instantiate(pickups[weap], new Vector2(trueX, trueY), Quaternion.identity);
+                    generated.SetActive(true);
+                    possiblePos.RemoveAt(random);
+                    weaponPickups.Add(new Tuple<GameObject, int>(generated, weap));
+                }
+
             }
         }
     }
