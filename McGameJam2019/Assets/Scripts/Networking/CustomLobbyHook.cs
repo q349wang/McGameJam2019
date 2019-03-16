@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using Prototype.NetworkLobby;
 
 enum CharacterClass
 {
@@ -9,14 +10,8 @@ enum CharacterClass
 
 }
 
-public class CustomLobbyHook : Prototype.NetworkLobby.LobbyHook
+public class CustomLobbyHook : LobbyHook
 {
-    [SerializeField]
-    int prefabIndex = 0;
-
-    [SerializeField]
-    GameObject[] playerPrefabs;
-
     void OnValidate()
     {
         //GetComponent<NetworkLobbyManager>().gamePlayerPrefab = playerPrefabs[prefabIndex];
@@ -24,7 +19,8 @@ public class CustomLobbyHook : Prototype.NetworkLobby.LobbyHook
 
     public override void OnLobbyServerSceneLoadedForPlayer(NetworkManager manager, GameObject lobbyPlayer, GameObject gamePlayer)
     {
-        //gamePlayer = Instantiate(playerPrefab, gamePlayer.transform.position, Quaternion.identity);
-        //NetworkServer.Spawn(playerPrefab);
+        LobbyPlayer lobby = lobbyPlayer.GetComponent<LobbyPlayer>();
+        Debug.Log("Setting sprite: " + lobby.playerClassSprite);
+        gamePlayer.GetComponent<TypedPlayerSpawner>().classIndex = lobby.playerClassSprite;
     }
 }
