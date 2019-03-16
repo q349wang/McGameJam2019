@@ -590,10 +590,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: 54536923-42ab-45ae-acbe-973ed6cd0ced
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: McGameJam2019
+  organizationId: mediocrefishy
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
