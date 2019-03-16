@@ -32,6 +32,7 @@ namespace UnityStandardAssets._2D
             // Read the inputs.
             bool crouch = Input.GetKey(KeyCode.LeftControl);
             float h = CrossPlatformInputManager.GetAxis("Horizontal");
+            float v = CrossPlatformInputManager.GetAxis("Vertical");
             float a1 = CrossPlatformInputManager.GetAxis("Fire1");
             float a2 = CrossPlatformInputManager.GetAxis("Fire2");
             float a3 = CrossPlatformInputManager.GetAxis("Fire3");
