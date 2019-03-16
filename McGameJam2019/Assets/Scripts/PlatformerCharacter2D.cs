@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class PlatformerCharacter2D : MonoBehaviour
 {
-    [SerializeField]
-    private float m_MaxSpeed = 10f;                    // The fastest the player can travel.
+    [HideInInspector]
+    public float m_MaxSpeed = 0f;                    // The fastest the player can travel.
     [SerializeField]
     private Transform m_Ability1;
     [SerializeField]
