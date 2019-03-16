@@ -118,6 +118,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1062046106}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &869978234 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 857258145390546425, guid: 2aefe8c5e4d3ab44597b35a1ffeb5baa,
+    type: 3}
+  m_PrefabInstance: {fileID: 1680577506}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1062046106
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -272,6 +278,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6983c07700759e04795ec6fd6b044d52, type: 3}
+--- !u!1 &1272696717 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 857258145390546425, guid: 6983c07700759e04795ec6fd6b044d52,
+    type: 3}
+  m_PrefabInstance: {fileID: 1157689936}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1310386103 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6747564686328604689, guid: 0c4790ac74b78154ab8a901b218b8395,
@@ -544,12 +556,24 @@ MonoBehaviour:
   colGap: 0
   maxObstacles: 500
   minObstacles: 100
-  crate: {fileID: 1101127032}
-  barrel: {fileID: 813049815}
-  wall: {fileID: 1310386103}
   background: {fileID: 5093701999245435263}
+  pickups:
+  - {fileID: 1893456127}
+  - {fileID: 1272696717}
+  - {fileID: 1991485448}
+  - {fileID: 869978234}
+  possibleObstacles:
+  - {fileID: 1310386103}
+  - {fileID: 813049815}
+  - {fileID: 1101127032}
   groupMin: 2
   groupMax: 5
+--- !u!1 &1893456127 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 857258145390546425, guid: 26e841868e204914686ef523929a54b6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1583355107}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1988787430
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -624,6 +648,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92b381cf801960a4b8c2d0bf387d9d52, type: 3}
+--- !u!1 &1991485448 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 857258145390546425, guid: 92b381cf801960a4b8c2d0bf387d9d52,
+    type: 3}
+  m_PrefabInstance: {fileID: 1988787430}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2074765556
 GameObject:
   m_ObjectHideFlags: 0
