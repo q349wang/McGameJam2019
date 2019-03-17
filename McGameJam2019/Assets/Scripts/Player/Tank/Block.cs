@@ -17,8 +17,23 @@ public class Block : Ability
         transform.localPosition = new Vector3(0.36f, 0, 0);
     }
 
+    float timeSinceManaUse = 0f;
+
     private void Update()
     {
+        if (isBlocking)
+        {
+            timeSinceManaUse += Time.deltaTime;
+            if (timeSinceManaUse >= 0.3f)
+            {
+                bPlayer.UseMana(abCost);
+                timeSinceManaUse = 0f;
+            }
+        }
+        else
+        {
+            timeSinceManaUse = 0f;
+        }
         //if (Input.GetButton(abilityButton) && bPlayer.CurrentMana >= abCost)
         //{
         //    //Debug.Log("Blocking");

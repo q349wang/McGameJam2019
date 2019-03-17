@@ -111,9 +111,9 @@ public class BasePlayer : NetworkBehaviour
         return true;
     }
 
-    public void UseMana(int amount)
+    public void UseMana(float amount)
     {
-        float sub = amount * Time.deltaTime;
+        float sub = amount;
         float result = this.mana - sub;
         this.mana = (int)result;
     }

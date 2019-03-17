@@ -4664,7 +4664,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 0
-  m_Text: NETWORK LOBBY EXAMPLE
+  m_Text: THE HOOK.
 --- !u!1 &183812
 GameObject:
   m_ObjectHideFlags: 0
