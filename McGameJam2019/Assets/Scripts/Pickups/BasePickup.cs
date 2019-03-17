@@ -38,7 +38,7 @@ public class BasePickup : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (!pickedUp)
         {

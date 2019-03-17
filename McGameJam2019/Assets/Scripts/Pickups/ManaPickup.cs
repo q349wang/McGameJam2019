@@ -8,9 +8,9 @@ namespace Pickups
     public class ManaPickup : BasePickup
     {
         public int manaToAdd;
-        void OnTriggerEnter(Collider other)
+        protected override void OnTriggerEnter2D(Collider2D other)
         {
-            //player = other.gameObject.GetComponent<HealerAbility1>
+            base.OnTriggerEnter2D(other);
         }
 
     }
