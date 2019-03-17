@@ -94,6 +94,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldownSec: 5
+  ammo: 40
+  rifleAbility: {fileID: 2286861878909566672, guid: d95b7a931e13e474cb85f00e60af021f,
+    type: 3}
 --- !u!61 &8397343567266718625
 BoxCollider2D:
   m_ObjectHideFlags: 0

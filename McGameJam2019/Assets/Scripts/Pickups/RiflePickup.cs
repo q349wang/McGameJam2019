@@ -7,6 +7,10 @@ namespace Pickups
     {
         [SerializeField]
         private int ammo = 40;
+
+        [SerializeField]
+        GameObject rifleAbility;
+
         protected override void OnTriggerEnter2D(Collider2D other)
         {
             base.OnTriggerEnter2D(other);
@@ -17,7 +21,7 @@ namespace Pickups
             {
                 Debug.Log("DPS");
                 dps.SetCurrentAmmo(ammo);
-
+                dps.EquipGun(rifleAbility);
             }
             else
             {

@@ -8,15 +8,14 @@ public class DPS : BasePlayer
 
     protected override void Start()
     {
-        fixedAbilities = new string[] { "DPSAbilities" };
+        fixedAbilities = new string[] { };// "DPSAbilities" };
         movementSpeed = 6;
         base.Start();    
     }
 
-    // Update is called once per frame
-    void Update()
+    public void EquipGun(GameObject gunAbility)
     {
-        
+        base.AddAbility(gunAbility);
     }
 
     public void SetCurrentAmmo(int amount)

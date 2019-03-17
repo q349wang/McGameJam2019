@@ -65,8 +65,11 @@ public class BasePlayer : NetworkBehaviour
         }
     }
 
-    
-
+    public void AddAbility(GameObject abilityPrefab)
+    {
+        GameObject instance = Instantiate(abilityPrefab.gameObject, transform);
+        abilities.Add(instance);
+    }
     
 
     // Update is called once per frame
