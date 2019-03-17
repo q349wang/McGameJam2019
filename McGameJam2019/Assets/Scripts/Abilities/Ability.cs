@@ -9,19 +9,22 @@ public abstract class Ability : MonoBehaviour
     public Sprite aSprite;
     public float abCoolDown = 1f;
     public int abCost = 20;
-    private float nextReadyTime;
+    protected float nextReadyTime;
     private float coolDownTimeLeft;
-    private BasePlayer bPlayer;
+    protected BasePlayer bPlayer;
 
-    public void Start()
+    protected bool onCooldown = false;
+
+    public virtual void Start()
     {
         bPlayer = transform.GetComponentInParent<BasePlayer>();
         AbilityReady();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         bool coolDownComplete = (Time.time > nextReadyTime);
+        onCooldown = !coolDownComplete;
         if (coolDownComplete)
         {
             AbilityReady();
@@ -46,13 +49,13 @@ public abstract class Ability : MonoBehaviour
         }
     }
 
-    private void AbilityReady()
+    protected virtual void AbilityReady()
     {
         //coolDownTextDisplay.enabled = false;
         //darkMask.enabled = false;
     }
 
-    private void CoolDown()
+    protected void CoolDown()
     {
         coolDownTimeLeft -= Time.deltaTime;
         float roundedCd = Mathf.Round(coolDownTimeLeft);
@@ -60,7 +63,7 @@ public abstract class Ability : MonoBehaviour
         //darkMask.fillAmount = (coolDownTimeLeft / coolDownDuration);
     }
 
-    private void ButtonTriggered()
+    protected void ButtonTriggered()
     {
         nextReadyTime = abCoolDown + Time.time;
         coolDownTimeLeft = abCoolDown;

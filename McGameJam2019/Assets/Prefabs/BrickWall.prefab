@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 6747564686328604703}
   - component: {fileID: 6747564686328604702}
   - component: {fileID: 2226009729639867516}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BrickWall
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295

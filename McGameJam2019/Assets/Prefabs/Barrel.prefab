@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 6889294939060272702}
   - component: {fileID: 6889294939060272689}
   - component: {fileID: 7402713254779664364}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Barrel
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

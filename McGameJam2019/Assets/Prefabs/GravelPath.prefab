@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7342577354628853958}
   - component: {fileID: 5456190511198939917}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GravelPath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
