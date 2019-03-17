@@ -12,6 +12,10 @@ namespace HookUtils
         private bool hooked = false;
         private int hookedDude = -1;
         private GameObject dude;
+
+        private float pullDur = 1.5f;
+        private float currentDur;
+        private Vector3 attached;
         // Start is called before the first frame update
         void Start()
         {
@@ -43,6 +47,7 @@ namespace HookUtils
                             dude.GetComponent<BasePlayer>().SetControl(false);
                             dude.GetComponent<BasePlayer>().rigidBody.velocity = new Vector2();
                             dude.GetComponent<BasePlayer>().rigidBody.AddForce((hookProjectile.GetPlayer().transform.position - dude.transform.position).normalized * 12, ForceMode2D.Impulse);
+                            attached = hookProjectile.transform.position - dude.transform.position;
                             hookedDude = 3;
                         }
 
@@ -53,8 +58,7 @@ namespace HookUtils
                         hookedDude = 2;
                         break;
                     case 2:
-                        hookProjectile.GetPlayer().rigidBody.AddForce((hookProjectile.transform.position - hookProjectile.GetPlayer().transform.position).normalized, ForceMode2D.Impulse);
-                        if ((hookProjectile.transform.position - hookProjectile.GetPlayer().transform.position).magnitude < 1)
+                        if ((hookProjectile.transform.position - hookProjectile.GetPlayer().transform.position).magnitude < 1 || Time.time - currentDur > pullDur)
                         {
                             hookProjectile.HitDone();
                             hookProjectile.transform.position = Quaternion.Euler(hookProjectile.GetPlayer().transform.eulerAngles) * hookProjectile.offset + hookProjectile.GetPlayer().transform.position;
@@ -65,8 +69,8 @@ namespace HookUtils
 
                         break;
                     case 3:
-                        hookProjectile.GetPlayer().rigidBody.AddForce((hookProjectile.transform.position - hookProjectile.GetPlayer().transform.position).normalized, ForceMode2D.Impulse);
-                        if ((hookProjectile.GetPlayer().transform.position - dude.transform.position).magnitude < 1)
+                        hookProjectile.transform.position = dude.transform.position + hookProjectile.transform.position;
+                        if ((hookProjectile.GetPlayer().transform.position - dude.transform.position).magnitude < 1 || Time.time - currentDur > pullDur)
                         {
                             dude.GetComponent<BasePlayer>().rigidBody.velocity = new Vector2();
                             dude.GetComponent<BasePlayer>().SetControl(true);
@@ -95,6 +99,7 @@ namespace HookUtils
             GameObject objectHit = other.gameObject;
             if (hookProjectile != null && !hooked)
             {
+                currentDur = Time.time;
                 hooked = true;
                 hookProjectile.Hit();
                 if (objectHit.tag == "Player")
