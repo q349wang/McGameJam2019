@@ -26,9 +26,12 @@ public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
 
     protected string[] fixedAbilities;
 
+    protected List<GameObject> abilities;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        abilities = new List<GameObject>();
         GetComponent<PlatformerCharacter2D>().m_MaxSpeed = movementSpeed;
         player = transform.GetComponent<PlatformerCharacter2D>();
         if (isLocalPlayer)
@@ -44,6 +47,7 @@ public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
         {
             GameObject abilityObject = (GameObject)Resources.Load(ability, typeof(GameObject));
             GameObject instance = Instantiate(abilityObject, transform);
+            abilities.Add(instance);
         }
     }
 
