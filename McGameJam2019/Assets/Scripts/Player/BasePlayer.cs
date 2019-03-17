@@ -84,6 +84,10 @@ public class BasePlayer : NetworkBehaviour
 
     public bool Damage(float amount)
     {
+        if (player.IsDead)
+        {
+            return false;
+        }
         int dmg = (int)amount;
         if (dmg < 0)
         {
@@ -107,6 +111,7 @@ public class BasePlayer : NetworkBehaviour
         if (this.health == 0)
         {
             player.Kill(true);
+            //SetControl(false);
         }
         return true;
     }
