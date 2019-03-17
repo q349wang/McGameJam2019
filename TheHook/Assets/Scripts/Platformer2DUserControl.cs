@@ -44,6 +44,7 @@ public class Platformer2DUserControl : UnityEngine.Networking.NetworkBehaviour
 
             if (unstun)
             {
+                m_Character.m_Rigidbody2D.velocity = new Vector2();
                 m_Character.Unstun();
                 m_Character.isEnabled = true;
             }
