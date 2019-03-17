@@ -21,6 +21,7 @@ public class Block : Ability
         if (Input.GetButton(abilityButton) && bPlayer.CurrentMana >= abCost)
         {
             Debug.Log("Blocking");
+            Debug.Log("Mana " + bPlayer.CurrentMana);
             bPlayer.Block();
             bPlayer.UseMana(abCost);
             sr.enabled = true;
