@@ -7,9 +7,10 @@ public class Tank : BasePlayer
     public Sprite tankSprite;
 
     // Start is called before the first frame update
-    void Reset()
+    protected override void Start()
     {
-        base.Reset();
+        movementSpeed = 3;
+        base.Start();
     }
 
     // Update is called once per frame

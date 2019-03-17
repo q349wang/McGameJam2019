@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlatformerCharacter2D))]
-public class BasePlayer : MonoBehaviour
+public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
 {
     [SerializeField]
     private PlatformerCharacter2D player;
@@ -22,20 +22,28 @@ public class BasePlayer : MonoBehaviour
     }
 
     [SerializeField]
-    float movementSpeed = 0;
+    protected float movementSpeed = 0;
 
 
     // Start is called before the first frame update
-    protected virtual void Reset()
+    protected virtual void Start()
     {
         GetComponent<PlatformerCharacter2D>().m_MaxSpeed = movementSpeed;
         player = transform.GetComponent<PlatformerCharacter2D>();
+        if (isLocalPlayer)
+        {
+            Camera main = Camera.main;
+            if (main != null)
+            {
+                main.GetComponent<Camera2DFollow>().target = transform;
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public bool Damage(float amount)

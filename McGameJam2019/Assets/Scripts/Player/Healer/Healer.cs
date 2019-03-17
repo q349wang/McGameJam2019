@@ -10,9 +10,10 @@ public class Healer : BasePlayer
     private GameObject healObject;
 
     // Start is called before the first frame update
-    void Reset()
+    protected override void Start()
     {
-        base.Reset();
+        movementSpeed = 6;
+        base.Start();
     }
 
     // Update is called once per frame

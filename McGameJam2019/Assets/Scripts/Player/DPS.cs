@@ -6,9 +6,10 @@ public class DPS : BasePlayer
 {
     public Sprite dpsSprite;
 
-    void Reset()
+    protected override void Start()
     {
-        base.Reset();    
+        movementSpeed = 6;
+        base.Start();    
     }
 
     // Update is called once per frame
