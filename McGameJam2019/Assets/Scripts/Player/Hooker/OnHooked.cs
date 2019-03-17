@@ -15,6 +15,7 @@ namespace HookUtils
 
         private float pullDur = 1.5f;
         private float currentDur;
+        private Vector3 attached;
         // Start is called before the first frame update
         void Start()
         {
@@ -46,6 +47,7 @@ namespace HookUtils
                             dude.GetComponent<BasePlayer>().SetControl(false);
                             dude.GetComponent<BasePlayer>().rigidBody.velocity = new Vector2();
                             dude.GetComponent<BasePlayer>().rigidBody.AddForce((hookProjectile.GetPlayer().transform.position - dude.transform.position).normalized * 12, ForceMode2D.Impulse);
+                            attached = hookProjectile.transform.position - dude.transform.position;
                             hookedDude = 3;
                         }
 
@@ -67,6 +69,7 @@ namespace HookUtils
 
                         break;
                     case 3:
+                        hookProjectile.transform.position = dude.transform.position + hookProjectile.transform.position;
                         if ((hookProjectile.GetPlayer().transform.position - dude.transform.position).magnitude < 1 || Time.time - currentDur > pullDur)
                         {
                             dude.GetComponent<BasePlayer>().rigidBody.velocity = new Vector2();

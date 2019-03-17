@@ -6,6 +6,7 @@ public class Block : Ability
 {
     // private BasePlayer bPlayer;
     private SpriteRenderer sr;
+    private Collider2D c;
     private bool isBlocking = false;
     public void Start()
     {
@@ -13,6 +14,8 @@ public class Block : Ability
         // bPlayer = transform.GetComponentInParent<BasePlayer>();
         sr = GetComponent<SpriteRenderer>();
         sr.enabled = false;
+        c = GetComponent<Collider2D>();
+        c.enabled = false;
         transform.localEulerAngles = new Vector3(0, 0, -90);
         transform.localPosition = new Vector3(0.36f, 0, 0);
     }
@@ -52,6 +55,7 @@ public class Block : Ability
         bPlayer.Block();
         bPlayer.UseMana(abCost);
         sr.enabled = true;
+        c.enabled = true;
         isBlocking = true;
         //if (isBlocking == false)
         //{
@@ -73,6 +77,7 @@ public class Block : Ability
         bPlayer.Unblock();
         sr.enabled = false;
         isBlocking = false;
+        c.enabled = false;
     }
 
 }
