@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8941567836726657672}
   - component: {fileID: 4498752143303680711}
   - component: {fileID: 4320546427029541032}
-  m_Layer: 11
+  m_Layer: 15
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 9099165408537088927}
   - component: {fileID: 5780433056153423292}
   - component: {fileID: 6751604857575827828}
-  m_Layer: 11
+  m_Layer: 15
   m_Name: BaseCharacter
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -383,7 +383,7 @@ GameObject:
   - component: {fileID: 9086102766342595801}
   - component: {fileID: 4161969229525118855}
   - component: {fileID: 3442224972994918893}
-  m_Layer: 11
+  m_Layer: 15
   m_Name: Mana
   m_TagString: Untagged
   m_Icon: {fileID: 0}
