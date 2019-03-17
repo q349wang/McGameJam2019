@@ -8,6 +8,9 @@ namespace HookUtils
     {
         public Vector3 offset;
         private bool hasFired;
+        private float hookDur = 1.5f;
+        private float currHook;
+
         // Start is called before the first frame update
 
         public override void Start()
@@ -16,8 +19,8 @@ namespace HookUtils
 
             aName = "Hook";
             abCoolDown = 2f;
-            abCost = 20;
-            damage = 20;
+            abCost = 10;
+            damage = 40;
             weaponRange = 10;
             projectileForce = 20f;
             projectile = GetComponent<Rigidbody2D>();
@@ -44,6 +47,13 @@ namespace HookUtils
                     transform.rotation = GetPlayer().transform.rotation;
                 }
 
+            }
+            else if (Time.time - currHook > hookDur)
+            {
+                Hit();
+                HitDone();
+                transform.position = Quaternion.Euler(GetPlayer().transform.eulerAngles) * offset + GetPlayer().transform.position;
+                transform.rotation = GetPlayer().transform.rotation;
             }
             onCooldown = Time.time < nextReadyTime;
             if (!onCooldown)
@@ -75,7 +85,8 @@ namespace HookUtils
         public override void Fire()
         {
             if (bPlayer != null)
-            {
+            {   
+                bPlayer.castAbility(abCost);
                 Debug.Log("Fired");
                 hasFired = true;
                 bPlayer.SetControl(false);
@@ -83,6 +94,7 @@ namespace HookUtils
                 Vector2 dir = new Vector2(bPlayer.transform.right.x, bPlayer.transform.right.y);
                 projectile.velocity = new Vector2();
                 projectile.AddForce(dir.normalized * projectileForce, ForceMode2D.Impulse);
+                currHook = Time.time;
             }
         }
         public bool isFired()

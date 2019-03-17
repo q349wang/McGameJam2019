@@ -19,6 +19,14 @@ namespace Pickups
                     bp.addMana(manaToAdd);
                 }
             }
+            else if(other.gameObject.layer == 8) // Hook
+            {
+                BasePlayer bp = other.gameObject.GetComponent<HookUtils.Hook>().GetPlayer();
+                if(bp != null)
+                {
+                    bp.addMana(manaToAdd);
+                }
+            }
         }
 
     }

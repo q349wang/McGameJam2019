@@ -100,7 +100,7 @@ public class BasePlayer : NetworkBehaviour
         {
             if (!isBlocking)
             {
-                this.health = Mathf.Min(0, this.health -= dmg);
+                this.health = Mathf.Max(0, this.health - dmg);
             }
         }
 
@@ -116,6 +116,11 @@ public class BasePlayer : NetworkBehaviour
         float sub = amount;
         float result = this.mana - sub;
         this.mana = (int)result;
+    }
+
+    public void castAbility(int cost)
+    {
+        this.mana = Mathf.Max(0, this.mana - cost);
     }
 
     public void Stun()
