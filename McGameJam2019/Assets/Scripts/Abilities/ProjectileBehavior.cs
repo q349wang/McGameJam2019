@@ -37,7 +37,7 @@ public class ProjectileBehavior : MonoBehaviour
             if(obj.tag == "Player")
             {
                 Hooker hook = obj.GetComponent<Hooker>();
-                if(hook != null && hook.hasAuthority) // only damage the authoritative version (host unless local authority is set, in which case local killer)
+                if(hook != null) // only damage the authoritative version (host unless local authority is set, in which case local killer)
                 {
                     if(gameObject.tag == "Bullet")
                     {
