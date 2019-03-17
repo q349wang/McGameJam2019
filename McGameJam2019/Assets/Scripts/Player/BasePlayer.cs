@@ -15,7 +15,7 @@ public class BasePlayer : NetworkBehaviour
         get { return health; }
     }
 
-    public const int MaxMana = 100;
+    protected int MaxMana = 100;
     public int mana = 100;
     public int CurrentMana
     {

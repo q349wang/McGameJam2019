@@ -98,7 +98,7 @@ MonoBehaviour:
   abilityButton: Fire1
   aSprite: {fileID: 0}
   abCoolDown: 0
-  abCost: 0
+  abCost: 10
 --- !u!114 &5955928880559964137
 MonoBehaviour:
   m_ObjectHideFlags: 0

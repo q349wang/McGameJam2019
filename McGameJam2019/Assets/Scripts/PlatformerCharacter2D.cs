@@ -169,7 +169,8 @@ public class PlatformerCharacter2D : NetworkBehaviour
     {
         Debug.Log("ABILITY 1 FIRED");
         Ability a = GetComponent<BasePlayer>().abilities[i].GetComponent<Ability>();
-        a.OnButtonDown();
+        if (a.AbilityReady())
+            a.OnButtonDown();
     }
 
     [Command]
@@ -182,7 +183,8 @@ public class PlatformerCharacter2D : NetworkBehaviour
     {
         Debug.Log("ABILITY 2 FIRED");
         Ability a = GetComponent<BasePlayer>().abilities[i].GetComponent<Ability>();
-        a.Fire();
+        if (a.AbilityReady())
+            a.Fire();
     }
 
     [Command]

@@ -73,8 +73,9 @@ public abstract class Ability : NetworkBehaviour
         //}
     }
 
-    protected virtual void AbilityReady()
+    public bool AbilityReady()
     {
+        return bPlayer.CurrentMana >= abCost;
         //coolDownTextDisplay.enabled = false;
         //darkMask.enabled = false;
     }
