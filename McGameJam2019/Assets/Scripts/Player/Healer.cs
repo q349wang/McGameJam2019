@@ -7,9 +7,10 @@ public class Healer : BasePlayer
     public Sprite healerSprite;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        //base.Start();
+        movementSpeed = 6;
+        base.Start();
     }
 
     // Update is called once per frame

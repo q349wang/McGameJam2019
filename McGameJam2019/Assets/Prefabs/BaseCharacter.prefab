@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: c74814eb1640d5f438a458741fe1ee88, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -267,4 +267,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a95cb544b4746a4faf72a007ecd5352, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healerSprite: {fileID: 21300000, guid: cb178e4c190e12142b191ee3dde661db, type: 3}
+  classIndex: 0
