@@ -21,7 +21,7 @@ public class Platformer2DUserControl : UnityEngine.Networking.NetworkBehaviour
         basePlayer = GetComponent<BasePlayer>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         // Read the inputs.
         float h = Input.GetAxis("Horizontal");
