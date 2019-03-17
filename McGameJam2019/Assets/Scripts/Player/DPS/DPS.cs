@@ -8,6 +8,7 @@ public class DPS : BasePlayer
 
     protected override void Start()
     {
+        fixedAbilities = new string[] { "DPSAbilities" };
         movementSpeed = 6;
         base.Start();    
     }
@@ -16,5 +17,10 @@ public class DPS : BasePlayer
     void Update()
     {
         
+    }
+
+    public void SetCurrentAmmo(int amount)
+    {
+        this.mana = amount;
     }
 }

@@ -6,7 +6,6 @@ public class Block : Ability
 {
     private BasePlayer bPlayer;
     private SpriteRenderer sr;
-    //private bool isBlocking;
     public void Start()
     {
         base.Start();

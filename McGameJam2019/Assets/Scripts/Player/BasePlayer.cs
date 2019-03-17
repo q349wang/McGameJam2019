@@ -140,4 +140,9 @@ public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
     {
         player.Dash();
     }
+
+    public void addMana(int amount)
+    {
+        this.mana = Mathf.Min(MaxMana, this.mana + amount);
+    }
 }
