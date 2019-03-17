@@ -38,7 +38,7 @@ public abstract class Ability : MonoBehaviour
 
     public void Start()
     {
-        bPlayer = transform.GetComponent<BasePlayer>();
+        bPlayer = transform.GetComponentInParent<BasePlayer>();
         AbilityReady();
     }
 
