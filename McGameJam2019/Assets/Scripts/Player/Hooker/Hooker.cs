@@ -17,7 +17,8 @@ public class Hooker : BasePlayer
         foreach(GameObject ability in abilities)
         {
             ability.SetActive(true);
-            ability.transform.parent = transform;
+            ability.transform.parent = null;
+            ability.GetComponent<HookUtils.Hook>().SetPlayer(this);
         }
     }
 

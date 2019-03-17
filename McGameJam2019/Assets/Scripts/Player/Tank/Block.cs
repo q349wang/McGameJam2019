@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Block : Ability
 {
-    private BasePlayer bPlayer;
+    // private BasePlayer bPlayer;
     private SpriteRenderer sr;
     private bool isBlocking = false;
     public void Start()
     {
         base.Start();
-        bPlayer = transform.GetComponentInParent<BasePlayer>();
+        // bPlayer = transform.GetComponentInParent<BasePlayer>();
         sr = GetComponent<SpriteRenderer>();
         sr.enabled = false;
         transform.localEulerAngles = new Vector3(0, 0, -90);
