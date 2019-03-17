@@ -22,34 +22,39 @@ namespace HookUtils
         // Update is called once per frame
         void Update()
         {
+            if (transform.localPosition.magnitude > hookProjectile.getWeaponRange())
+            {
+                hookProjectile.Hit();
+                hookProjectile.transform.localPosition = hookProjectile.offset;
+                hooked = false;
+            }
             if (hookProjectile != null && hooked)
             {
-                switch(hookedDude)
+                switch (hookedDude)
                 {
                     case -1:
                         hookProjectile.transform.localPosition = hookProjectile.offset;
                         hooked = false;
                         break;
                     case 0:
-
-                    break;
+                        hookProjectile.transform.localPosition = hookProjectile.offset;
+                        hooked = false;
+                        break;
                     case 1:
-                    break;
+                        hookProjectile.transform.localPosition = hookProjectile.offset;
+                        hooked = false;
+                        break;
                 }
             }
             else if (hookProjectile != null && hookProjectile.isFired())
             {
-                LineRenderer lrend = GetComponent<LineRenderer>();
-                if (lrend != null)
-                {
-                    
-                }
+
             }
         }
 
         protected virtual void OnCollisionEnter2D(Collision2D other)
         {
-            GameObject objectHit = other.transform.parent.gameObject;
+            GameObject objectHit = other.gameObject;
             if (hookProjectile != null)
             {
                 hooked = true;
@@ -57,6 +62,7 @@ namespace HookUtils
                 if (objectHit.tag == "Player")
                 {
                     hookedDude = 0;
+                    objectHit.GetComponent<BasePlayer>().Damage(hookProjectile.getDamage());
                 }
                 else if (objectHit.tag == "Obstacle")
                 {

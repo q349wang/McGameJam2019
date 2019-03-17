@@ -26,4 +26,9 @@ public class ProjectileAbility : Ability
 
     }
 
+    public int getWeaponRange()
+    {
+        return weaponRange;
+    }
+
 }
