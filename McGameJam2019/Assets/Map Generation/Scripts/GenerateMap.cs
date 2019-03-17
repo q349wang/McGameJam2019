@@ -66,6 +66,12 @@ namespace MapGen
         public int maxObstacles;
         public int minObstacles;
 
+        public int mapSpawnpoints;
+        public int mapManaMin;
+        public int mapManaMax;
+        public int mapWeapMin;
+        public int mapWeapMax;
+
 
         public GameObject background;
         [SerializeField] private List<GameObject> pickups;
@@ -80,9 +86,12 @@ namespace MapGen
 
         [SerializeField] private int groupMin;
         [SerializeField] private int groupMax;
+        [SerializeField] private GameObject spawn;
+        private List<Tuple<int, int>> possiblePos = new List<Tuple<int, int>>();
         // Use this for initialization
         void Start()
         {
+            Debug.Log("Generating map...");
             background.SetActive(true);
             background.GetComponent<SpriteRenderer>().size = new Vector2(mapWidth, mapHeight);
             background.transform.Translate(new Vector2((float)mapWidth / 2, (float)mapHeight / 2));
@@ -93,7 +102,7 @@ namespace MapGen
             weaponPickups = new List<Tuple<GameObject, int>>();
             GenerateWallsRect(0f, 0f, mapWidth, mapHeight);
             GenerateMazeScuffedRecursiveDiv(0, 0, mapWidth, mapHeight, mapCellSize, ref mapSpaces, mapCellDepth);
-            GeneratePickups(10, 15, 10, 15, 0, 0, mapWidth, mapHeight, mapCellSize);
+            GeneratePickupsAndSpawns(mapManaMin, mapManaMax, mapWeapMin, mapWeapMax, 0, 0, mapWidth, mapHeight, mapCellSize, mapSpawnpoints);
         }
 
         // Update is called once per frame
@@ -331,7 +340,7 @@ namespace MapGen
             }
         }
 
-        private void GeneratePickups(int minMana, int maxMana, int minWeap, int maxWeap, int x, int y, int w, int h, int cellSize)
+        private void GeneratePickupsAndSpawns(int minMana, int maxMana, int minWeap, int maxWeap, int x, int y, int w, int h, int cellSize, int spawns)
         {
             int numMana = rng.Next(minMana, maxMana);
             int numWeap = rng.Next(minWeap, maxWeap);
@@ -339,7 +348,7 @@ namespace MapGen
             int cellHeight = h / cellSize;
             int[,] mapGrid = new int[cellWidth, cellHeight];
 
-            List<Tuple<int, int>> possiblePos = new List<Tuple<int, int>>();
+            
             for (int i = 0; i < cellWidth; i++)
             {
                 for (int j = 0; j < cellHeight; j++)
@@ -352,8 +361,8 @@ namespace MapGen
                 if (possiblePos.Count > 0)
                 {
                     int random = rng.Next(0, possiblePos.Count);
-                    float trueX = (float) possiblePos[random].Item1 * cellSize + ((float) cellSize) / 2 + (float) x;
-                    float trueY = (float) possiblePos[random].Item2 * cellSize + ((float) cellSize) / 2 + (float) y;
+                    float trueX = (float)possiblePos[random].Item1 * cellSize + ((float)cellSize) / 2 + (float)x;
+                    float trueY = (float)possiblePos[random].Item2 * cellSize + ((float)cellSize) / 2 + (float)y;
                     GameObject generated = Instantiate(pickups[0], new Vector2(trueX, trueY), Quaternion.identity);
                     generated.SetActive(true);
                     possiblePos.RemoveAt(random);
@@ -367,13 +376,29 @@ namespace MapGen
                 if (possiblePos.Count > 0)
                 {
                     int random = rng.Next(0, possiblePos.Count);
-                    float trueX = (float) possiblePos[random].Item1 * cellSize + ((float) cellSize) / 2 + (float) x;
-                    float trueY = (float) possiblePos[random].Item2 * cellSize + ((float) cellSize) / 2 + (float) y;
+                    float trueX = (float)possiblePos[random].Item1 * cellSize + ((float)cellSize) / 2 + (float)x;
+                    float trueY = (float)possiblePos[random].Item2 * cellSize + ((float)cellSize) / 2 + (float)y;
                     int weap = rng.Next(1, 4);
                     GameObject generated = Instantiate(pickups[weap], new Vector2(trueX, trueY), Quaternion.identity);
                     generated.SetActive(true);
                     possiblePos.RemoveAt(random);
                     weaponPickups.Add(new Tuple<GameObject, int>(generated, weap));
+                }
+
+            }
+        }
+
+        public void GeneratePlayerSpawns(int x, int y, int cellSize)
+        {
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("BaseCharacter"))
+            {
+                if (possiblePos.Count > 0)
+                {
+                    int random = rng.Next(0, possiblePos.Count);
+                    float trueX = (float)possiblePos[random].Item1 * cellSize + ((float)cellSize) / 2 + (float)x;
+                    float trueY = (float)possiblePos[random].Item2 * cellSize + ((float)cellSize) / 2 + (float)y;
+                    player.transform.position = new Vector3(trueX, trueY, 0);
+                    possiblePos.RemoveAt(random);
                 }
 
             }

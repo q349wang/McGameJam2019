@@ -3258,7 +3258,7 @@ MonoBehaviour:
   m_LogLevel: 2
   m_PlayerPrefab: {fileID: 0}
   m_AutoCreatePlayer: 1
-  m_PlayerSpawnMethod: 1
+  m_PlayerSpawnMethod: 0
   m_OfflineScene: Lobby
   m_OnlineScene: 
   m_SpawnPrefabs: []
@@ -3326,7 +3326,7 @@ MonoBehaviour:
   m_GamePlayerPrefab: {fileID: 3578065717224169321, guid: 5094d51ed0caeb7418f8b671856fd189,
     type: 3}
   m_LobbyScene: Lobby
-  m_PlayScene: MainLevel
+  m_PlayScene: Map Generation
   lobbySlots: []
   prematchCountdown: 2
   topPanel: {fileID: 11424994}

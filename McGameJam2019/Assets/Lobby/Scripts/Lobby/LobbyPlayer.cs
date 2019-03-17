@@ -20,6 +20,9 @@ namespace Prototype.NetworkLobby
         [SerializeField]
         Sprite dpsSprite;
 
+        [SerializeField]
+        Sprite hookerSprite;
+
         public static Sprite[] Sprites;// = new Sprite[] { Color.magenta, Color.red, Color.cyan, Color.blue, Color.green, Color.yellow };
         //used on server to avoid assigning the same color to two player
         static List<int> _colorInUse = new List<int>();
@@ -52,13 +55,13 @@ namespace Prototype.NetworkLobby
 
         void Awake()
         {
-            if (healerSprite == null || tankSprite == null || dpsSprite == null)
+            if (healerSprite == null || tankSprite == null || dpsSprite == null || hookerSprite == null)
             {
                 Debug.LogError("Sprite missing.");
                 return;
             }
 
-            Sprites = new Sprite[] { healerSprite, tankSprite, dpsSprite };
+            Sprites = new Sprite[] { healerSprite, tankSprite, dpsSprite, hookerSprite };
         }
 
         public override void OnClientEnterLobby()
