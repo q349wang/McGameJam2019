@@ -12,9 +12,13 @@ public class PlatformerCharacter2D : NetworkBehaviour
     public float m_MaxSpeed = 0f;                    // The fastest the player can travel.
 
     private Animator m_Anim;            // Reference to the player's animator component.
-    private Rigidbody2D m_Rigidbody2D;
+    public Rigidbody2D m_Rigidbody2D;
     private bool isStunned;
     private bool isDead;
+    public bool isEnabled = true;
+    private bool isDashing = false;
+    private float currDash;
+    private float dashDur = 0.25f;
 
     public bool IsDead
     {
@@ -31,19 +35,28 @@ public class PlatformerCharacter2D : NetworkBehaviour
     public void Move(float moveH, float moveV)
     {
         // Move the character
-        if (!isStunned && !isDead)
+        if (!isStunned && !isDead && isEnabled && !isDashing)
         {
             m_Rigidbody2D.velocity = new Vector2(moveH * m_MaxSpeed, moveV * m_MaxSpeed);
+        }
+
+        if(isDashing && Time.time - currDash > dashDur)
+        {
+            isDashing = false;
+            m_Rigidbody2D.velocity = new Vector2();
         }
     }
 
     public void FaceMouse(Vector3 pointToFace)
     {
-        Vector2 direction = new Vector2(pointToFace.x - transform.position.x, pointToFace.y - transform.position.y);
-        //transform.right = direction;
+        if (isEnabled)
+        {
+            Vector2 direction = new Vector2(pointToFace.x - transform.position.x, pointToFace.y - transform.position.y);
+            //transform.right = direction;
 
-        float angle = Vector2.SignedAngle(Vector2.right, direction);
-        m_Rigidbody2D.MoveRotation(angle);
+            float angle = Vector2.SignedAngle(Vector2.right, direction);
+            m_Rigidbody2D.MoveRotation(angle);
+        }
     }
 
     public IEnumerator StunPlayer()
@@ -65,7 +78,10 @@ public class PlatformerCharacter2D : NetworkBehaviour
 
     public void Dash()
     {
-        m_Rigidbody2D.AddForce(5000 * transform.right);
+        m_Rigidbody2D.velocity = new Vector2();
+        m_Rigidbody2D.AddForce(30 * transform.right, ForceMode2D.Impulse);
+        this.isDashing = true;
+        this.currDash = Time.time;
     }
 
     public void AbilityOnePressed()

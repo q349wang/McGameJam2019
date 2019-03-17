@@ -6,6 +6,8 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(PlatformerCharacter2D))]
 public class BasePlayer : NetworkBehaviour
 {
+
+    public Rigidbody2D rigidBody;
     [SerializeField]
     private PlatformerCharacter2D player;
     protected int MaxHealth = 100;
@@ -63,6 +65,7 @@ public class BasePlayer : NetworkBehaviour
             GameObject instance = Instantiate(abilityObject, transform);
             abilities.Add(instance);
         }
+        rigidBody = GetComponent<PlatformerCharacter2D>().m_Rigidbody2D;
     }
 
     public GameObject AddAbility(GameObject abilityPrefab)
@@ -82,7 +85,7 @@ public class BasePlayer : NetworkBehaviour
     public bool Damage(float amount)
     {
         int dmg = (int)amount;
-        if(dmg < 0)
+        if (dmg < 0)
         {
             if (this.health == this.MaxHealth)
             {
@@ -101,7 +104,7 @@ public class BasePlayer : NetworkBehaviour
             }
         }
 
-        if(this.health == 0)
+        if (this.health == 0)
         {
             player.Kill(true);
         }
@@ -157,5 +160,10 @@ public class BasePlayer : NetworkBehaviour
     public void addMana(int amount)
     {
         this.mana = Mathf.Min(MaxMana, this.mana + amount);
+    }
+
+    public void SetControl(bool enabled)
+    {
+        GetComponent<PlatformerCharacter2D>().isEnabled = enabled;
     }
 }

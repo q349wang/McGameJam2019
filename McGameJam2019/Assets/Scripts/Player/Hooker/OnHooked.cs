@@ -11,6 +11,7 @@ namespace HookUtils
 
         private bool hooked = false;
         private int hookedDude = -1;
+        private GameObject dude;
         // Start is called before the first frame update
         void Start()
         {
@@ -22,40 +23,74 @@ namespace HookUtils
         // Update is called once per frame
         void Update()
         {
-            if (transform.localPosition.magnitude > hookProjectile.getWeaponRange())
-            {
-                hookProjectile.Hit();
-                hookProjectile.transform.localPosition = hookProjectile.offset;
-                hooked = false;
-            }
+
             if (hookProjectile != null && hooked)
             {
                 switch (hookedDude)
                 {
                     case -1:
-                        hookProjectile.transform.localPosition = hookProjectile.offset;
+                        hookProjectile.Hit();
+                        hookProjectile.HitDone();
+                        hookProjectile.transform.position = Quaternion.Euler(hookProjectile.GetPlayer().transform.eulerAngles) * hookProjectile.offset + hookProjectile.GetPlayer().transform.position;
+
+                        hookProjectile.transform.rotation = hookProjectile.GetPlayer().transform.rotation;
                         hooked = false;
                         break;
                     case 0:
-                        hookProjectile.transform.localPosition = hookProjectile.offset;
-                        hooked = false;
+                        if (dude != null)
+                        {
+                            hookProjectile.Hit();
+                            dude.GetComponent<BasePlayer>().rigidBody.velocity = new Vector2();
+                            dude.GetComponent<BasePlayer>().rigidBody.AddForce((hookProjectile.GetPlayer().transform.position - dude.transform.position).normalized * 20, ForceMode2D.Impulse);
+                            hookedDude = 3;
+                        }
+
                         break;
                     case 1:
-                        hookProjectile.transform.localPosition = hookProjectile.offset;
-                        hooked = false;
+                        hookProjectile.Hit();
+                        hookProjectile.GetPlayer().rigidBody.AddForce((hookProjectile.transform.position - hookProjectile.GetPlayer().transform.position).normalized * 15, ForceMode2D.Impulse);
+                        hookedDude = 2;
+                        break;
+                    case 2:
+                        hookProjectile.GetPlayer().rigidBody.AddForce((hookProjectile.transform.position - hookProjectile.GetPlayer().transform.position).normalized, ForceMode2D.Impulse);
+                        if ((hookProjectile.transform.position - hookProjectile.GetPlayer().transform.position).magnitude < 1)
+                        {
+                            hookProjectile.HitDone();
+                            hookProjectile.transform.position = Quaternion.Euler(hookProjectile.GetPlayer().transform.eulerAngles) * hookProjectile.offset + hookProjectile.GetPlayer().transform.position;
+                            hookProjectile.transform.rotation = hookProjectile.GetPlayer().transform.rotation;
+                            hooked = false;
+
+                        }
+
+                        break;
+                    case 3:
+                        hookProjectile.GetPlayer().rigidBody.AddForce((hookProjectile.transform.position - hookProjectile.GetPlayer().transform.position).normalized, ForceMode2D.Impulse);
+                        if ((hookProjectile.GetPlayer().transform.position - dude.transform.position).magnitude < 1)
+                        {
+                            hookProjectile.HitDone();
+                            hookProjectile.transform.position = Quaternion.Euler(hookProjectile.GetPlayer().transform.eulerAngles) * hookProjectile.offset + hookProjectile.GetPlayer().transform.position;
+                            hookProjectile.transform.rotation = hookProjectile.GetPlayer().transform.rotation;
+                            hooked = false;
+                        }
+
                         break;
                 }
             }
-            else if (hookProjectile != null && hookProjectile.isFired())
+            if ((hookProjectile.transform.position - hookProjectile.GetPlayer().transform.position).magnitude > hookProjectile.getWeaponRange() && hookProjectile.isFired())
             {
+                hookProjectile.Hit();
+                hookProjectile.HitDone();
+                hookProjectile.transform.position = Quaternion.Euler(hookProjectile.GetPlayer().transform.eulerAngles) * hookProjectile.offset + hookProjectile.GetPlayer().transform.position;
 
+                hookProjectile.transform.rotation = hookProjectile.GetPlayer().transform.rotation;
+                hooked = false;
             }
         }
 
         protected virtual void OnCollisionEnter2D(Collision2D other)
         {
             GameObject objectHit = other.gameObject;
-            if (hookProjectile != null)
+            if (hookProjectile != null && !hooked)
             {
                 hooked = true;
                 hookProjectile.Hit();
@@ -63,6 +98,7 @@ namespace HookUtils
                 {
                     hookedDude = 0;
                     objectHit.GetComponent<BasePlayer>().Damage(hookProjectile.getDamage());
+                    dude = objectHit;
                 }
                 else if (objectHit.tag == "Obstacle")
                 {
