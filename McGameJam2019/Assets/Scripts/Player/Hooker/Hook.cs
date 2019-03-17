@@ -76,12 +76,10 @@ namespace HookUtils
             if (bPlayer == null) return false;
             return bPlayer.CurrentMana >= abCost && !hasFired;
         }
-
         public override void OnButtonDown()
         {
             Fire();
         }
-
         public override void Fire()
         {
             if (bPlayer != null)
