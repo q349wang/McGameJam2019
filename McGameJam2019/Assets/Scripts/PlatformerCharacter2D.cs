@@ -65,7 +65,7 @@ public class PlatformerCharacter2D : NetworkBehaviour
 
     public void Dash()
     {
-        m_Rigidbody2D.AddForce(1000 * transform.right);
+        m_Rigidbody2D.AddForce(5000 * transform.right);
     }
 
     public void AbilityOnePressed()
@@ -86,6 +86,25 @@ public class PlatformerCharacter2D : NetworkBehaviour
             }
         }
     }
+    public void AbilityTwoPressed()
+    {
+        // for each ability1 we have, call button pressed on it
+        if (GetComponent<BasePlayer>() != null)
+        {
+            List<GameObject> abilities = GetComponent<BasePlayer>().abilities;
+            int i = 0;
+            foreach (GameObject a in abilities)
+            {
+                Ability ability = a.GetComponent<Ability>();
+                if (ability.abilityButton == "Fire2")
+                {
+                    CmdFireAbilityTwo(i);
+                }
+                i++;
+            }
+        }
+    }
+
     public void AbilityOneReleased()
     {
         // for each ability1 we have, call button pressed on it
@@ -149,6 +168,19 @@ public class PlatformerCharacter2D : NetworkBehaviour
     public void RpcFireAbilityOne(int i)
     {
         Debug.Log("ABILITY 1 FIRED");
+        Ability a = GetComponent<BasePlayer>().abilities[i].GetComponent<Ability>();
+        a.Fire();
+    }
+
+    [Command]
+    public void CmdFireAbilityTwo(int i)
+    {
+        RpcFireAbilityTwo(i);
+    }
+    [ClientRpc]
+    public void RpcFireAbilityTwo(int i)
+    {
+        Debug.Log("ABILITY 2 FIRED");
         Ability a = GetComponent<BasePlayer>().abilities[i].GetComponent<Ability>();
         a.Fire();
     }

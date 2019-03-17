@@ -42,8 +42,14 @@ public class Platformer2DUserControl : UnityEngine.Networking.NetworkBehaviour
         // use abilities
         if (ability1)
         {
+            Debug.Log("one pressed");
            m_Character.AbilityOnePressed();
         }
+        if (ability2)
+        {
+            m_Character.AbilityTwoPressed();
+        }
+
         if (ability1Rel)
         {
             m_Character.AbilityOneReleased();
