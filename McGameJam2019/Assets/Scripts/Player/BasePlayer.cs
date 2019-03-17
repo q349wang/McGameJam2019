@@ -21,8 +21,16 @@ public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
         get { return mana; }
     }
 
+    private bool isBlocking = false;
+    public bool IsBlocking
+    {
+        get { return isBlocking; }
+    }
+
     [SerializeField]
     protected float movementSpeed = 0;
+    protected float blockingSpeed = 0;
+    protected float normalSpeed = 0;
 
     protected string[] fixedAbilities;
 
@@ -43,7 +51,7 @@ public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
         foreach (string ability in fixedAbilities)
         {
             GameObject abilityObject = (GameObject)Resources.Load(ability, typeof(GameObject));
-            GameObject instance = Instantiate(abilityObject, transform);
+            Instantiate(abilityObject, transform.position, Quaternion.identity, transform);
         }
     }
 
@@ -69,7 +77,10 @@ public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
         }
         else
         {
-            this.health = Mathf.Min(0, this.health -= dmg);
+            if (!isBlocking)
+            {
+                this.health = Mathf.Min(0, this.health -= dmg);
+            }
         }
 
         if(this.health == 0)
@@ -81,12 +92,17 @@ public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
 
     public void UseMana(int amount)
     {
-        this.mana -= amount;
+        float sub = amount * Time.deltaTime;
+        float result = this.mana - sub;
+        this.mana = (int)result;
     }
 
     public void Stun()
     {
-        StartCoroutine(player.StunPlayer());
+        if (!isBlocking)
+        {
+            StartCoroutine(player.StunPlayer());
+        }
     }
 
     public void Cure()
@@ -101,5 +117,17 @@ public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
             this.health = this.MaxHealth;
             player.Kill(false);
         }
+    }
+
+    public void Block()
+    {
+        this.isBlocking = true;
+        GetComponent<PlatformerCharacter2D>().m_MaxSpeed = blockingSpeed;
+    }
+
+    public void Unblock()
+    {
+        this.isBlocking = false;
+        GetComponent<PlatformerCharacter2D>().m_MaxSpeed = normalSpeed;
     }
 }

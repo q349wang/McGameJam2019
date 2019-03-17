@@ -5,9 +5,6 @@ using UnityEditor;
 
 public class Healer : BasePlayer
 {
-    public Sprite healerSprite;
-    private GameObject healObject;
-
 
     // Start is called before the first frame update
     protected override void Start()
@@ -17,9 +14,4 @@ public class Healer : BasePlayer
         base.Start();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
