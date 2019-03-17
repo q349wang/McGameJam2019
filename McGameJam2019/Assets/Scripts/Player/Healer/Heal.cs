@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class Heal : RaycastAbility
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public void Start()
     {
-        
+        base.Start();
+        abCoolDown = 5;
+        abCost = 20;
+        gunDamage = -20;
+        weaponRange = 5;
     }
 
     public override void Fire()
@@ -40,7 +38,7 @@ public class Heal : RaycastAbility
             //Set the end position for our laser line 
             //laserLine.SetPosition(1, new Vector3(hit.point.x, hit.point.y, transform.position.z));
 
-            BasePlayer self = transform.GetComponent<BasePlayer>();
+            Healer self = transform.GetComponent<Healer>();
 
             //Get a reference to a health script attached to the collider we hit
             BasePlayer target = hit.collider.GetComponent<BasePlayer>();
@@ -52,13 +50,10 @@ public class Heal : RaycastAbility
                 target.Damage(gunDamage);
                 self.UseMana(abCost);
             }
-            else
-            {
-                Debug.Log("Heal");
-                Debug.Log("Mana: " + self.CurrentMana);
-                self.UseMana(abCost);
-                Debug.Log("Mana: " + self.CurrentMana);
-            }
+            Debug.Log("Heal");
+            Debug.Log("Mana: " + self.CurrentMana);
+            self.UseMana(abCost);
+            Debug.Log("Mana: " + self.CurrentMana);
 
             //Check if the object we hit has a rigidbody attached
             if (hit.rigidbody != null)

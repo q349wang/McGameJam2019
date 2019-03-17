@@ -32,17 +32,14 @@ public abstract class Ability : MonoBehaviour
     public Sprite aSprite;
     public float abCoolDown = 1f;
     public int abCost = 20;
-    private float coolDownDuration;
     private float nextReadyTime;
     private float coolDownTimeLeft;
-    private BasePlayer player;
+    private BasePlayer bPlayer;
 
-    //public abstract void Initialize();
-    //public abstract void TriggerAbility();
-
-    private void Start()
+    public void Start()
     {
-        player = transform.GetComponent<BasePlayer>();
+        bPlayer = transform.GetComponent<BasePlayer>();
+        AbilityReady();
     }
 
     private void Update()
@@ -51,7 +48,7 @@ public abstract class Ability : MonoBehaviour
         if (coolDownComplete)
         {
             AbilityReady();
-            if (Input.GetButtonDown(abilityButton) && player.CurrentMana >= abCost)
+            if (Input.GetButtonDown(abilityButton) && bPlayer.CurrentMana >= abCost)
             {
                 ButtonTriggered();
             }
@@ -78,8 +75,8 @@ public abstract class Ability : MonoBehaviour
 
     private void ButtonTriggered()
     {
-        nextReadyTime = coolDownDuration + Time.time;
-        coolDownTimeLeft = coolDownDuration;
+        nextReadyTime = abCoolDown + Time.time;
+        coolDownTimeLeft = abCoolDown;
         //darkMask.enabled = true;
         //coolDownTextDisplay.enabled = true;
 

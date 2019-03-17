@@ -35,25 +35,6 @@ public class PlatformerCharacter2D : MonoBehaviour
         }
     }
 
-    private void UseAbility(float a1, float a2, float a3)
-    {
-        if (a1 > 0)
-        {
-            //if (m_Mana >= abil.cost)
-            {
-
-            }
-            //run ability 1
-        }
-        else if (a2 > 0)
-        {
-            //run ability 2
-        }
-        else if (a3 > 0)
-        {
-            //run ability 3
-        }
-    }
     public void FaceMouse(Vector3 pointToFace)
     {
         Vector2 direction = new Vector2(pointToFace.x - transform.position.x, pointToFace.y - transform.position.y);

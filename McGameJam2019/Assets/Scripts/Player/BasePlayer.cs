@@ -8,14 +8,14 @@ public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
     [SerializeField]
     private PlatformerCharacter2D player;
     protected int MaxHealth = 100;
-    int health = 0;
+    public int health = 100;
     public int CurrentHealth
     {
         get { return health; }
     }
 
     public const int MaxMana = 100;
-    int mana = 0;
+    public int mana = 100;
     public int CurrentMana
     {
         get { return mana; }
