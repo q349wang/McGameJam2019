@@ -65,10 +65,11 @@ public class BasePlayer : NetworkBehaviour
         }
     }
 
-    public void AddAbility(GameObject abilityPrefab)
+    public GameObject AddAbility(GameObject abilityPrefab)
     {
         GameObject instance = Instantiate(abilityPrefab.gameObject, transform);
         abilities.Add(instance);
+        return instance;
     }
     
 

@@ -5,13 +5,14 @@ using UnityEngine;
 public class ProjectileBehavior : MonoBehaviour
 {
     protected float birthTime;
+    public float speed = 10;
     // Start is called before the first frame update
     void Start()
     {
         birthTime = Time.time;
         Destroy(this.gameObject, 10);
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        rb.velocity = (transform.forward * Time.deltaTime * 0.5f);
+        rb.velocity = (transform.up * speed);
     }
 
     // Update is called once per frame
@@ -36,7 +37,7 @@ public class ProjectileBehavior : MonoBehaviour
             if(obj.tag == "Player")
             {
                 Hooker hook = obj.GetComponent<Hooker>();
-                if(hook != null)
+                if(hook != null && hook.hasAuthority) // only damage the authoritative version (host unless local authority is set, in which case local killer)
                 {
                     hook.Damage(5);
                     Destroy(this.gameObject);

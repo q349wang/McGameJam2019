@@ -13,7 +13,8 @@ public class Rifle : ProjectileAbility
     }
     public override void Fire()
     {
-        Instantiate(bullet, transform.position, Quaternion.identity);
+        Debug.Log("Firing");
+        Instantiate(bullet, transform.position, transform.rotation);
     }
 
     public override void Release()
