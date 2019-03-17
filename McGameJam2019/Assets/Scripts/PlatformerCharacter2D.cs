@@ -63,7 +63,7 @@ public class PlatformerCharacter2D : MonoBehaviour
 
     public void Dash()
     {
-        m_Rigidbody2D.AddForce(3 * transform.right);
+        m_Rigidbody2D.AddForce(1000 * transform.right);
     }
 
 }
