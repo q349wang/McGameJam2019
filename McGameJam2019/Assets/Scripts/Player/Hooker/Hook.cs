@@ -76,6 +76,7 @@ namespace HookUtils
                 bPlayer.SetControl(false);
                 projectile.simulated = true;
                 Vector2 dir = new Vector2(bPlayer.transform.right.x, bPlayer.transform.right.y);
+                projectile.velocity = new Vector2();
                 projectile.AddForce(dir.normalized * projectileForce, ForceMode2D.Impulse);
             }
         }

@@ -586,10 +586,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 6
-  cloudProjectId: 54536923-42ab-45ae-acbe-973ed6cd0ced
+  cloudProjectId: 00b05132-ec5c-49e7-9ebe-4fbb31e5ccc4
   framebufferDepthMemorylessMode: 0
   projectName: McGameJam2019
-  organizationId: mediocrefishy
+  organizationId: pyro-creeper
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

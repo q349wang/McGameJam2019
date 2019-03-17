@@ -170,4 +170,4 @@ MonoBehaviour:
   abCost: 20
   projectileForce: 500
   projectile: {fileID: 3578065717224169324}
-  offset: {x: 0.5, y: 0.5}
+  offset: {x: 0.5, y: 0.5, z: 0}

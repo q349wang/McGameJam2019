@@ -40,8 +40,9 @@ namespace HookUtils
                         if (dude != null)
                         {
                             hookProjectile.Hit();
-                            dude.GetComponent<BasePlayer>().rigidBody.AddForce((hookProjectile.GetPlayer().transform.position - dude.GetComponent<BasePlayer>().transform.position).normalized * 15, ForceMode2D.Impulse);
-                            hookedDude = 2;
+                            dude.GetComponent<BasePlayer>().rigidBody.velocity = new Vector2();
+                            dude.GetComponent<BasePlayer>().rigidBody.AddForce((hookProjectile.GetPlayer().transform.position - dude.transform.position).normalized * 20, ForceMode2D.Impulse);
+                            hookedDude = 3;
                         }
 
                         break;
@@ -62,6 +63,17 @@ namespace HookUtils
                         }
 
                         break;
+                    case 3:
+                        hookProjectile.GetPlayer().rigidBody.AddForce((hookProjectile.transform.position - hookProjectile.GetPlayer().transform.position).normalized, ForceMode2D.Impulse);
+                        if ((hookProjectile.GetPlayer().transform.position - dude.transform.position).magnitude < 1)
+                        {
+                            hookProjectile.HitDone();
+                            hookProjectile.transform.position = Quaternion.Euler(hookProjectile.GetPlayer().transform.eulerAngles) * hookProjectile.offset + hookProjectile.GetPlayer().transform.position;
+                            hookProjectile.transform.rotation = hookProjectile.GetPlayer().transform.rotation;
+                            hooked = false;
+                        }
+
+                        break;
                 }
             }
             if ((hookProjectile.transform.position - hookProjectile.GetPlayer().transform.position).magnitude > hookProjectile.getWeaponRange() && hookProjectile.isFired())
@@ -78,7 +90,7 @@ namespace HookUtils
         protected virtual void OnCollisionEnter2D(Collision2D other)
         {
             GameObject objectHit = other.gameObject;
-            if (hookProjectile != null)
+            if (hookProjectile != null && !hooked)
             {
                 hooked = true;
                 hookProjectile.Hit();
