@@ -2,17 +2,63 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hook : MonoBehaviour
+namespace HookUtils
 {
+    public class Hook : ProjectileAbility
+{   
+    public Vector2 offset;
+    private bool hasFired;
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
-        
+        base.Start();
+        aName = "Hook";
+        abCoolDown = 5f;
+        abCost = 20;
+        damage = 20;
+        weaponRange = 5;
+        projectile = GetComponent<Rigidbody2D>();
+        projectile.simulated = false;
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-        
+        onCooldown = Time.time <= nextReadyTime;
+        if (!onCooldown)
+        {
+            AbilityReady();
+            if (Input.GetButtonDown(abilityButton) && IsAbilityReady())
+            {
+                ButtonTriggered();
+            }
+        }
+        else
+        {
+            CoolDown();
+        }
     }
+
+    public bool IsAbilityReady()
+    {
+        return bPlayer.CurrentMana >= abCost && !hasFired;
+    }
+
+    public override void Fire()
+    {
+        projectile.simulated = true;
+        projectile.AddForce(transform.right * projectileForce, ForceMode2D.Impulse);
+        hasFired = true;
+    }
+    public bool isFired()
+    {
+        return hasFired;
+    }
+    public void Hit()
+    {
+        projectile.simulated = false;
+        hasFired = false;
+    }
+}
+
 }

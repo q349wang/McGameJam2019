@@ -5,7 +5,7 @@ using UnityEngine;
 public class Heal : RaycastAbility
 {
 
-    public void Start()
+    public override void Start()
     {
         base.Start();
         abCoolDown = 5;

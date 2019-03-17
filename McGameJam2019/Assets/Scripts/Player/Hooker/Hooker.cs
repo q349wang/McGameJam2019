@@ -10,7 +10,11 @@ public class Hooker : BasePlayer
     protected override void Start()
     {
         movementSpeed = 5;
+        gameObject.layer = 9; // Hooker
         base.Start();
+        GameObject hook = Instantiate(Resources.Load("Hook")) as GameObject;
+        hook.transform.parent = transform;
+        hook.SetActive(true);
     }
 
     // Update is called once per frame
