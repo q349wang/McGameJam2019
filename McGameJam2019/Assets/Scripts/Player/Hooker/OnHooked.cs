@@ -40,7 +40,7 @@ namespace HookUtils
                         if (dude != null)
                         {
                             hookProjectile.Hit();
-                            dude.GetComponent<BasePlayer>().rigidBody.AddForce((hookProjectile.transform.position - dude.GetComponent<BasePlayer>().transform.position).normalized * 15, ForceMode2D.Impulse);
+                            dude.GetComponent<BasePlayer>().rigidBody.AddForce((hookProjectile.GetPlayer().transform.position - dude.GetComponent<BasePlayer>().transform.position).normalized * 15, ForceMode2D.Impulse);
                             hookedDude = 2;
                         }
 

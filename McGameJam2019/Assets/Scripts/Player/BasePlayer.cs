@@ -39,6 +39,8 @@ public class BasePlayer : NetworkBehaviour
     protected string[] fixedAbilities;
 
     public List<GameObject> abilities;
+    [SyncVar]
+    public int seed;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -66,6 +68,8 @@ public class BasePlayer : NetworkBehaviour
             abilities.Add(instance);
         }
         rigidBody = GetComponent<PlatformerCharacter2D>().m_Rigidbody2D;
+        SetSeed((int) Mathf.Round(Time.time) * 1000);
+        GetComponent<MapGen.GenerateMap>().StartGenerate(seed);
     }
 
     public void AddAbility(GameObject abilityPrefab)
@@ -81,10 +85,16 @@ public class BasePlayer : NetworkBehaviour
 
     }
 
+    [Server]
+    void SetSeed(int newSeed)
+    {
+        seed = newSeed;
+    }
+
     public bool Damage(float amount)
     {
         int dmg = (int)amount;
-        if(dmg < 0)
+        if (dmg < 0)
         {
             if (this.health == this.MaxHealth)
             {
@@ -103,7 +113,7 @@ public class BasePlayer : NetworkBehaviour
             }
         }
 
-        if(this.health == 0)
+        if (this.health == 0)
         {
             player.Kill(true);
         }

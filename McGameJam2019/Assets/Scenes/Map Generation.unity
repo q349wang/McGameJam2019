@@ -613,7 +613,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1811464908}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb199339172694643a23c72200737b37, type: 3}
   m_Name: 
@@ -631,6 +631,7 @@ MonoBehaviour:
   mapManaMax: 20
   mapWeapMin: 10
   mapWeapMax: 20
+  seed: 0
   background: {fileID: 5093701999245435263}
   pickups:
   - {fileID: 1893456127}

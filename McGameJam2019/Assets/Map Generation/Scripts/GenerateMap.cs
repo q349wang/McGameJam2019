@@ -72,6 +72,7 @@ namespace MapGen
         public int mapWeapMin;
         public int mapWeapMax;
 
+        public int seed;
 
         public GameObject background;
         [SerializeField] private List<GameObject> pickups;
@@ -82,19 +83,19 @@ namespace MapGen
         private MapSpace[,] mapSpaces;
         private List<GameObject> manaPickups;
         private List<Tuple<GameObject, int>> weaponPickups;
-        private static readonly System.Random rng = new System.Random();
+        private static System.Random rng;
 
         [SerializeField] private int groupMin;
         [SerializeField] private int groupMax;
         [SerializeField] private GameObject spawn;
+
         private List<Tuple<int, int>> possiblePos = new List<Tuple<int, int>>();
         // Use this for initialization
-        void Start()
+        public void StartGenerate(int newSeed)
         {
+            seed = newSeed;
+            rng = new System.Random(seed);
             Debug.Log("Generating map...");
-            background.SetActive(true);
-            background.GetComponent<SpriteRenderer>().size = new Vector2(mapWidth, mapHeight);
-            background.transform.Translate(new Vector2((float)mapWidth / 2, (float)mapHeight / 2));
             obstacles = new List<GameObject>();
             walls = new RectWall();
             mapSpaces = new MapSpace[mapWidth, mapHeight];
@@ -103,6 +104,10 @@ namespace MapGen
             GenerateWallsRect(0f, 0f, mapWidth, mapHeight);
             GenerateMazeScuffedRecursiveDiv(0, 0, mapWidth, mapHeight, mapCellSize, ref mapSpaces, mapCellDepth);
             GeneratePickupsAndSpawns(mapManaMin, mapManaMax, mapWeapMin, mapWeapMax, 0, 0, mapWidth, mapHeight, mapCellSize, mapSpawnpoints);
+            background.SetActive(true);
+            background.GetComponent<SpriteRenderer>().size = new Vector2(mapWidth * 2, mapHeight * 2);
+            background.transform.position = new Vector3((float)mapWidth / 2, (float)mapHeight / 2, 0);
+            Debug.Log(background.transform.position);
         }
 
         // Update is called once per frame
@@ -110,13 +115,35 @@ namespace MapGen
         {
             if (Input.GetKeyDown("space"))
             {
-                for (int i = 0; i < obstacles.Count; i++)
-                {
-                    Destroy(obstacles[i]);
-                }
-                obstacles.Clear();
-                GenerateMazeScuffedRecursiveDiv(0, 0, mapWidth, mapHeight, mapCellSize, ref mapSpaces, mapCellDepth);
+                // for (int i = 0; i < obstacles.Count; i++)
+                // {
+                //     Destroy(obstacles[i]);
+                // }
+                // obstacles.Clear();
+                // GenerateMazeScuffedRecursiveDiv(0, 0, mapWidth, mapHeight, mapCellSize, ref mapSpaces, mapCellDepth);
             }
+        }
+
+        public void Regenerate(int newSeed)
+        {
+            rng = new System.Random(newSeed);
+            for (int i = 0; i < obstacles.Count; i++)
+            {
+                Destroy(obstacles[i]);
+            }
+            obstacles.Clear();
+            for (int i = 0; i < manaPickups.Count; i++)
+            {
+                Destroy(manaPickups[i]);
+            }
+            manaPickups.Clear();
+            for (int i = 0; i < weaponPickups.Count; i++)
+            {
+                Destroy(weaponPickups[i].Item1);
+            }
+            weaponPickups.Clear();
+            GenerateMazeScuffedRecursiveDiv(0, 0, mapWidth, mapHeight, mapCellSize, ref mapSpaces, mapCellDepth);
+            GeneratePickupsAndSpawns(mapManaMin, mapManaMax, mapWeapMin, mapWeapMax, 0, 0, mapWidth, mapHeight, mapCellSize, mapSpawnpoints);
         }
 
         // Generates a maze starting at x, y with width w and height h, and cellSize. Pass in map as ref to keep track of objects and stack size to indicate how many recursions
@@ -348,7 +375,7 @@ namespace MapGen
             int cellHeight = h / cellSize;
             int[,] mapGrid = new int[cellWidth, cellHeight];
 
-            
+            possiblePos = new List<Tuple<int, int>>();
             for (int i = 0; i < cellWidth; i++)
             {
                 for (int j = 0; j < cellHeight; j++)
