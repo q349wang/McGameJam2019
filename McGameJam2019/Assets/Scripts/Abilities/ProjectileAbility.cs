@@ -3,9 +3,10 @@ using System.Collections;
 
 public class ProjectileAbility : Ability
 {
-
+    protected int weaponRange;
+    protected int damage;
     public float projectileForce = 500f;
-    public Rigidbody projectile;
+    public Rigidbody2D projectile;
 
 
     //public override void Initialize(GameObject obj)
@@ -23,6 +24,11 @@ public class ProjectileAbility : Ability
     public override void Fire()
     {
 
+    }
+
+    public int getWeaponRange()
+    {
+        return weaponRange;
     }
 
 }
