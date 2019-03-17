@@ -49,7 +49,7 @@ public class PlatformerCharacter2D : NetworkBehaviour
 
     public void FaceMouse(Vector3 pointToFace)
     {
-        if (isEnabled)
+        if (isEnabled && !isDead)
         {
             Vector2 direction = new Vector2(pointToFace.x - transform.position.x, pointToFace.y - transform.position.y);
             //transform.right = direction;

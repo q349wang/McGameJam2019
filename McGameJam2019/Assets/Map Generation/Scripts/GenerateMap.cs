@@ -422,11 +422,10 @@ namespace MapGen
                     int random = rng.Next(0, possiblePos.Count);
                     float trueX = (float)possiblePos[random].Item1 * cellSize + ((float)cellSize) / 2 + (float)x;
                     float trueY = (float)possiblePos[random].Item2 * cellSize + ((float)cellSize) / 2 + (float)y;
-                    int weap = rng.Next(1, 4);
-                    GameObject generated = Instantiate(pickups[weap], new Vector2(trueX, trueY), Quaternion.identity);
+                    GameObject generated = Instantiate(pickups[1], new Vector2(trueX, trueY), Quaternion.identity);
                     generated.SetActive(true);
                     possiblePos.RemoveAt(random);
-                    weaponPickups.Add(new Tuple<GameObject, int>(generated, weap));
+                    weaponPickups.Add(new Tuple<GameObject, int>(generated, 1));
                 }
 
             }

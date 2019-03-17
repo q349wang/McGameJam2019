@@ -671,8 +671,6 @@ MonoBehaviour:
   pickups:
   - {fileID: 857258145390546425, guid: 26e841868e204914686ef523929a54b6, type: 3}
   - {fileID: 857258145390546425, guid: 6983c07700759e04795ec6fd6b044d52, type: 3}
-  - {fileID: 857258145390546425, guid: 92b381cf801960a4b8c2d0bf387d9d52, type: 3}
-  - {fileID: 857258145390546425, guid: 2aefe8c5e4d3ab44597b35a1ffeb5baa, type: 3}
   possibleObstacles:
   - {fileID: 6747564686328604689, guid: 0c4790ac74b78154ab8a901b218b8395, type: 3}
   - {fileID: 6889294939060272688, guid: aceb64ab4d56a004eb5d14571d9615b8, type: 3}
