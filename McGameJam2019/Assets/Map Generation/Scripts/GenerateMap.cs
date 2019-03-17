@@ -54,7 +54,7 @@ namespace MapGen
         }
     }
 
-    public class GenerateMap : NetworkBehaviour
+    public class GenerateMap : MonoBehaviour
     {
 
         public int mapHeight;
@@ -75,7 +75,6 @@ namespace MapGen
 
         public int seed;
 
-        public GameObject background;
         [SerializeField] private List<GameObject> pickups;
 
         [SerializeField] private List<GameObject> possibleObstacles;
@@ -127,42 +126,41 @@ namespace MapGen
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown("`"))
-            {
-                if(seedIndex >= seeds.Length)
-                {
-                    seedIndex = 0;
-                }
-                Regenerate(seeds[seedIndex++]);
-            }
+            // if (Input.GetKeyDown("2"))
+            // {
+            //     if(seedIndex >= seeds.Length)
+            //     {
+            //         seedIndex = 0;
+            //     }
+            //     Regenerate(seeds[seedIndex++]);
+            // }
         }
 
         public void Regenerate(int newSeed)
         {
-            if (isLocalPlayer)
+
+            rng = new System.Random(newSeed);
+            for (int i = 0; i < obstacles.Count; i++)
             {
-                rng = new System.Random(newSeed);
-                for (int i = 0; i < obstacles.Count; i++)
-                {
-                    Destroy(obstacles[i]);
-                }
-                obstacles.Clear();
-                for (int i = 0; i < manaPickups.Count; i++)
-                {
-                    Destroy(manaPickups[i]);
-                }
-                manaPickups.Clear();
-                for (int i = 0; i < weaponPickups.Count; i++)
-                {
-                    Destroy(weaponPickups[i].Item1);
-                }
-                weaponPickups.Clear();
-                walls = new RectWall();
-                mapSpaces = new MapSpace[mapWidth, mapHeight];
-                GenerateWallsRect(0f, 0f, mapWidth, mapHeight);
-                GenerateMazeScuffedRecursiveDiv(0, 0, mapWidth, mapHeight, mapCellSize, ref mapSpaces, mapCellDepth);
-                GeneratePickupsAndSpawns(mapManaMin, mapManaMax, mapWeapMin, mapWeapMax, 0, 0, mapWidth, mapHeight, mapCellSize, mapSpawnpoints);
+                Destroy(obstacles[i]);
             }
+            obstacles.Clear();
+            for (int i = 0; i < manaPickups.Count; i++)
+            {
+                Destroy(manaPickups[i]);
+            }
+            manaPickups.Clear();
+            for (int i = 0; i < weaponPickups.Count; i++)
+            {
+                Destroy(weaponPickups[i].Item1);
+            }
+            weaponPickups.Clear();
+            walls = new RectWall();
+            mapSpaces = new MapSpace[mapWidth, mapHeight];
+            GenerateWallsRect(0f, 0f, mapWidth, mapHeight);
+            GenerateMazeScuffedRecursiveDiv(0, 0, mapWidth, mapHeight, mapCellSize, ref mapSpaces, mapCellDepth);
+            GeneratePickupsAndSpawns(mapManaMin, mapManaMax, mapWeapMin, mapWeapMax, 0, 0, mapWidth, mapHeight, mapCellSize, mapSpawnpoints);
+
         }
 
         // Generates a maze starting at x, y with width w and height h, and cellSize. Pass in map as ref to keep track of objects and stack size to indicate how many recursions
