@@ -6,29 +6,46 @@ namespace HookUtils
 {
     public class Hook : ProjectileAbility
     {
-        public Vector2 offset;
+        public Vector3 offset;
         private bool hasFired;
         // Start is called before the first frame update
-        private TrailRenderer trail;
+
         public override void Start()
         {
-            base.Start();
+            // base.Start();
+
             aName = "Hook";
-            abCoolDown = 5f;
+            abCoolDown = 2f;
             abCost = 20;
             damage = 20;
             weaponRange = 10;
-            projectileForce = 15f;
+            projectileForce = 20f;
             projectile = GetComponent<Rigidbody2D>();
             projectile.simulated = false;
-            transform.localPosition = offset;
-            trail = GetComponent<TrailRenderer>();
+            if (bPlayer != null)
+            {
+                transform.position = Quaternion.Euler(GetPlayer().transform.eulerAngles) * offset + GetPlayer().transform.position;
+
+                transform.rotation = GetPlayer().transform.rotation;
+            }
+
+            nextReadyTime = Time.time;
         }
 
         // Update is called once per frame
         protected override void Update()
         {
-            onCooldown = Time.time <= nextReadyTime;
+            if (!hasFired)
+            {
+                if (bPlayer != null)
+                {
+                    transform.position = Quaternion.Euler(GetPlayer().transform.eulerAngles) * offset + GetPlayer().transform.position;
+
+                    transform.rotation = GetPlayer().transform.rotation;
+                }
+
+            }
+            onCooldown = Time.time < nextReadyTime;
             if (!onCooldown)
             {
                 AbilityReady();
@@ -41,19 +58,26 @@ namespace HookUtils
             {
                 CoolDown();
             }
+
         }
 
         public bool IsAbilityReady()
         {
+            if (bPlayer == null) return false;
             return bPlayer.CurrentMana >= abCost && !hasFired;
         }
 
         public override void Fire()
         {
-            //trail.enabled = true;
-            projectile.simulated = true;
-            projectile.AddForce(transform.right * projectileForce, ForceMode2D.Impulse);
-            hasFired = true;
+            if (bPlayer != null)
+            {
+                Debug.Log("Fired");
+                hasFired = true;
+                bPlayer.SetControl(false);
+                projectile.simulated = true;
+                Vector2 dir = new Vector2(bPlayer.transform.right.x, bPlayer.transform.right.y);
+                projectile.AddForce(dir.normalized * projectileForce, ForceMode2D.Impulse);
+            }
         }
         public bool isFired()
         {
@@ -62,7 +86,17 @@ namespace HookUtils
         public void Hit()
         {
             projectile.simulated = false;
-            hasFired = false;
+
+        }
+
+        public void HitDone()
+        {
+            if (bPlayer != null)
+            {
+                Debug.Log("Hit Done");
+                bPlayer.SetControl(true);
+                hasFired = false;
+            }
         }
 
         public int getDamage()
@@ -72,7 +106,16 @@ namespace HookUtils
 
         public override void Release()
         {
-            
+        }
+        public BasePlayer GetPlayer()
+        {
+            return bPlayer;
+        }
+
+        public void SetPlayer(BasePlayer player)
+        {
+            bPlayer = player;
+            Start();
         }
     }
 

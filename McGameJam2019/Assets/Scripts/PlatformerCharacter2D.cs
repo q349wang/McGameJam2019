@@ -12,9 +12,10 @@ public class PlatformerCharacter2D : NetworkBehaviour
     public float m_MaxSpeed = 0f;                    // The fastest the player can travel.
 
     private Animator m_Anim;            // Reference to the player's animator component.
-    private Rigidbody2D m_Rigidbody2D;
+    public Rigidbody2D m_Rigidbody2D;
     private bool isStunned;
     private bool isDead;
+    public bool isEnabled = true;
 
     public bool IsDead
     {
@@ -31,7 +32,7 @@ public class PlatformerCharacter2D : NetworkBehaviour
     public void Move(float moveH, float moveV)
     {
         // Move the character
-        if (!isStunned && !isDead)
+        if (!isStunned && !isDead && isEnabled)
         {
             m_Rigidbody2D.velocity = new Vector2(moveH * m_MaxSpeed, moveV * m_MaxSpeed);
         }
@@ -39,11 +40,14 @@ public class PlatformerCharacter2D : NetworkBehaviour
 
     public void FaceMouse(Vector3 pointToFace)
     {
-        Vector2 direction = new Vector2(pointToFace.x - transform.position.x, pointToFace.y - transform.position.y);
-        //transform.right = direction;
+        if (isEnabled)
+        {
+            Vector2 direction = new Vector2(pointToFace.x - transform.position.x, pointToFace.y - transform.position.y);
+            //transform.right = direction;
 
-        float angle = Vector2.SignedAngle(Vector2.right, direction);
-        m_Rigidbody2D.MoveRotation(angle);
+            float angle = Vector2.SignedAngle(Vector2.right, direction);
+            m_Rigidbody2D.MoveRotation(angle);
+        }
     }
 
     public IEnumerator StunPlayer()
