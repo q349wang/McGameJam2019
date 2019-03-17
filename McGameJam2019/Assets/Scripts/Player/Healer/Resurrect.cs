@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Resurrect : RaycastAbility
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        base.Start();
-        abCoolDown = 20;
-        abCost = 50;
-        weaponRange = 5;
-    }
+    //// Start is called before the first frame update
+    //void Start()
+    //{
+    //    base.Start();
+    //    abCoolDown = 20;
+    //    abCost = 50;
+    //    weaponRange = 5;
+    //}
 
     public override void Fire()
     {

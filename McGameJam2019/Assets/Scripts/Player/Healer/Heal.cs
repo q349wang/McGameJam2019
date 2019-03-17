@@ -11,10 +11,10 @@ public class Heal : RaycastAbility
     public void Start()
     {
         base.Start();
-        abCoolDown = 5;
-        abCost = 20;
-        gunDamage = -20;
-        weaponRange = 5;
+        //abCoolDown = 5;
+        //abCost = 20;
+        //gunDamage = -20;
+        //weaponRange = 5;
 
         laserLine = GetComponent<LineRenderer>();
         laserLine.enabled = false;

@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dash : MonoBehaviour
+public class Dash : Ability
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public override void Fire()
     {
-        
+        Debug.Log("Dash");
+        bPlayer.Dash();
+        bPlayer.UseMana(abCost);
     }
 }

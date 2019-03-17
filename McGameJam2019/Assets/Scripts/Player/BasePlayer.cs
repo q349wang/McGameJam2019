@@ -135,4 +135,9 @@ public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
         this.isBlocking = false;
         GetComponent<PlatformerCharacter2D>().m_MaxSpeed = normalSpeed;
     }
+
+    public void Dash()
+    {
+        player.Dash();
+    }
 }
