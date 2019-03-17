@@ -31,6 +31,7 @@ public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
     protected float movementSpeed = 0;
     protected float blockingSpeed = 0;
     protected float normalSpeed = 0;
+    protected float dashSpeed = 0;
 
     protected string[] fixedAbilities;
 

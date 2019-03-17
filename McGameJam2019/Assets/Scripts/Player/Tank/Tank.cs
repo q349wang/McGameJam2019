@@ -12,6 +12,7 @@ public class Tank : BasePlayer
         movementSpeed = 3;
         normalSpeed = movementSpeed;
         blockingSpeed = 0.5f * movementSpeed;
+        dashSpeed = 2 * movementSpeed;
         base.Start();
     }
 
