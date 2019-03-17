@@ -22,5 +22,20 @@ public class CustomLobbyHook : LobbyHook
         LobbyPlayer lobby = lobbyPlayer.GetComponent<LobbyPlayer>();
         Debug.Log("Setting sprite: " + lobby.playerClassSprite);
         gamePlayer.GetComponent<TypedPlayerSpawner>().classIndex = lobby.playerClassSprite;
+        switch (lobby.playerClassSprite)
+        {
+            case 0:
+                gamePlayer.transform.position = new Vector3(2, 2, 0);
+                break;
+            case 1:
+                gamePlayer.transform.position = new Vector3(58, 2, 0);
+                break;
+            case 2:
+                gamePlayer.transform.position = new Vector3(58, 58, 0);
+                break;
+            case 3:
+                gamePlayer.transform.position = new Vector3(2, 58, 0);
+                break;
+        }
     }
 }

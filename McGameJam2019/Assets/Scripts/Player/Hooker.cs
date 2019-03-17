@@ -1,20 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
-public class Healer : BasePlayer
+public class Hooker : BasePlayer
 {
-    public Sprite healerSprite;
-    private GameObject healObject;
-
+    public Sprite hookerSprite;
 
     // Start is called before the first frame update
     protected override void Start()
     {
-        fixedAbilities = new string[] { "HealObject" };
-        // gameObject.AddComponent<Heal>();
-        movementSpeed = 6;
+        movementSpeed = 5;
         base.Start();
     }
 

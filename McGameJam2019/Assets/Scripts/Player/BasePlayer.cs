@@ -24,6 +24,7 @@ public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
     [SerializeField]
     protected float movementSpeed = 0;
 
+    protected string[] fixedAbilities;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -37,6 +38,12 @@ public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
             {
                 main.GetComponent<Camera2DFollow>().target = transform;
             }
+        }
+
+        foreach (string ability in fixedAbilities)
+        {
+            GameObject abilityObject = (GameObject)Resources.Load(ability, typeof(GameObject));
+            GameObject instance = Instantiate(abilityObject, transform);
         }
     }
 

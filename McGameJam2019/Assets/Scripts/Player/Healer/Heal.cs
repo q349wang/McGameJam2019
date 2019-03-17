@@ -67,6 +67,7 @@ public class Heal : RaycastAbility
             Debug.Log("No nearby ally");
             //if we did not hit anything, set the end of the line to a position directly away from
             //laserLine.SetPosition(1, fpsCam.transform.forward * weaponRange);
+            Debug.Log("No allies");
         }
     }
 

@@ -555,6 +555,11 @@ MonoBehaviour:
   colGap: 0
   maxObstacles: 500
   minObstacles: 100
+  mapSpawnpoints: 4
+  mapManaMin: 10
+  mapManaMax: 20
+  mapWeapMin: 10
+  mapWeapMax: 20
   background: {fileID: 5093701999245435263}
   pickups:
   - {fileID: 1893456127}
@@ -567,6 +572,7 @@ MonoBehaviour:
   - {fileID: 1101127032}
   groupMin: 2
   groupMax: 5
+  spawn: {fileID: 2032194126}
 --- !u!1 &1893456127 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 857258145390546425, guid: 26e841868e204914686ef523929a54b6,
@@ -669,7 +675,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2032194127
 MonoBehaviour:
   m_ObjectHideFlags: 0
