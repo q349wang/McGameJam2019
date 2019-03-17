@@ -11,11 +11,6 @@ public class Heal : RaycastAbility
     public void Start()
     {
         base.Start();
-        //abCoolDown = 5;
-        //abCost = 20;
-        //gunDamage = -20;
-        //weaponRange = 5;
-
         laserLine = GetComponent<LineRenderer>();
         laserLine.enabled = false;
     }
@@ -28,7 +23,8 @@ public class Heal : RaycastAbility
 
         //Declare a raycast hit to store information about what our raycast has hit.
         RaycastHit2D hit = Physics2D.Raycast(rayOrigin, direction, weaponRange, LayerMask.GetMask("Player"));
-        
+        //RaycastHit2D hit = Physics2D.Raycast(rayOrigin, direction, weaponRange);
+
         //Set the start position for our visual effect for our laser to the position of gunEnd
         laserLine.SetPosition(0, new Vector3(rayOrigin.x, rayOrigin.y, 10));
 
