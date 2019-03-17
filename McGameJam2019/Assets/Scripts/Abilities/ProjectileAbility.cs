@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ProjectileAbility : Ability
+public abstract class ProjectileAbility : Ability
 {
     protected int weaponRange;
     protected int damage;
@@ -21,10 +21,6 @@ public class ProjectileAbility : Ability
     //    launcher.Launch();
     //}
 
-    public override void Fire()
-    {
-
-    }
 
     public int getWeaponRange()
     {

@@ -11,4 +11,9 @@ public class Dash : Ability
         bPlayer.Dash();
         bPlayer.UseMana(abCost);
     }
+
+    public override void Release()
+    {
+
+    }
 }

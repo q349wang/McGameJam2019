@@ -37,12 +37,12 @@ public abstract class Ability : NetworkBehaviour
 
     public virtual void OnButtonDown()
     {
-
+        Fire();
     }
 
     public virtual void OnButtonRelease()
     {
-
+        Release();
     }
 
     protected virtual void Update()
@@ -98,4 +98,5 @@ public abstract class Ability : NetworkBehaviour
     }
 
     public abstract void Fire();
+    public abstract void Release();
 }

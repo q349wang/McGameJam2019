@@ -169,7 +169,7 @@ public class PlatformerCharacter2D : NetworkBehaviour
     {
         Debug.Log("ABILITY 1 FIRED");
         Ability a = GetComponent<BasePlayer>().abilities[i].GetComponent<Ability>();
-        a.Fire();
+        a.OnButtonDown();
     }
 
     [Command]
