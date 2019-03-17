@@ -61,4 +61,9 @@ public class PlatformerCharacter2D : MonoBehaviour
         this.isDead = condition;
     }
 
+    public void Dash()
+    {
+        m_Rigidbody2D.AddForce(3 * transform.right);
+    }
+
 }

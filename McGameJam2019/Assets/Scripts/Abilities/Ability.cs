@@ -1,27 +1,4 @@
-﻿//using System.Collections;
-//using System.Collections.Generic;
-//using UnityEngine;
-
-//public abstract class Ability : MonoBehaviour
-//{
-//    [SerializeField] private Transform m_Ability1;
-//    [SerializeField] private Transform m_Ability2;
-//    [SerializeField] private Transform m_Ability3;
-
-//    [SerializeField] public int cost;
-//    [SerializeField] public int coolDown;
-//    [SerializeField] private int characterClass;
-
-//    private void Awake()
-//    {
-//        m_Ability1 = transform.Find("Ability 1");
-//        m_Ability2 = transform.Find("Ability 2");
-//        m_Ability3 = transform.Find("Ability 3");
-//    }
-
-//}
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public abstract class Ability : MonoBehaviour
@@ -51,10 +28,20 @@ public abstract class Ability : MonoBehaviour
         if (coolDownComplete)
         {
             AbilityReady();
-            if (Input.GetButtonDown(abilityButton) && bPlayer.CurrentMana >= abCost)
+            if(abCoolDown > 0)
             {
-                ButtonTriggered();
+                if (Input.GetButtonDown(abilityButton) && bPlayer.CurrentMana >= abCost)
+                {
+                    ButtonTriggered();
+                }
             }
+            else
+            {
+                if(Input.GetButton(abilityButton) && bPlayer.CurrentMana >= abCost)
+                {
+                    ButtonTriggered();
+                }
+            } 
         }
         else
         {

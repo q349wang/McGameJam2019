@@ -63,7 +63,7 @@ public class Resurrect : RaycastAbility
         }
         else
         {
-            Debug.Log("No nearby ally");
+            Debug.Log("No nearby downed ally");
             //if we did not hit anything, set the end of the line to a position directly away from
             //laserLine.SetPosition(1, fpsCam.transform.forward * weaponRange);
         }

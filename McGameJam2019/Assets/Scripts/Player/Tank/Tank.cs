@@ -1,21 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class Tank : BasePlayer
 {
-    public Sprite tankSprite;
-
     // Start is called before the first frame update
     protected override void Start()
     {
+        fixedAbilities = new string[] { "TankAbilities" };
         movementSpeed = 3;
+        normalSpeed = movementSpeed;
+        blockingSpeed = 0.5f * movementSpeed;
+        dashSpeed = 2 * movementSpeed;
         base.Start();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
