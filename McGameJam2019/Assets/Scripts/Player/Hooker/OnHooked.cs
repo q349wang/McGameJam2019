@@ -40,15 +40,16 @@ namespace HookUtils
                         if (dude != null)
                         {
                             hookProjectile.Hit();
+                            dude.GetComponent<BasePlayer>().SetControl(false);
                             dude.GetComponent<BasePlayer>().rigidBody.velocity = new Vector2();
-                            dude.GetComponent<BasePlayer>().rigidBody.AddForce((hookProjectile.GetPlayer().transform.position - dude.transform.position).normalized * 20, ForceMode2D.Impulse);
+                            dude.GetComponent<BasePlayer>().rigidBody.AddForce((hookProjectile.GetPlayer().transform.position - dude.transform.position).normalized * 12, ForceMode2D.Impulse);
                             hookedDude = 3;
                         }
 
                         break;
                     case 1:
                         hookProjectile.Hit();
-                        hookProjectile.GetPlayer().rigidBody.AddForce((hookProjectile.transform.position - hookProjectile.GetPlayer().transform.position).normalized * 15, ForceMode2D.Impulse);
+                        hookProjectile.GetPlayer().rigidBody.AddForce((hookProjectile.transform.position - hookProjectile.GetPlayer().transform.position).normalized * 12, ForceMode2D.Impulse);
                         hookedDude = 2;
                         break;
                     case 2:
@@ -67,6 +68,8 @@ namespace HookUtils
                         hookProjectile.GetPlayer().rigidBody.AddForce((hookProjectile.transform.position - hookProjectile.GetPlayer().transform.position).normalized, ForceMode2D.Impulse);
                         if ((hookProjectile.GetPlayer().transform.position - dude.transform.position).magnitude < 1)
                         {
+                            dude.GetComponent<BasePlayer>().rigidBody.velocity = new Vector2();
+                            dude.GetComponent<BasePlayer>().SetControl(true);
                             hookProjectile.HitDone();
                             hookProjectile.transform.position = Quaternion.Euler(hookProjectile.GetPlayer().transform.eulerAngles) * hookProjectile.offset + hookProjectile.GetPlayer().transform.position;
                             hookProjectile.transform.rotation = hookProjectile.GetPlayer().transform.rotation;
