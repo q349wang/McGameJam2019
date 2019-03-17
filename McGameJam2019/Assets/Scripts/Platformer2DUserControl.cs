@@ -23,36 +23,39 @@ public class Platformer2DUserControl : UnityEngine.Networking.NetworkBehaviour
 
     private void Update()
     {
-        // Read the inputs.
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-        bool ability1 = Input.GetButtonDown("Fire1");
-        bool ability1Rel = Input.GetButtonUp("Fire1");
-        bool ability2 = Input.GetButtonDown("Fire2");
-        bool ability2Rel = Input.GetButtonUp("Fire2");
-        float a3 = Input.GetAxis("Fire3");
-
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-
-        // Pass all parameters to the character control script.
-        m_Character.Move(h, v);
-        m_Character.FaceMouse(mousePosition);
-
-        // use abilities
-        if (ability1)
+        if (!m_Character.IsDead)
         {
-            Debug.Log("one pressed");
-           m_Character.AbilityOnePressed();
-        }
-        if (ability2)
-        {
-            m_Character.AbilityTwoPressed();
-        }
+            // Read the inputs.
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
+            bool ability1 = Input.GetButtonDown("Fire1");
+            bool ability1Rel = Input.GetButtonUp("Fire1");
+            bool ability2 = Input.GetButtonDown("Fire2");
+            bool ability2Rel = Input.GetButtonUp("Fire2");
+            float a3 = Input.GetAxis("Fire3");
 
-        if (ability1Rel)
-        {
-            m_Character.AbilityOneReleased();
-        }
+            Vector3 mousePosition = Input.mousePosition;
+            mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+            // Pass all parameters to the character control script.
+            m_Character.Move(h, v);
+            m_Character.FaceMouse(mousePosition);
+
+            // use abilities
+            if (ability1)
+            {
+                Debug.Log("one pressed");
+                m_Character.AbilityOnePressed();
+            }
+            if (ability2)
+            {
+                m_Character.AbilityTwoPressed();
+            }
+
+            if (ability1Rel)
+            {
+                m_Character.AbilityOneReleased();
+            }
+        }  
     }
 }
