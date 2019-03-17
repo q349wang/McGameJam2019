@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(PlatformerCharacter2D))]
-public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
+public class BasePlayer : NetworkBehaviour
 {
     [SerializeField]
     private PlatformerCharacter2D player;
@@ -35,7 +36,7 @@ public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
 
     protected string[] fixedAbilities;
 
-    protected List<GameObject> abilities;
+    public List<GameObject> abilities;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -52,6 +53,10 @@ public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
             }
         }
 
+        //if (hasAuthority)
+        //{
+        //    player.CmdSpawnAbilities(fixedAbilities);
+        //}
         foreach (string ability in fixedAbilities)
         {
             GameObject abilityObject = (GameObject)Resources.Load(ability, typeof(GameObject));
@@ -59,6 +64,10 @@ public class BasePlayer : UnityEngine.Networking.NetworkBehaviour
             abilities.Add(instance);
         }
     }
+
+    
+
+    
 
     // Update is called once per frame
     void Update()
