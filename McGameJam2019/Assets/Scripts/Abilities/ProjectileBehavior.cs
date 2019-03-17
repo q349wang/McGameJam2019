@@ -38,7 +38,13 @@ public class ProjectileBehavior : MonoBehaviour
                 Hooker hook = obj.GetComponent<Hooker>();
                 if(hook != null)
                 {
-                    hook.Damage(5);
+                    if(gameObject.tag == "Bullet")
+                    {
+                        hook.Damage(5);
+                    } else if(gameObject.tag == "Rocket")
+                    {
+                        hook.Damage(15);
+                    }
                     Destroy(this.gameObject);
                 }
             }
