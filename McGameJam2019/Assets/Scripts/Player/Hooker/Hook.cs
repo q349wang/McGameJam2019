@@ -69,6 +69,11 @@ namespace HookUtils
         {
             return damage;
         }
+
+        public override void Release()
+        {
+            
+        }
     }
 
 }

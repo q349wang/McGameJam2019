@@ -34,19 +34,30 @@ public class Block : Ability
 
     public override void Fire()
     {
-        if (isBlocking == false)
-        {
-            bPlayer.Block();
-            bPlayer.UseMana(abCost);
-            sr.enabled = true;
-            isBlocking = true;
-        }
-        else
-        {
-            bPlayer.Unblock();
-            sr.enabled = false;
-            isBlocking = false;
-        }
+        bPlayer.Block();
+        bPlayer.UseMana(abCost);
+        sr.enabled = true;
+        isBlocking = true;
+        //if (isBlocking == false)
+        //{
+        //    bPlayer.Block();
+        //    bPlayer.UseMana(abCost);
+        //    sr.enabled = true;
+        //    isBlocking = true;
+        //}
+        //else
+        //{
+        //    bPlayer.Unblock();
+        //    sr.enabled = false;
+        //    isBlocking = false;
+        //}
+    }
+
+    public override void Release()
+    {
+        bPlayer.Unblock();
+        sr.enabled = false;
+        isBlocking = false;
     }
 
 }

@@ -83,4 +83,9 @@ public class Heal : RaycastAbility
         //Deactivate our line renderer after waiting
         laserLine.enabled = false;
     }
+
+    public override void Release()
+    {
+
+    }
 }

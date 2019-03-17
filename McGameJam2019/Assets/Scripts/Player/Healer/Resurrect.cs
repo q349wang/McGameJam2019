@@ -68,4 +68,9 @@ public class Resurrect : RaycastAbility
             //laserLine.SetPosition(1, fpsCam.transform.forward * weaponRange);
         }
     }
+
+    public override void Release()
+    {
+       
+    }
 }
