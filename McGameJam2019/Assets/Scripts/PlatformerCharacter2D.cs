@@ -1,8 +1,10 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
+using System.Collections.Generic;
 
-public class PlatformerCharacter2D : MonoBehaviour
+public class PlatformerCharacter2D : NetworkBehaviour
 {
     [SerializeField]
     private WaitForSeconds stunDuration = new WaitForSeconds(3.0f);
@@ -63,7 +65,137 @@ public class PlatformerCharacter2D : MonoBehaviour
 
     public void Dash()
     {
-        m_Rigidbody2D.AddForce(1000 * transform.right);
+        m_Rigidbody2D.AddForce(5000 * transform.right);
+    }
+
+    public void AbilityOnePressed()
+    {
+        // for each ability1 we have, call button pressed on it
+        if (GetComponent<BasePlayer>() != null)
+        {
+            List<GameObject> abilities = GetComponent<BasePlayer>().abilities;
+            int i = 0;
+            foreach (GameObject a in abilities)
+            {
+                Ability ability = a.GetComponent<Ability>();
+                if (ability.abilityButton == "Fire1")
+                {
+                    CmdFireAbilityOne(i);
+                }
+                i++;
+            }
+        }
+    }
+    public void AbilityTwoPressed()
+    {
+        // for each ability1 we have, call button pressed on it
+        if (GetComponent<BasePlayer>() != null)
+        {
+            List<GameObject> abilities = GetComponent<BasePlayer>().abilities;
+            int i = 0;
+            foreach (GameObject a in abilities)
+            {
+                Ability ability = a.GetComponent<Ability>();
+                if (ability.abilityButton == "Fire2")
+                {
+                    CmdFireAbilityTwo(i);
+                }
+                i++;
+            }
+        }
+    }
+
+    public void AbilityOneReleased()
+    {
+        // for each ability1 we have, call button pressed on it
+        if (GetComponent<BasePlayer>() != null)
+        {
+            List<GameObject> abilities = GetComponent<BasePlayer>().abilities;
+            int i = 0;
+            foreach (GameObject a in abilities)
+            {
+                Ability ability = a.GetComponent<Ability>();
+                if (ability.abilityButton == "Fire1")
+                {
+                    CmdReleaseAbilityOne(i);
+                }
+                i++;
+            }
+        }
+    }
+
+    [Command]
+    public void CmdSpawnAbilities(string[] fixedAbilities)
+    {
+        if (connectionToClient.isReady)
+        {
+            Spawn(fixedAbilities);
+        }
+        else
+        {
+            StartCoroutine(WaitForReady(fixedAbilities));
+        }
+    }
+
+    IEnumerator WaitForReady(string[] fixedAbilities)
+    {
+        while (!connectionToClient.isReady)
+        {
+            yield return new WaitForSeconds(0.25f);
+        }
+        Spawn(fixedAbilities);
+    }
+    [Server]
+    void Spawn(string[] fixedAbilities)
+    {
+        foreach (string ability in fixedAbilities)
+        {
+            GameObject abilityObject = (GameObject)Resources.Load(ability, typeof(GameObject));
+            GameObject instance = Instantiate(abilityObject);//, transform);
+            instance.GetComponent<Ability>().ownerNetworkId = netId;
+            NetworkServer.SpawnWithClientAuthority(instance, connectionToClient);
+            //abilities.Add(instance);
+        }
+        Debug.Log("Successfully spawned abilities");
+    }
+
+    [Command]
+    public void CmdFireAbilityOne(int i)
+    {
+        RpcFireAbilityOne(i);
+    }
+    [ClientRpc]
+    public void RpcFireAbilityOne(int i)
+    {
+        Debug.Log("ABILITY 1 FIRED");
+        Ability a = GetComponent<BasePlayer>().abilities[i].GetComponent<Ability>();
+        a.Fire();
+    }
+
+    [Command]
+    public void CmdFireAbilityTwo(int i)
+    {
+        RpcFireAbilityTwo(i);
+    }
+    [ClientRpc]
+    public void RpcFireAbilityTwo(int i)
+    {
+        Debug.Log("ABILITY 2 FIRED");
+        Ability a = GetComponent<BasePlayer>().abilities[i].GetComponent<Ability>();
+        a.Fire();
+    }
+
+    [Command]
+    public void CmdReleaseAbilityOne(int i)
+    {
+        RpcReleaseAbilityOne(i);
+    }
+    [ClientRpc]
+    public void RpcReleaseAbilityOne(int i)
+    {
+        Debug.Log("ABILITY 1 released");
+        Ability a = GetComponent<BasePlayer>().abilities[i].GetComponent<Ability>();
+        a.OnButtonRelease();
     }
 
 }

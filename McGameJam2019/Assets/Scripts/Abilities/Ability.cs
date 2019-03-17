@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public abstract class Ability : MonoBehaviour
+[RequireComponent(typeof(NetworkIdentity))]
+public abstract class Ability : NetworkBehaviour
 {
 
     public string aName = "New Ability";
@@ -12,41 +14,63 @@ public abstract class Ability : MonoBehaviour
     protected float nextReadyTime;
     private float coolDownTimeLeft;
     protected BasePlayer bPlayer;
+    public NetworkInstanceId ownerNetworkId;
 
     protected bool onCooldown = false;
 
     public virtual void Start()
     {
+        Object[] objects = FindObjectsOfType<PlatformerCharacter2D>();
+        Debug.Log("Found " + objects.Length + " objects");
+        foreach (Object obj in objects)
+        {
+            PlatformerCharacter2D gObj = obj as PlatformerCharacter2D;
+            if (gObj.netId == ownerNetworkId)
+            {
+                transform.SetParent(gObj.transform);
+                bPlayer = gObj.GetComponent<BasePlayer>();
+            }
+        }
         bPlayer = transform.GetComponentInParent<BasePlayer>();
         AbilityReady();
     }
 
+    public virtual void OnButtonDown()
+    {
+
+    }
+
+    public virtual void OnButtonRelease()
+    {
+
+    }
+
     protected virtual void Update()
     {
-        bool coolDownComplete = (Time.time > nextReadyTime);
-        onCooldown = !coolDownComplete;
-        if (coolDownComplete)
-        {
-            AbilityReady();
-            if(abCoolDown > 0)
-            {
-                if (Input.GetButtonDown(abilityButton) && bPlayer.CurrentMana >= abCost)
-                {
-                    ButtonTriggered();
-                }
-            }
-            else
-            {
-                if(Input.GetButton(abilityButton) && bPlayer.CurrentMana >= abCost)
-                {
-                    ButtonTriggered();
-                }
-            } 
-        }
-        else
-        {
-            CoolDown();
-        }
+        //bool coolDownComplete = (Time.time > nextReadyTime);
+        //onCooldown = !coolDownComplete;
+        //if (coolDownComplete)
+        //{
+        //    AbilityReady();
+        //    if(abCoolDown > 0)
+        //    {
+        //        if (Input.GetButtonDown(abilityButton) && bPlayer.CurrentMana >= abCost)
+        //        {
+        //            ButtonTriggered();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if(Input.GetButton(abilityButton) && bPlayer.CurrentMana >= abCost)
+        //        {
+        //            ButtonTriggered();
+        //        }
+        //    } 
+        //}
+        //else
+        //{
+        //    CoolDown();
+        //}
     }
 
     protected virtual void AbilityReady()
