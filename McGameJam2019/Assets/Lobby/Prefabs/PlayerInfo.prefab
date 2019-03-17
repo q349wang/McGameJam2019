@@ -1155,6 +1155,7 @@ MonoBehaviour:
   healerSprite: {fileID: 21300000, guid: cb178e4c190e12142b191ee3dde661db, type: 3}
   tankSprite: {fileID: 21300000, guid: f584d245af352f743b1f0289b87a162a, type: 3}
   dpsSprite: {fileID: 21300000, guid: c74814eb1640d5f438a458741fe1ee88, type: 3}
+  hookerSprite: {fileID: 21300000, guid: f305c657356087640ba582ae23e12545, type: 3}
   classButton: {fileID: 11488840}
   nameInput: {fileID: 11487112}
   readyButton: {fileID: 11413860}

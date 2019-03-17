@@ -21,6 +21,14 @@ public class TypedPlayerSpawner : NetworkBehaviour
         {
             gameObject.AddComponent<Tank>();
         }
+        else if (classIndex == 2)
+        {
+            gameObject.AddComponent<DPS>();
+        }
+        else if (classIndex == 3)
+        {
+            gameObject.AddComponent<Hooker>();
+        }
         GetComponent<SpriteRenderer>().sprite = LobbyPlayer.Sprites[classIndex];
     }
 
