@@ -73,6 +73,16 @@ public class PlatformerCharacter2D : NetworkBehaviour
 
     public void Kill(bool condition)
     {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        Color c = sr.color;
+        if (condition)
+        {
+            c.a = 0.5f;
+        } else if (!condition)
+        {
+            c.a = 1;
+        }
+        sr.color = c;
         this.isDead = condition;
     }
 
