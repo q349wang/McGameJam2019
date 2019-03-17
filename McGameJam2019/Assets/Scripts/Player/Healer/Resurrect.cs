@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Heal : RaycastAbility
+public class Resurrect : RaycastAbility
 {
-
-    public void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         base.Start();
-        abCoolDown = 5;
-        abCost = 20;
-        gunDamage = -20;
+        abCoolDown = 20;
+        abCost = 50;
         weaponRange = 5;
     }
 
@@ -47,10 +46,10 @@ public class Heal : RaycastAbility
             if (target != null && self != null)
             {
                 //Call the damage function of that script, passing in our gunDamage variable
-                target.Damage(gunDamage);
+                target.Resurrect();
                 self.UseMana(abCost);
             }
-            Debug.Log("Heal");
+            Debug.Log("Res");
             Debug.Log("Mana: " + self.CurrentMana);
             self.UseMana(abCost);
             Debug.Log("Mana: " + self.CurrentMana);
@@ -69,16 +68,4 @@ public class Heal : RaycastAbility
             //laserLine.SetPosition(1, fpsCam.transform.forward * weaponRange);
         }
     }
-
-   // private IEnumerator ShotEffect()
-    //{
-
-        //Turn on our line renderer
-        //laserLine.enabled = true;
-        //Wait for .07 seconds
-        //yield return shotDuration;
-
-        //Deactivate our line renderer after waiting
-        //laserLine.enabled = false;
-    //}
 }
