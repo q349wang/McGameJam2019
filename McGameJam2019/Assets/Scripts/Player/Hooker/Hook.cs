@@ -38,6 +38,7 @@ namespace HookUtils
         // Update is called once per frame
         protected override void Update()
         {
+
             if (!hasFired)
             {
                 if (bPlayer != null)
@@ -59,7 +60,7 @@ namespace HookUtils
             if (!onCooldown)
             {
                 AbilityReady();
-                if (Input.GetButtonDown(abilityButton) && IsAbilityReady())
+                if (bPlayer && bPlayer.hasAuthority && Input.GetButtonDown(abilityButton) && IsAbilityReady())
                 {
                     ButtonTriggered();
                 }
