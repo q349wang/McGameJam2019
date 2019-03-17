@@ -65,7 +65,7 @@ public class PlatformerCharacter2D : NetworkBehaviour
 
     public void Dash()
     {
-        m_Rigidbody2D.AddForce(3 * transform.right);
+        m_Rigidbody2D.AddForce(1000 * transform.right);
     }
 
     public void AbilityOnePressed()
