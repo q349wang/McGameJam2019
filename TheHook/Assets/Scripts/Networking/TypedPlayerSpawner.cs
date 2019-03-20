@@ -13,23 +13,23 @@ public class TypedPlayerSpawner : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (classIndex == 0)
-        {
-            gameObject.AddComponent<Healer>();
-        }
-        else if (classIndex == 1)
-        {
-            gameObject.AddComponent<Tank>();
-        }
-        else if (classIndex == 2)
-        {
-            gameObject.AddComponent<DPS>();
-        }
-        else if (classIndex == 3)
-        {
-            gameObject.AddComponent<Hooker>();
-        }
-        GetComponent<SpriteRenderer>().sprite = LobbyPlayer.Sprites[classIndex];
+        //if (classIndex == 0)
+        //{
+        //    gameObject.AddComponent<Healer>();
+        //}
+        //else if (classIndex == 1)
+        //{
+        //    gameObject.AddComponent<Tank>();
+        //}
+        //else if (classIndex == 2)
+        //{
+        //   // gameObject.AddComponent<DPS>();
+        //}
+        //else if (classIndex == 3)
+        //{
+        //    //gameObject.AddComponent<Hooker>();
+        //}
+        //GetComponent<SpriteRenderer>().sprite = LobbyPlayer.Sprites[classIndex];
     }
 
 }

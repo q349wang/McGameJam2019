@@ -104,14 +104,11 @@ GameObject:
   - component: {fileID: 3578065717224169325}
   - component: {fileID: 3578065717224169320}
   - component: {fileID: 3578065717224169324}
-  - component: {fileID: 3578065717224169329}
   - component: {fileID: 3635709121037878673}
   - component: {fileID: 1763144348413055305}
   - component: {fileID: 6792619634010515903}
   - component: {fileID: 688054269736528898}
-  - component: {fileID: 9099165408537088927}
   - component: {fileID: 5780433056153423292}
-  - component: {fileID: 6751604857575827828}
   m_Layer: 15
   m_Name: BaseCharacter
   m_TagString: Player
@@ -172,7 +169,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: c74814eb1640d5f438a458741fe1ee88, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 987cd7494c9ce7f4b8e819fafa7775ea, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -204,25 +201,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!95 &3578065717224169329
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3578065717224169321}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &3635709121037878673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,19 +283,6 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &9099165408537088927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3578065717224169321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a95cb544b4746a4faf72a007ecd5352, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  classIndex: 0
 --- !u!70 &5780433056153423292
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -334,44 +299,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0.03, y: 0}
   m_Size: {x: 0.5703311, y: 1}
   m_Direction: 0
---- !u!114 &6751604857575827828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3578065717224169321}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb199339172694643a23c72200737b37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mapHeight: 60
-  mapWidth: 60
-  mapCellSize: 5
-  mapCellDepth: 5
-  rowGap: 4
-  colGap: 0
-  maxObstacles: 500
-  minObstacles: 100
-  mapSpawnpoints: 4
-  mapManaMin: 10
-  mapManaMax: 20
-  mapWeapMin: 10
-  mapWeapMax: 20
-  seed: 0
-  pickups:
-  - {fileID: 857258145390546425, guid: 26e841868e204914686ef523929a54b6, type: 3}
-  - {fileID: 857258145390546425, guid: 6983c07700759e04795ec6fd6b044d52, type: 3}
-  - {fileID: 857258145390546425, guid: 92b381cf801960a4b8c2d0bf387d9d52, type: 3}
-  - {fileID: 857258145390546425, guid: 2aefe8c5e4d3ab44597b35a1ffeb5baa, type: 3}
-  possibleObstacles:
-  - {fileID: 6747564686328604689, guid: 0c4790ac74b78154ab8a901b218b8395, type: 3}
-  - {fileID: 1393734027858454, guid: 7abb0bbad7b8c944686faf97212f9aa1, type: 3}
-  - {fileID: 5093701999245435263, guid: 327f64c8fe9ff314484a590a7869187c, type: 3}
-  groupMin: 2
-  groupMax: 5
-  spawn: {fileID: 0}
 --- !u!1 &6787035184660491250
 GameObject:
   m_ObjectHideFlags: 0

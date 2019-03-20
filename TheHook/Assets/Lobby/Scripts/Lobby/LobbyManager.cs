@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 using UnityEngine.Networking.Types;
 using UnityEngine.Networking.Match;
 using System.Collections;
-
+using System.Collections.Generic;
 
 namespace Prototype.NetworkLobby
 {
@@ -193,7 +193,8 @@ namespace Prototype.NetworkLobby
                 StopHost();
             }
 
-            
+            // going to main menu, reset lobby players
+            lobbyPlayersByConnection.Clear();
             ChangeTo(mainMenuPanel);
         }
 
@@ -270,11 +271,20 @@ namespace Prototype.NetworkLobby
         }
 
         // ----------------- Server callbacks ------------------
-
+        enum CharacterClass
+        {
+            Healer = 0,
+            Tank,
+            DPS,
+            Hook
+        }
+        Dictionary<int, LobbyPlayer> lobbyPlayersByConnection = new Dictionary<int, LobbyPlayer>();
+        //List<LobbyPlayer> lobby
         //we want to disable the button JOIN if we don't have enough player
         //But OnLobbyClientConnect isn't called on hosting player. So we override the lobbyPlayer creation
         public override GameObject OnLobbyServerCreateLobbyPlayer(NetworkConnection conn, short playerControllerId)
         {
+            Debug.Log("Creating lobby player with connection ID: " + conn.connectionId);
             GameObject obj = Instantiate(lobbyPlayerPrefab.gameObject) as GameObject;
 
             LobbyPlayer newPlayer = obj.GetComponent<LobbyPlayer>();
@@ -292,11 +302,13 @@ namespace Prototype.NetworkLobby
                 }
             }
 
+            lobbyPlayersByConnection.Add(conn.connectionId, newPlayer);
             return obj;
         }
 
         public override void OnLobbyServerPlayerRemoved(NetworkConnection conn, short playerControllerId)
         {
+            Debug.Log("removed");
             for (int i = 0; i < lobbySlots.Length; ++i)
             {
                 LobbyPlayer p = lobbySlots[i] as LobbyPlayer;
@@ -307,10 +319,12 @@ namespace Prototype.NetworkLobby
                     p.ToggleJoinButton(numPlayers + 1 >= minPlayers);
                 }
             }
+            lobbyPlayersByConnection.Remove(conn.connectionId);
         }
 
         public override void OnLobbyServerDisconnect(NetworkConnection conn)
         {
+            Debug.Log("disconnect");
             for (int i = 0; i < lobbySlots.Length; ++i)
             {
                 LobbyPlayer p = lobbySlots[i] as LobbyPlayer;
@@ -321,13 +335,24 @@ namespace Prototype.NetworkLobby
                     p.ToggleJoinButton(numPlayers >= minPlayers);
                 }
             }
-
+            lobbyPlayersByConnection.Remove(conn.connectionId);
         }
 
+        // Adding lobby player
         public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
         {
-            Debug.Log("adding server player");
+            Debug.Log("adding server lobby player");
             base.OnServerAddPlayer(conn, playerControllerId);
+        }
+        // Add game player
+        public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, short playerControllerId)
+        {
+            int classID = lobbyPlayersByConnection[conn.connectionId].playerClassSprite;
+            Debug.Log("Creating server game player with class: " + classID);
+            GameObject player = Instantiate(spawnPrefabs[classID]);
+            //NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+            return player;
+            //return base.OnLobbyServerCreateGamePlayer(conn, playerControllerId);
         }
 
         public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)

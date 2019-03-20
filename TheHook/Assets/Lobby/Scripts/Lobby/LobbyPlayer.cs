@@ -40,7 +40,7 @@ namespace Prototype.NetworkLobby
         [SyncVar(hook = "OnMyName")]
         public string playerName = "";
         [SyncVar(hook = "OnSpriteChanged")]
-        public int playerClassSprite = 0;
+        public int playerClassSprite = -1;
 
         public Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
         public Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
@@ -129,7 +129,7 @@ namespace Prototype.NetworkLobby
 
             CheckRemoveButton();
 
-            if (playerClassSprite == 0)
+            if (playerClassSprite == -1)
                 CmdSpriteChange();
 
             ChangeReadyButtonColor(JoinColor);

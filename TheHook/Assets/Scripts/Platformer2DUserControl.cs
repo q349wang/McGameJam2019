@@ -32,7 +32,7 @@ public class Platformer2DUserControl : UnityEngine.Networking.NetworkBehaviour
             bool ability1Rel = Input.GetButtonUp("Fire1");
             bool ability2 = Input.GetButtonDown("Fire2");
             bool ability2Rel = Input.GetButtonUp("Fire2");
-            bool unstun = Input.GetButtonDown("space");
+            bool unstun = Input.GetButtonDown("Jump");
             float a3 = Input.GetAxis("Fire3");
 
             Vector3 mousePosition = Input.mousePosition;

@@ -41,10 +41,10 @@ public class ProjectileBehavior : MonoBehaviour
                 {
                     if(gameObject.tag == "Bullet")
                     {
-                        hook.Damage(5);
+                        hook.CmdDamage(5);
                     } else if(gameObject.tag == "Rocket")
                     {
-                        hook.Damage(15);
+                        hook.CmdDamage(15);
                     }
                     Destroy(this.gameObject);
                 }

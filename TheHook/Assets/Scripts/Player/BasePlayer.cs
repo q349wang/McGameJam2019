@@ -11,6 +11,7 @@ public class BasePlayer : NetworkBehaviour
     [SerializeField]
     private PlatformerCharacter2D player;
     protected int MaxHealth = 100;
+    [SyncVar]
     public int health = 100;
     public int CurrentHealth
     {
@@ -18,6 +19,7 @@ public class BasePlayer : NetworkBehaviour
     }
 
     protected int MaxMana = 100;
+    [SyncVar]
     public int mana = 100;
     public int CurrentMana
     {
@@ -82,18 +84,20 @@ public class BasePlayer : NetworkBehaviour
 
     }
 
-    public bool Damage(float amount)
+    [Command]
+    public void CmdDamage(float amount)
     {
+        RpcTest();
         if (player.IsDead)
         {
-            return false;
+            return;
         }
         int dmg = (int)amount;
         if (dmg < 0)
         {
             if (this.health == this.MaxHealth)
             {
-                return false;
+                return;
             }
             else
             {
@@ -113,7 +117,13 @@ public class BasePlayer : NetworkBehaviour
             player.Kill(true);
             //SetControl(false);
         }
-        return true;
+        return;
+    }
+
+    [ClientRpc]
+    void RpcTest()
+    {
+        Debug.Log("Rpc Fired");
     }
 
     public void UseMana(float amount)
