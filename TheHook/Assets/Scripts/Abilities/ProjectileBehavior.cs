@@ -6,6 +6,8 @@ public class ProjectileBehavior : MonoBehaviour
 {
     protected float birthTime;
     public float speed = 10;
+    [HideInInspector]
+    public bool canDoDamage = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +33,7 @@ public class ProjectileBehavior : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        else
+        else if (canDoDamage)
         {
             GameObject obj = collision.gameObject;
             if(obj.tag == "Player")
@@ -41,10 +43,10 @@ public class ProjectileBehavior : MonoBehaviour
                 {
                     if(gameObject.tag == "Bullet")
                     {
-                        hook.CmdDamage(5);
+                        hook.CmdTakeDamage(5);
                     } else if(gameObject.tag == "Rocket")
                     {
-                        hook.CmdDamage(15);
+                        hook.CmdTakeDamage(15);
                     }
                     Destroy(this.gameObject);
                 }

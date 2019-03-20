@@ -5,6 +5,7 @@ using UnityEngine;
 public class Rifle : ProjectileAbility
 {
     public GameObject bullet;
+    public Transform nozzle;
 
     public void Start()
     {
@@ -14,7 +15,9 @@ public class Rifle : ProjectileAbility
     public override void Fire()
     {
         Debug.Log("Firing");
-        Instantiate(bullet, transform.position, transform.rotation);
+        ProjectileBehavior bulletInstance = Instantiate(bullet, nozzle.position, transform.rotation).GetComponent<ProjectileBehavior>();
+        // bullet can only do damage on the server
+        bulletInstance.canDoDamage = bPlayer.isServer;
     }
 
     public override void Release()

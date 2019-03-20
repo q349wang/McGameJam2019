@@ -84,44 +84,34 @@ public class BasePlayer : NetworkBehaviour
 
     }
 
-    [Command]
-    public void CmdDamage(float amount)
+    [Command] // this will always run on server, so have to do isserver checks on bullet/gun - disbale collision when firing? noo then won't dissapear
+    public void CmdTakeDamage(float amount)
     {
-        RpcTest();
+        Debug.Log("taking " + amount + " damage");
+        RpcTakeDamage();
         if (player.IsDead)
         {
             return;
         }
         int dmg = (int)amount;
-        if (dmg < 0)
+
+        // blocking should be done differently
+        if (!IsBlocking)
         {
-            if (this.health == this.MaxHealth)
-            {
-                return;
-            }
-            else
-            {
-                this.health -= dmg;
-            }
-        }
-        else
-        {
-            if (!isBlocking)
-            {
-                this.health = Mathf.Max(0, this.health - dmg);
-            }
+            this.health -= dmg;
+            this.health = (int)Mathf.Clamp(this.health, 0f, this.MaxHealth);
         }
 
+        // HANDLE IN SYNCVAR HOOK
         if (this.health == 0)
         {
             player.Kill(true);
             //SetControl(false);
         }
-        return;
     }
 
     [ClientRpc]
-    void RpcTest()
+    void RpcTakeDamage()
     {
         Debug.Log("Rpc Fired");
     }

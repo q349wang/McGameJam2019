@@ -45,7 +45,7 @@ public class Heal : RaycastAbility
             if (target != null && self != null)
             {
                 //Call the damage function of that script, passing in our gunDamage variable
-                target.CmdDamage(gunDamage);
+                target.CmdTakeDamage(gunDamage);
                 self.UseMana(abCost);
             }
             Debug.Log("Healing " + hit.collider.gameObject.name);
