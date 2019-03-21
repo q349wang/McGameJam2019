@@ -103,7 +103,7 @@ namespace HookUtils
                 if (objectHit.tag == "Player")
                 {
                     hookedDude = 0;
-                    objectHit.GetComponent<BasePlayer>().CmdTakeDamage(hookProjectile.getDamage());
+                    objectHit.GetComponent<BasePlayer>().ServerTakeDamage(hookProjectile.getDamage());
                     dude = objectHit;
                 }
                 else if (objectHit.tag == "Obstacle")

@@ -17,7 +17,7 @@ public class Rifle : ProjectileAbility
         Debug.Log("Firing");
         ProjectileBehavior bulletInstance = Instantiate(bullet, nozzle.position, transform.rotation).GetComponent<ProjectileBehavior>();
         // bullet can only do damage on the server
-        bulletInstance.canDoDamage = bPlayer.isServer;
+        //bulletInstance.canDoDamage = bPlayer.isServer;
     }
 
     public override void Release()

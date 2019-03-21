@@ -11,7 +11,7 @@ public class BasePlayer : NetworkBehaviour
     [SerializeField]
     private PlatformerCharacter2D player;
     protected int MaxHealth = 100;
-    [SyncVar]
+    [SyncVar(hook = "OnHealthChanged")]
     public int health = 100;
     public int CurrentHealth
     {
@@ -57,10 +57,7 @@ public class BasePlayer : NetworkBehaviour
             }
         }
 
-        //if (hasAuthority)
-        //{
-        //    player.CmdSpawnAbilities(fixedAbilities);
-        //}
+        // replace this with abilities in prefab
         foreach (string ability in fixedAbilities)
         {
             GameObject abilityObject = (GameObject)Resources.Load(ability, typeof(GameObject));
@@ -84,36 +81,24 @@ public class BasePlayer : NetworkBehaviour
 
     }
 
-    [Command] // this will always run on server, so have to do isserver checks on bullet/gun - disbale collision when firing? noo then won't dissapear
-    public void CmdTakeDamage(float amount)
+    //[Command] // this will always run on server, so have to do isserver checks on bullet/gun - disbale collision when firing? noo then won't dissapear
+    public void ServerTakeDamage(float amount)
     {
-        Debug.Log("taking " + amount + " damage");
-        RpcTakeDamage();
-        if (player.IsDead)
-        {
-            return;
-        }
-        int dmg = (int)amount;
-
         // blocking should be done differently
-        if (!IsBlocking)
-        {
-            this.health -= dmg;
-            this.health = (int)Mathf.Clamp(this.health, 0f, this.MaxHealth);
-        }
+        if (!isServer || player.IsDead || IsBlocking) return;
+           
+        this.health -= (int)amount;
+        this.health = (int)Mathf.Clamp(this.health, 0f, this.MaxHealth);
+    }
 
-        // HANDLE IN SYNCVAR HOOK
+    // should be called on the listen server too?
+    protected void OnHealthChanged(int newHealth)
+    {
+        this.health = newHealth;
         if (this.health == 0)
         {
             player.Kill(true);
-            //SetControl(false);
         }
-    }
-
-    [ClientRpc]
-    void RpcTakeDamage()
-    {
-        Debug.Log("Rpc Fired");
     }
 
     public void UseMana(float amount)
