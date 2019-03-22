@@ -38,14 +38,12 @@ public class BasePlayer : NetworkBehaviour
     protected float normalSpeed = 0;
     protected float dashSpeed = 0;
 
-    protected string[] fixedAbilities;
-
-    public List<GameObject> abilities;
+    [HideInInspector]
+    public List<Ability> abilities;
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        abilities = new List<GameObject>();
         GetComponent<PlatformerCharacter2D>().m_MaxSpeed = movementSpeed;
         player = transform.GetComponent<PlatformerCharacter2D>();
         if (isLocalPlayer)
@@ -58,19 +56,14 @@ public class BasePlayer : NetworkBehaviour
         }
 
         // replace this with abilities in prefab
-        foreach (string ability in fixedAbilities)
-        {
-            GameObject abilityObject = (GameObject)Resources.Load(ability, typeof(GameObject));
-            GameObject instance = Instantiate(abilityObject, transform);
-            abilities.Add(instance);
-        }
+        abilities = new List<Ability>(GetComponentsInChildren<Ability>());
         rigidBody = GetComponent<PlatformerCharacter2D>().m_Rigidbody2D;
     }
 
     public GameObject AddAbility(GameObject abilityPrefab)
     {
         GameObject instance = Instantiate(abilityPrefab.gameObject, transform);
-        abilities.Add(instance);
+        abilities.Add(instance.GetComponent<Ability>());
         return instance;
     }
     

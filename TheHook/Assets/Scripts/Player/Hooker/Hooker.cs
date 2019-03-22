@@ -9,16 +9,15 @@ public class Hooker : BasePlayer
     // Start is called before the first frame update
     protected override void Start()
     {
-        fixedAbilities = new string[] { "Hook" };
         movementSpeed = 5;
         gameObject.layer = 9; // Hooker
         base.Start();
 
-        foreach(GameObject ability in abilities)
+        foreach(Ability ability in abilities)
         {
-            ability.SetActive(true);
+            ability.gameObject.SetActive(true);
             ability.transform.parent = null;
-            ability.GetComponent<HookUtils.Hook>().SetPlayer(this);
+            ability.gameObject.GetComponent<HookUtils.Hook>().SetPlayer(this);
         }
     }
 

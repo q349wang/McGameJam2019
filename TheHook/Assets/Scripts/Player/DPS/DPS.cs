@@ -9,7 +9,6 @@ public class DPS : BasePlayer
 
     protected override void Start()
     {
-        fixedAbilities = new string[] { };// "DPSAbilities" };
         movementSpeed = 6;
         base.Start();    
     }

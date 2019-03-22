@@ -99,11 +99,9 @@ public class PlatformerCharacter2D : NetworkBehaviour
         // for each ability1 we have, call button pressed on it
         if (GetComponent<BasePlayer>() != null)
         {
-            List<GameObject> abilities = GetComponent<BasePlayer>().abilities;
             int i = 0;
-            foreach (GameObject a in abilities)
+            foreach (Ability ability in GetComponent<BasePlayer>().abilities)
             {
-                Ability ability = a.GetComponent<Ability>();
                 if (ability.abilityButton == "Fire1")
                 {
                     CmdFireAbilityOne(i);
@@ -117,11 +115,9 @@ public class PlatformerCharacter2D : NetworkBehaviour
         // for each ability1 we have, call button pressed on it
         if (GetComponent<BasePlayer>() != null)
         {
-            List<GameObject> abilities = GetComponent<BasePlayer>().abilities;
             int i = 0;
-            foreach (GameObject a in abilities)
+            foreach (Ability ability in GetComponent<BasePlayer>().abilities)
             {
-                Ability ability = a.GetComponent<Ability>();
                 if (ability.abilityButton == "Fire2")
                 {
                     CmdFireAbilityTwo(i);
@@ -136,11 +132,9 @@ public class PlatformerCharacter2D : NetworkBehaviour
         // for each ability1 we have, call button pressed on it
         if (GetComponent<BasePlayer>() != null)
         {
-            List<GameObject> abilities = GetComponent<BasePlayer>().abilities;
             int i = 0;
-            foreach (GameObject a in abilities)
+            foreach (Ability ability in GetComponent<BasePlayer>().abilities)
             {
-                Ability ability = a.GetComponent<Ability>();
                 if (ability.abilityButton == "Fire1")
                 {
                     CmdReleaseAbilityOne(i);
@@ -194,7 +188,7 @@ public class PlatformerCharacter2D : NetworkBehaviour
     public void RpcFireAbilityOne(int i)
     {
         Debug.Log("ABILITY 1 FIRED");
-        Ability a = GetComponent<BasePlayer>().abilities[i].GetComponent<Ability>();
+        Ability a = GetComponent<BasePlayer>().abilities[i];
         if (a.AbilityReady())
             a.OnButtonDown();
     }
@@ -208,7 +202,7 @@ public class PlatformerCharacter2D : NetworkBehaviour
     public void RpcFireAbilityTwo(int i)
     {
         Debug.Log("ABILITY 2 FIRED");
-        Ability a = GetComponent<BasePlayer>().abilities[i].GetComponent<Ability>();
+        Ability a = GetComponent<BasePlayer>().abilities[i];
         if (a.AbilityReady())
             a.Fire();
     }
@@ -222,7 +216,7 @@ public class PlatformerCharacter2D : NetworkBehaviour
     public void RpcReleaseAbilityOne(int i)
     {
         Debug.Log("ABILITY 1 released");
-        Ability a = GetComponent<BasePlayer>().abilities[i].GetComponent<Ability>();
+        Ability a = GetComponent<BasePlayer>().abilities[i];
         a.OnButtonRelease();
     }
 
