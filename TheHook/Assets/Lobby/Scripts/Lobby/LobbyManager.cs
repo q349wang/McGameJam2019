@@ -355,6 +355,16 @@ namespace Prototype.NetworkLobby
             //return base.OnLobbyServerCreateGamePlayer(conn, playerControllerId);
         }
 
+        public override void OnLobbyServerSceneChanged(string sceneName)
+        {
+            //base.OnLobbyServerSceneChanged(sceneName);
+            if (sceneName == "Map Generation")
+            {
+                GameObject manager = Instantiate(spawnPrefabs[spawnPrefabs.Count - 1]);
+                NetworkServer.Spawn(manager);
+            }
+        }
+
         public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
         {
             //This hook allows you to apply state data from the lobby-player to the game-player

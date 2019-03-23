@@ -92,7 +92,7 @@ public class BasePlayer : NetworkBehaviour
         this.health = (int)Mathf.Clamp(this.health - (int)amount, 0f, this.MaxHealth);
     }
 
-    // should be called on the listen server too?
+    // called on each client (including listen server)
     protected void OnHealthChanged(int newHealth)
     {
         Debug.Log("health changed to " + newHealth);

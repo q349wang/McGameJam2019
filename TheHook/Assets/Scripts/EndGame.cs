@@ -9,20 +9,6 @@ public class EndGame : MonoBehaviour
     public static int currentSurvivors = -1;
     public static int currentLegends = -1;
 
-    GenerateMap mapGen = null;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        mapGen = GetComponent<GenerateMap>();
-        if (mapGen == null) Debug.LogError("EndGame: No map generator found.");
-        //currentLegends = FindObjectsOfType<Hooker>().Length;
-        //currentSurvivors = FindObjectsOfType<BasePlayer>().Length - currentLegends;
-
-        //Debug.Log(currentSurvivors);
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (currentSurvivors == 0 || currentLegends == 0)
@@ -31,18 +17,20 @@ public class EndGame : MonoBehaviour
         }
     }
 
+    // only called on the server
     void DoGameOver()
     {
         Debug.Log("Game Over");
         currentSurvivors = -1;
         currentLegends = -1;
-        Invoke("RegenerateMap", 3f);
+        NetworkedGameManager manager = FindObjectOfType<NetworkedGameManager>();
+        if (manager)
+        {
+            manager.CmdResetGame();
+        }
     }
 
-    void RegenerateMap()
-    {
-        mapGen.Regenerate();
-    }
+    
 
     public static void AddSurvivor()
     {

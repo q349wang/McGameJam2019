@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEditor;
 
 namespace MapGen
@@ -507,7 +506,7 @@ namespace MapGen
             }
         }
 
-        public void GeneratePlayerSpawns(int x, int y, int cellSize)
+        void GeneratePlayerSpawns(int x, int y, int cellSize)
         {
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("BaseCharacter"))
             {
