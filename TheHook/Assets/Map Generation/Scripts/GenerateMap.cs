@@ -3,9 +3,25 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEditor;
 
 namespace MapGen
 {
+    [CustomEditor(typeof(GenerateMap))]
+    public class MapGeneratorEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            DrawDefaultInspector();
+
+            GenerateMap mapGenerator = (GenerateMap)target;
+            if (GUILayout.Button("Regenerate Map"))
+            {
+                mapGenerator.Regenerate(0);
+            }
+        }
+    }
+
     public class RectWall
     {
         public RectWall()
@@ -94,8 +110,21 @@ namespace MapGen
 
         private List<Tuple<int, int>> possiblePos = new List<Tuple<int, int>>();
         private bool generated = false;
+        
         // Use this for initialization
         public void Start()
+        {
+            obstacles = new List<GameObject>();
+            walls = new RectWall();
+            mapSpaces = new MapSpace[mapWidth, mapHeight];
+            manaPickups = new List<GameObject>();
+            weaponPickups = new List<Tuple<GameObject, int>>();
+
+            makeSeed(seeds[0]);
+            RpcStartGenerate(seeds[0]);
+        }
+
+        void OnValidate()
         {
             obstacles = new List<GameObject>();
             walls = new RectWall();
@@ -134,6 +163,12 @@ namespace MapGen
             //     }
             //     Regenerate(seeds[seedIndex++]);
             // }
+        }
+
+        public void Regenerate()
+        {
+            seedIndex = (seedIndex + 1) % seeds.Length;
+            Regenerate(seeds[seedIndex]);
         }
 
         public void Regenerate(int newSeed)

@@ -21,7 +21,6 @@ public abstract class Ability : NetworkBehaviour
     public virtual void Start()
     {
         Object[] objects = FindObjectsOfType<PlatformerCharacter2D>();
-        Debug.Log("Found " + objects.Length + " objects");
         foreach (Object obj in objects)
         {
             PlatformerCharacter2D gObj = obj as PlatformerCharacter2D;

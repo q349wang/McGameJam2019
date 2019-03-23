@@ -58,6 +58,15 @@ public class BasePlayer : NetworkBehaviour
         // replace this with abilities in prefab
         abilities = new List<Ability>(GetComponentsInChildren<Ability>());
         rigidBody = GetComponent<PlatformerCharacter2D>().m_Rigidbody2D;
+
+        if (isServer && GetComponent<Hooker>())
+        {
+            EndGame.AddHooker();
+        }
+        else if (isServer)
+        {
+            EndGame.AddSurvivor();
+        }
     }
 
     public GameObject AddAbility(GameObject abilityPrefab)

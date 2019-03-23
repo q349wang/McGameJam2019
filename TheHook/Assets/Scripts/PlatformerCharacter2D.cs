@@ -84,6 +84,18 @@ public class PlatformerCharacter2D : NetworkBehaviour
         }
         sr.color = c;
         this.isDead = condition;
+
+        if (isDead && isServer)
+        {
+            if (GetComponent<Hooker>() != null)
+            {
+                EndGame.currentLegends--;
+            }
+            else
+            {
+                EndGame.currentSurvivors--;
+            }
+        }
     }
 
     public void Dash()
