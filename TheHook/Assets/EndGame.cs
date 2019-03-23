@@ -34,12 +34,14 @@ public class EndGame : MonoBehaviour
     void DoGameOver()
     {
         Debug.Log("Game Over");
+        currentSurvivors = -1;
+        currentLegends = -1;
         Invoke("RegenerateMap", 3f);
     }
 
     void RegenerateMap()
     {
-        mapGen.Regenerate(0);
+        mapGen.Regenerate();
     }
 
     public static void AddSurvivor()
@@ -47,9 +49,21 @@ public class EndGame : MonoBehaviour
         if (currentSurvivors == -1) currentSurvivors++;
         currentSurvivors++;
     }
-    public static void AddHooker()
+    public static void AddLegend()
     {
-        if (currentLegends== -1) currentLegends++;
+        if (currentLegends == -1) currentLegends++;
         currentLegends++;
+        Debug.Log("Added 1 legend");
+    }
+
+    public static void SurvivorDied()
+    {
+        currentSurvivors--;
+        Debug.Log(currentSurvivors + " survivors left.");
+    }
+    public static void LegendDied()
+    {
+        currentLegends--;
+        Debug.Log(currentLegends + " legends left.");
     }
 }

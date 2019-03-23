@@ -89,11 +89,11 @@ public class PlatformerCharacter2D : NetworkBehaviour
         {
             if (GetComponent<Hooker>() != null)
             {
-                EndGame.currentLegends--;
+                EndGame.LegendDied();
             }
             else
             {
-                EndGame.currentSurvivors--;
+                EndGame.SurvivorDied();
             }
         }
     }

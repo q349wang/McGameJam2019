@@ -766,7 +766,7 @@ MonoBehaviour:
   mapManaMax: 20
   mapWeapMin: 10
   mapWeapMax: 20
-  seed: 0
+  seed: 151
   pickups:
   - {fileID: 857258145390546425, guid: 26e841868e204914686ef523929a54b6, type: 3}
   - {fileID: 857258145390546425, guid: 6983c07700759e04795ec6fd6b044d52, type: 3}

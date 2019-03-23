@@ -59,9 +59,9 @@ public class BasePlayer : NetworkBehaviour
         abilities = new List<Ability>(GetComponentsInChildren<Ability>());
         rigidBody = GetComponent<PlatformerCharacter2D>().m_Rigidbody2D;
 
-        if (isServer && GetComponent<Hooker>())
+        if (isServer && this is Hooker)
         {
-            EndGame.AddHooker();
+            EndGame.AddLegend();
         }
         else if (isServer)
         {
@@ -88,16 +88,16 @@ public class BasePlayer : NetworkBehaviour
     {
         // blocking should be done differently
         if (!isServer || player.IsDead || IsBlocking) return;
-           
-        this.health -= (int)amount;
-        this.health = (int)Mathf.Clamp(this.health, 0f, this.MaxHealth);
+        // setting it twice in the same frame triggers hook twice?
+        this.health = (int)Mathf.Clamp(this.health - (int)amount, 0f, this.MaxHealth);
     }
 
     // should be called on the listen server too?
     protected void OnHealthChanged(int newHealth)
     {
+        Debug.Log("health changed to " + newHealth);
         this.health = newHealth;
-        if (this.health == 0)
+        if (!player.IsDead && this.health == 0)
         {
             player.Kill(true);
         }

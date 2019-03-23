@@ -7,6 +7,7 @@ using UnityEditor;
 
 namespace MapGen
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(GenerateMap))]
     public class MapGeneratorEditor : Editor
     {
@@ -17,10 +18,16 @@ namespace MapGen
             GenerateMap mapGenerator = (GenerateMap)target;
             if (GUILayout.Button("Regenerate Map"))
             {
-                mapGenerator.Regenerate(0);
+                mapGenerator.DestroyMap();
+                mapGenerator.Regenerate();
+            }
+            if (GUILayout.Button("Destroy Map"))
+            {
+                mapGenerator.DestroyMap();
             }
         }
     }
+#endif
 
     public class RectWall
     {
@@ -94,11 +101,11 @@ namespace MapGen
         [SerializeField] private List<GameObject> pickups;
 
         [SerializeField] private List<GameObject> possibleObstacles;
-        private List<GameObject> obstacles;
-        private RectWall walls;
-        private MapSpace[,] mapSpaces;
-        private List<GameObject> manaPickups;
-        private List<Tuple<GameObject, int>> weaponPickups;
+        private List<GameObject> obstacles = new List<GameObject>();
+        private RectWall walls = new RectWall();
+        private MapSpace[,] mapSpaces = new MapSpace[0,0];
+        private List<GameObject> manaPickups = new List<GameObject>();
+        private List<Tuple<GameObject, int>> weaponPickups = new List<Tuple<GameObject, int>>();
         private static System.Random rng;
 
         [SerializeField] private int groupMin;
@@ -114,31 +121,65 @@ namespace MapGen
         // Use this for initialization
         public void Start()
         {
-            obstacles = new List<GameObject>();
-            walls = new RectWall();
             mapSpaces = new MapSpace[mapWidth, mapHeight];
-            manaPickups = new List<GameObject>();
-            weaponPickups = new List<Tuple<GameObject, int>>();
 
             makeSeed(seeds[0]);
             RpcStartGenerate(seeds[0]);
         }
 
+        // this is called whenever this script is recompiled, or a value in editor is changed
         void OnValidate()
         {
-            obstacles = new List<GameObject>();
-            walls = new RectWall();
-            mapSpaces = new MapSpace[mapWidth, mapHeight];
-            manaPickups = new List<GameObject>();
-            weaponPickups = new List<Tuple<GameObject, int>>();
+           if (mapSpaces.Length == 0) mapSpaces = new MapSpace[mapWidth, mapHeight];
 
             makeSeed(seeds[0]);
-            RpcStartGenerate(seeds[0]);
+            //RpcStartGenerate(seeds[0]);
         }
 
         private void makeSeed(int someSeed)
         {
             seed = someSeed;
+        }
+
+        public void DestroyMap()
+        {
+            for (int i = 0; i < obstacles.Count; i++)
+            {
+                DestroyImmediate(obstacles[i]);
+            }
+            obstacles.Clear();
+            for (int i = 0; i < manaPickups.Count; i++)
+            {
+                DestroyImmediate(manaPickups[i]);
+            }
+            manaPickups.Clear();
+            for (int i = 0; i < weaponPickups.Count; i++)
+            {
+                DestroyImmediate(weaponPickups[i].Item1);
+            }
+            weaponPickups.Clear();
+
+            for (int i = 0; i < walls.north.Count; i++)
+            {
+                DestroyImmediate(walls.north[i]);
+            }
+            walls.north.Clear();
+            for (int i = 0; i < walls.south.Count; i++)
+            {
+                DestroyImmediate(walls.south[i]);
+            }
+            walls.south.Clear();
+            for (int i = 0; i < walls.east.Count; i++)
+            {
+                DestroyImmediate(walls.east[i]);
+            }
+            walls.east.Clear();
+            for (int i = 0; i < walls.west.Count; i++)
+            {
+                DestroyImmediate(walls.west[i]);
+            }
+            walls.west.Clear();
+
         }
 
         private void RpcStartGenerate(int newSeed)
@@ -177,17 +218,17 @@ namespace MapGen
             rng = new System.Random(newSeed);
             for (int i = 0; i < obstacles.Count; i++)
             {
-                Destroy(obstacles[i]);
+                DestroyImmediate(obstacles[i]);
             }
             obstacles.Clear();
             for (int i = 0; i < manaPickups.Count; i++)
             {
-                Destroy(manaPickups[i]);
+                DestroyImmediate(manaPickups[i]);
             }
             manaPickups.Clear();
             for (int i = 0; i < weaponPickups.Count; i++)
             {
-                Destroy(weaponPickups[i].Item1);
+                DestroyImmediate(weaponPickups[i].Item1);
             }
             weaponPickups.Clear();
             walls = new RectWall();
@@ -413,7 +454,7 @@ namespace MapGen
         {
             if (space.obstacle != null)
             {
-                Destroy(space.obstacle);
+                DestroyImmediate(space.obstacle);
                 space.obstacle = null;
                 space.isObstacle = false;
             }
