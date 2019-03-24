@@ -178,7 +178,7 @@ public class BasePlayer : NetworkBehaviour
 
     protected void OnManaChanged(int newMana)
     {
-        Debug.Log("health changed to " + newMana);
+        Debug.Log("Mana changed to " + newMana);
         this.mana = newMana;
     }
 

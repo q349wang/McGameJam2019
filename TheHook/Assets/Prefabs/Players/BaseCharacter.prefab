@@ -109,8 +109,6 @@ GameObject:
   - component: {fileID: 6792619634010515903}
   - component: {fileID: 688054269736528898}
   - component: {fileID: 5780433056153423292}
-  - component: {fileID: 3773291542346555772}
-  - component: {fileID: 3753070950535358559}
   m_Layer: 15
   m_Name: BaseCharacter
   m_TagString: Player
@@ -301,54 +299,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0.03, y: 0}
   m_Size: {x: 0.5703311, y: 1}
   m_Direction: 0
---- !u!114 &3773291542346555772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3578065717224169321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb199339172694643a23c72200737b37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mapHeight: 60
-  mapWidth: 60
-  mapCellSize: 5
-  mapCellDepth: 5
-  rowGap: 4
-  colGap: 0
-  maxObstacles: 500
-  minObstacles: 100
-  mapSpawnpoints: 4
-  mapManaMin: 10
-  mapManaMax: 20
-  mapWeapMin: 10
-  mapWeapMax: 20
-  seed: 151
-  pickups:
-  - {fileID: 857258145390546425, guid: 26e841868e204914686ef523929a54b6, type: 3}
-  - {fileID: 857258145390546425, guid: 6983c07700759e04795ec6fd6b044d52, type: 3}
-  possibleObstacles:
-  - {fileID: 6747564686328604689, guid: 0c4790ac74b78154ab8a901b218b8395, type: 3}
-  - {fileID: 6889294939060272688, guid: aceb64ab4d56a004eb5d14571d9615b8, type: 3}
-  - {fileID: 1393734027858454, guid: 7abb0bbad7b8c944686faf97212f9aa1, type: 3}
-  groupMin: 2
-  groupMax: 5
-  spawn: {fileID: 0}
---- !u!114 &3753070950535358559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3578065717224169321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2bdbdc0247507448beb29e83b3dcd08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6787035184660491250
 GameObject:
   m_ObjectHideFlags: 0

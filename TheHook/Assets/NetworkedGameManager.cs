@@ -1,5 +1,4 @@
-﻿using MapGen;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -37,7 +36,7 @@ public class NetworkedGameManager : NetworkBehaviour
             Debug.Log("Unkilling player");
             player.ResetPlayer();
         }
-        mapGen.Regenerate();
+        mapGen.RegenerateMap();
     }
 
 }
