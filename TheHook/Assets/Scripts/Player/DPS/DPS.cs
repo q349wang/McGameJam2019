@@ -15,7 +15,11 @@ public class DPS : BasePlayer
 
     public void EquipGun(GameObject gunAbility)
     {
-        GameObject instance = base.AddAbility(gunAbility);
+        // dequip any equipped guns
+        abilities.ForEach(ability => Destroy(ability.gameObject));
+        abilities.RemoveAll(ability => ability is ProjectileAbility);
+
+        GameObject instance = AddAbility(gunAbility);
         instance.transform.localPosition = new Vector3(0.44f, -0.3f, 0);
         instance.transform.up = transform.right;
     }

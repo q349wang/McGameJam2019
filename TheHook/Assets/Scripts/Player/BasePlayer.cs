@@ -81,11 +81,15 @@ public class BasePlayer : NetworkBehaviour
         return instance;
     }
 
+    public void RemoveAbility(Ability ability)
+    {
+        abilities.Remove(ability);
+        Destroy(ability.gameObject);
+    }
+
     public void UseMana(float amount)
     {
-        float sub = amount;
-        float result = this.mana - sub;
-        this.mana = (int)result;
+        this.mana = (int)(this.mana - amount);
     }
 
     public void castAbility(int cost)

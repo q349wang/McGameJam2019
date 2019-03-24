@@ -19,13 +19,11 @@ namespace Pickups
             DPS dps = other.gameObject.GetComponent<DPS>();
             if (dps != null)
             {
-                Debug.Log("DPS");
                 dps.SetCurrentAmmo(ammo);
                 dps.EquipGun(rifleAbility);
             }
             else
             {
-                Debug.Log("Not DPS");
             }
         }
     }

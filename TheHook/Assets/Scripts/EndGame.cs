@@ -9,7 +9,7 @@ public class EndGame : MonoBehaviour
     public static int currentSurvivors = -1;
     public static int currentLegends = -1;
 
-    NetworkedGameManager manager;
+    static NetworkedGameManager manager;
 
     void Start()
     {
@@ -53,11 +53,13 @@ public class EndGame : MonoBehaviour
     public static void SurvivorDied()
     {
         currentSurvivors--;
+        manager.ServerLegendScored();
         Debug.Log(currentSurvivors + " survivors left.");
     }
     public static void LegendDied()
     {
         currentLegends--;
+        manager.ServerSurvivorScored();
         Debug.Log(currentLegends + " legends left.");
     }
 }

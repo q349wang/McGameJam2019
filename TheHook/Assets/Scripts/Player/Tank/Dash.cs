@@ -9,7 +9,6 @@ public class Dash : Ability
     {
         Debug.Log("Dash");
         bPlayer.Dash();
-        bPlayer.UseMana(abCost);
     }
 
     public override void Release()

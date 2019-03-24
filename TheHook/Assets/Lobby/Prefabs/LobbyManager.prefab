@@ -3186,6 +3186,7 @@ MonoBehaviour:
   - {fileID: 9060168432009978940, guid: d0e6bd2d2eba6b94caff0b2410c544bb, type: 3}
   - {fileID: 5588784001848012113, guid: 5f8584feaa4cf3f43801276f9390c60b, type: 3}
   - {fileID: 5330242784873014582, guid: 26cb5ca64f1f6ee40b0acbfdd8e7cdaf, type: 3}
+  - {fileID: 8056664197067515598, guid: 88fe10ae194f20742bd04f9b909d6300, type: 3}
   m_CustomConfig: 1
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -5417,7 +5418,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Input name...
+  m_Text: Lobby Name
 --- !u!1 &197888
 GameObject:
   m_ObjectHideFlags: 0

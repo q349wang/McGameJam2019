@@ -39,7 +39,7 @@ public class Platformer2DUserControl : UnityEngine.Networking.NetworkBehaviour
         Vector3 mousePosition = Input.mousePosition;
         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
-        // disable movement if we're dead
+        // disable movement and abilities if we're dead
         if (!basePlayer.IsDead)
         {
             // Pass all parameters to the character control script
@@ -55,16 +55,16 @@ public class Platformer2DUserControl : UnityEngine.Networking.NetworkBehaviour
             // use abilities
             if (ability1)
             {
-                m_Character.AbilityOnePressed();
+                m_Character.AbilityPressed("Fire1");
             }
             if (ability2)
             {
-                m_Character.AbilityTwoPressed();
+                m_Character.AbilityPressed("Fire2");
             }
 
             if (ability1Rel)
             {
-                m_Character.AbilityOneReleased();
+                m_Character.AbilityReleased("Fire1");
             }
         }  
     }

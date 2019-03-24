@@ -31,45 +31,20 @@ public abstract class Ability : NetworkBehaviour
             }
         }
         bPlayer = transform.GetComponentInParent<BasePlayer>();
-        AbilityReady();
     }
 
     public virtual void OnButtonDown()
     {
-        Fire();
+        if (AbilityReady())
+        {
+            bPlayer.UseMana(abCost);
+            Fire();
+        }
     }
 
     public virtual void OnButtonRelease()
     {
         Release();
-    }
-
-    protected virtual void Update()
-    {
-        //bool coolDownComplete = (Time.time > nextReadyTime);
-        //onCooldown = !coolDownComplete;
-        //if (coolDownComplete)
-        //{
-        //    AbilityReady();
-        //    if(abCoolDown > 0)
-        //    {
-        //        if (Input.GetButtonDown(abilityButton) && bPlayer.CurrentMana >= abCost)
-        //        {
-        //            ButtonTriggered();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if(Input.GetButton(abilityButton) && bPlayer.CurrentMana >= abCost)
-        //        {
-        //            ButtonTriggered();
-        //        }
-        //    } 
-        //}
-        //else
-        //{
-        //    CoolDown();
-        //}
     }
 
     public bool AbilityReady()

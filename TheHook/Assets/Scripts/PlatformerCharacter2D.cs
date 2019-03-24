@@ -77,48 +77,35 @@ public class PlatformerCharacter2D : NetworkBehaviour
         this.currDash = Time.time;
     }
 
-    public void AbilityOnePressed()
+
+    ///// Using Abilities /////
+
+    public void AbilityPressed(string binding)
     {
-        // for each ability1 we have, call button pressed on it
+        // for each ability we have, call button pressed on it
         if (GetComponent<BasePlayer>() != null)
         {
             int i = 0;
             foreach (Ability ability in GetComponent<BasePlayer>().abilities)
             {
-                if (ability.abilityButton == "Fire1")
+                if (ability.abilityButton == binding)
                 {
-                    CmdFireAbilityOne(i);
-                }
-                i++;
-            }
-        }
-    }
-    public void AbilityTwoPressed()
-    {
-        // for each ability1 we have, call button pressed on it
-        if (GetComponent<BasePlayer>() != null)
-        {
-            int i = 0;
-            foreach (Ability ability in GetComponent<BasePlayer>().abilities)
-            {
-                if (ability.abilityButton == "Fire2")
-                {
-                    CmdFireAbilityTwo(i);
+                    CmdFireAbility(i);
                 }
                 i++;
             }
         }
     }
 
-    public void AbilityOneReleased()
+    public void AbilityReleased(string binding)
     {
-        // for each ability1 we have, call button pressed on it
+        // for each ability we have, call button released on it
         if (GetComponent<BasePlayer>() != null)
         {
             int i = 0;
             foreach (Ability ability in GetComponent<BasePlayer>().abilities)
             {
-                if (ability.abilityButton == "Fire1")
+                if (ability.abilityButton == binding)
                 {
                     CmdReleaseAbilityOne(i);
                 }
@@ -127,67 +114,17 @@ public class PlatformerCharacter2D : NetworkBehaviour
         }
     }
 
+    // called from the local player
     [Command]
-    public void CmdSpawnAbilities(string[] fixedAbilities)
+    public void CmdFireAbility(int i)
     {
-        if (connectionToClient.isReady)
-        {
-            Spawn(fixedAbilities);
-        }
-        else
-        {
-            StartCoroutine(WaitForReady(fixedAbilities));
-        }
-    }
-
-    IEnumerator WaitForReady(string[] fixedAbilities)
-    {
-        while (!connectionToClient.isReady)
-        {
-            yield return new WaitForSeconds(0.25f);
-        }
-        Spawn(fixedAbilities);
-    }
-    [Server]
-    void Spawn(string[] fixedAbilities)
-    {
-        foreach (string ability in fixedAbilities)
-        {
-            GameObject abilityObject = (GameObject)Resources.Load(ability, typeof(GameObject));
-            GameObject instance = Instantiate(abilityObject);//, transform);
-            instance.GetComponent<Ability>().ownerNetworkId = netId;
-            NetworkServer.SpawnWithClientAuthority(instance, connectionToClient);
-            //abilities.Add(instance);
-        }
-        Debug.Log("Successfully spawned abilities");
-    }
-
-    [Command]
-    public void CmdFireAbilityOne(int i)
-    {
-        RpcFireAbilityOne(i);
+        RpcFireAbility(i);
     }
     [ClientRpc]
-    public void RpcFireAbilityOne(int i)
+    public void RpcFireAbility(int i)
     {
-        Debug.Log("ABILITY 1 FIRED");
         Ability a = GetComponent<BasePlayer>().abilities[i];
-        if (a.AbilityReady())
-            a.OnButtonDown();
-    }
-
-    [Command]
-    public void CmdFireAbilityTwo(int i)
-    {
-        RpcFireAbilityTwo(i);
-    }
-    [ClientRpc]
-    public void RpcFireAbilityTwo(int i)
-    {
-        Debug.Log("ABILITY 2 FIRED");
-        Ability a = GetComponent<BasePlayer>().abilities[i];
-        if (a.AbilityReady())
-            a.Fire();
+        a.OnButtonDown();
     }
 
     [Command]
@@ -198,7 +135,6 @@ public class PlatformerCharacter2D : NetworkBehaviour
     [ClientRpc]
     public void RpcReleaseAbilityOne(int i)
     {
-        Debug.Log("ABILITY 1 released");
         Ability a = GetComponent<BasePlayer>().abilities[i];
         a.OnButtonRelease();
     }
