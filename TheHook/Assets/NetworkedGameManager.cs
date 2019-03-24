@@ -14,10 +14,12 @@ public class NetworkedGameManager : NetworkBehaviour
         if (mapGen == null) Debug.LogError("Networked Manager: No map generator found.");
     }
 
-    //[Command]
-    public void CmdResetGame()
+    public void ServerResetGame()
     {
-        RpcResetGame();
+        if (isServer)
+        {
+            RpcResetGame();
+        }
     }
 
     [ClientRpc]
@@ -30,10 +32,10 @@ public class NetworkedGameManager : NetworkBehaviour
 
     void RegenerateMap()
     {
-        foreach (PlatformerCharacter2D player in FindObjectsOfType<PlatformerCharacter2D>())
+        foreach (BasePlayer player in FindObjectsOfType<BasePlayer>())
         {
             Debug.Log("Unkilling player");
-            player.Kill(false);
+            player.ResetPlayer();
         }
         mapGen.Regenerate();
     }

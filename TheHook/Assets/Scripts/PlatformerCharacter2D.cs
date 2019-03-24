@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine.Networking;
 using System.Collections.Generic;
 
+// this class should only have movement functions, not player state
 public class PlatformerCharacter2D : NetworkBehaviour
 {
     [SerializeField]
@@ -14,16 +15,12 @@ public class PlatformerCharacter2D : NetworkBehaviour
     private Animator m_Anim;            // Reference to the player's animator component.
     public Rigidbody2D m_Rigidbody2D;
     private bool isStunned;
-    private bool isDead;
     public bool isEnabled = true;
     private bool isDashing = false;
     private float currDash;
     private float dashDur = 0.25f;
 
-    public bool IsDead
-    {
-        get { return isDead; }
-    }
+    
     private void Awake()
     {
         // Setting up references.
@@ -32,10 +29,11 @@ public class PlatformerCharacter2D : NetworkBehaviour
         this.isStunned = false;
     }
 
+    // movement functions should only be called from fixedupdate
     public void Move(float moveH, float moveV)
     {
         // Move the character
-        if (!isStunned && !isDead && isEnabled && !isDashing)
+        if (!isStunned && isEnabled && !isDashing)
         {
             m_Rigidbody2D.velocity = new Vector2(moveH * m_MaxSpeed, moveV * m_MaxSpeed);
         }
@@ -49,7 +47,7 @@ public class PlatformerCharacter2D : NetworkBehaviour
 
     public void FaceMouse(Vector3 pointToFace)
     {
-        if (isEnabled && !isDead)
+        if (isEnabled)
         {
             Vector2 direction = new Vector2(pointToFace.x - transform.position.x, pointToFace.y - transform.position.y);
             //transform.right = direction;
@@ -69,33 +67,6 @@ public class PlatformerCharacter2D : NetworkBehaviour
     public void Unstun()
     {
         this.isStunned = false;
-    }
-
-    public void Kill(bool condition)
-    {
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        Color c = sr.color;
-        if (condition)
-        {
-            c.a = 0.5f;
-        } else if (!condition)
-        {
-            c.a = 1;
-        }
-        sr.color = c;
-        this.isDead = condition;
-
-        if (isDead && isServer)
-        {
-            if (GetComponent<Hooker>() != null)
-            {
-                EndGame.LegendDied();
-            }
-            else
-            {
-                EndGame.SurvivorDied();
-            }
-        }
     }
 
     public void Dash()

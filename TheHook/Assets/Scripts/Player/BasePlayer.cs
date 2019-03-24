@@ -10,6 +10,8 @@ public class BasePlayer : NetworkBehaviour
     public Rigidbody2D rigidBody;
     [SerializeField]
     private PlatformerCharacter2D player;
+
+    // Player stats //
     protected int MaxHealth = 100;
     [SyncVar(hook = "OnHealthChanged")]
     public int health = 100;
@@ -26,6 +28,13 @@ public class BasePlayer : NetworkBehaviour
         get { return mana; }
     }
 
+    // Player state //
+    private bool isDead;
+    public bool IsDead
+    {
+        get { return isDead; }
+    }
+    
     private bool isBlocking = false;
     public bool IsBlocking
     {
@@ -59,48 +68,17 @@ public class BasePlayer : NetworkBehaviour
         abilities = new List<Ability>(GetComponentsInChildren<Ability>());
         rigidBody = GetComponent<PlatformerCharacter2D>().m_Rigidbody2D;
 
-        if (isServer && this is Hooker)
-        {
-            EndGame.AddLegend();
-        }
-        else if (isServer)
-        {
-            EndGame.AddSurvivor();
-        }
+        ResetPlayer();
     }
+
+
+    // Abilities //
 
     public GameObject AddAbility(GameObject abilityPrefab)
     {
         GameObject instance = Instantiate(abilityPrefab.gameObject, transform);
         abilities.Add(instance.GetComponent<Ability>());
         return instance;
-    }
-    
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    //[Command] // this will always run on server, so have to do isserver checks on bullet/gun - disbale collision when firing? noo then won't dissapear
-    public void ServerTakeDamage(float amount)
-    {
-        // blocking should be done differently
-        if (!isServer || player.IsDead || IsBlocking) return;
-        // setting it twice in the same frame triggers hook twice?
-        this.health = (int)Mathf.Clamp(this.health - (int)amount, 0f, this.MaxHealth);
-    }
-
-    // called on each client (including listen server)
-    protected void OnHealthChanged(int newHealth)
-    {
-        Debug.Log("health changed to " + newHealth);
-        this.health = newHealth;
-        if (!player.IsDead && this.health == 0)
-        {
-            player.Kill(true);
-        }
     }
 
     public void UseMana(float amount)
@@ -114,6 +92,76 @@ public class BasePlayer : NetworkBehaviour
     {
         this.mana = Mathf.Max(0, this.mana - cost);
     }
+
+
+    ///// Taking Damage /////
+
+    public void ServerTakeDamage(float amount)
+    {
+        // blocking should be done differently
+        if (!isServer || IsDead || IsBlocking) return;
+        // setting it twice in the same frame triggers hook twice?
+        this.health = (int)Mathf.Clamp(this.health - (int)amount, 0f, this.MaxHealth);
+    }
+
+    // called on each client (including listen server)
+    protected void OnHealthChanged(int newHealth)
+    {
+        if (health != newHealth)
+        {
+            Debug.Log("health changed to " + newHealth);
+            this.health = newHealth;
+            if (!IsDead && this.health == 0)
+            {
+                KillPlayer();
+            }
+        }
+    }
+
+    public void ResetPlayer()
+    {
+        this.isDead = false;
+        this.health = MaxHealth;
+
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
+
+        // update endgame variables
+        if (isServer)
+        {
+            if (this is Hooker)
+            {
+                EndGame.AddLegend();
+            }
+            else
+            {
+                EndGame.AddSurvivor();
+            }
+        }
+    }
+
+    public void KillPlayer()
+    {
+        this.isDead = true;
+
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.5f);
+
+        if (isServer)
+        {
+            if (this is Hooker)
+            {
+                EndGame.LegendDied();
+            }
+            else
+            {
+                EndGame.SurvivorDied();
+            }
+        }
+    }
+
+
+    //      //
 
     public void Stun()
     {
@@ -130,10 +178,9 @@ public class BasePlayer : NetworkBehaviour
 
     public void Resurrect()
     {
-        if (player.IsDead)
+        if (IsDead)
         {
-            this.health = this.MaxHealth;
-            player.Kill(false);
+            ResetPlayer();
         }
     }
 
