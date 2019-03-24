@@ -44,7 +44,6 @@ public abstract class Ability : NetworkBehaviour
 
     public virtual void OnButtonRelease()
     {
-        Release();
     }
 
     public bool AbilityReady()
@@ -73,5 +72,4 @@ public abstract class Ability : NetworkBehaviour
     }
 
     public abstract void Fire();
-    public abstract void Release();
 }

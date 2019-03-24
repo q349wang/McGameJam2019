@@ -80,8 +80,4 @@ public class Heal : RaycastAbility
         laserLine.enabled = false;
     }
 
-    public override void Release()
-    {
-
-    }
 }

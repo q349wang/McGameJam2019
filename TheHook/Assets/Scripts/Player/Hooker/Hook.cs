@@ -119,10 +119,7 @@ namespace HookUtils
         {
             return damage;
         }
-
-        public override void Release()
-        {
-        }
+        
         public BasePlayer GetPlayer()
         {
             return bPlayer;

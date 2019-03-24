@@ -89,6 +89,8 @@ MonoBehaviour:
     type: 3}
   bullet: {fileID: 2683976883903869716, guid: 99d07b1613e496a43a2b025644330bd7, type: 3}
   nozzle: {fileID: 1832212787991392422}
+  fireRate: 0.1
+  slowFactor: 0.3
 --- !u!212 &1099884162818378053
 SpriteRenderer:
   m_ObjectHideFlags: 0

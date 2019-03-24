@@ -15,9 +15,4 @@ public class Rocket : ProjectileAbility
     {
         Instantiate(rocket, transform.position, Quaternion.identity);
     }
-
-    public override void Release()
-    {
-
-    }
 }

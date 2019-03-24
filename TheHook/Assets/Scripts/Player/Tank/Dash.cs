@@ -11,8 +11,4 @@ public class Dash : Ability
         bPlayer.Dash();
     }
 
-    public override void Release()
-    {
-
-    }
 }

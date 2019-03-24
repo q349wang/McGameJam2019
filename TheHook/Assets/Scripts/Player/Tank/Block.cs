@@ -72,7 +72,7 @@ public class Block : Ability
         //}
     }
 
-    public override void Release()
+    public override void OnButtonRelease()
     {
         bPlayer.Unblock();
         sr.enabled = false;
