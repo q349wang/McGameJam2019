@@ -9,6 +9,13 @@ public class EndGame : MonoBehaviour
     public static int currentSurvivors = -1;
     public static int currentLegends = -1;
 
+    NetworkedGameManager manager;
+
+    void Start()
+    {
+        manager = GetComponent<NetworkedGameManager>();
+    }
+
     void Update()
     {
         if (currentSurvivors == 0 || currentLegends == 0)
@@ -23,10 +30,9 @@ public class EndGame : MonoBehaviour
         Debug.Log("Game Over");
         currentSurvivors = -1;
         currentLegends = -1;
-        NetworkedGameManager manager = FindObjectOfType<NetworkedGameManager>();
         if (manager)
         {
-            manager.CmdResetGame();
+            manager.ServerResetGame();
         }
     }
 
