@@ -112,7 +112,6 @@ namespace MapGen
         [SerializeField] private int groupMax;
         [SerializeField] private GameObject spawn;
         private List<Tuple<int, int>> possiblePos = new List<Tuple<int, int>>();
-        private bool generated = false;
 
         // Use this for initialization
         public void Start()
@@ -179,17 +178,6 @@ namespace MapGen
 
         }
 
-        private void RpcStartGenerate(int newSeed)
-        {
-            seed = newSeed;
-            rng = new System.Random(seed);
-            Debug.Log("Generating map...");
-            GenerateWallsRect(0f, 0f, mapWidth, mapHeight);
-            GenerateMazeScuffedRecursiveDiv(0, 0, mapWidth, mapHeight, mapCellSize, ref mapSpaces, mapCellDepth);
-            GeneratePickupsAndSpawns(mapManaMin, mapManaMax, mapWeapMin, mapWeapMax, 0, 0, mapWidth, mapHeight, mapCellSize, mapSpawnpoints);
-            generated = true;
-        }
-
         // Update is called once per frame
         void Update()
         {
@@ -210,21 +198,21 @@ namespace MapGen
 
         public void Regenerate(int newSeed)
         {
-
+            this.seed = newSeed;
             rng = new System.Random(newSeed);
             for (int i = 0; i < obstacles.Count; i++)
             {
-                DestroyImmediate(obstacles[i]);
+                DestroyImmediate(obstacles[i], true);
             }
             obstacles.Clear();
             for (int i = 0; i < manaPickups.Count; i++)
             {
-                DestroyImmediate(manaPickups[i]);
+                DestroyImmediate(manaPickups[i], true);
             }
             manaPickups.Clear();
             for (int i = 0; i < weaponPickups.Count; i++)
             {
-                DestroyImmediate(weaponPickups[i].Item1);
+                DestroyImmediate(weaponPickups[i].Item1, true);
             }
             weaponPickups.Clear();
             walls = new RectWall();
