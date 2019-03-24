@@ -112,7 +112,6 @@ namespace MapGen
         [SerializeField] private int groupMax;
         [SerializeField] private GameObject spawn;
         private List<Tuple<int, int>> possiblePos = new List<Tuple<int, int>>();
-        private bool generated = false;
 
         // Use this for initialization
         public void Start()
