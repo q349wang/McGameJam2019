@@ -170,6 +170,17 @@ public class BasePlayer : NetworkBehaviour
             }
         }
     }
+    public void ServerUseMana(float amount)
+    {
+        if (!isServer) return;
+        this.mana = (int)Mathf.Clamp(this.mana - (int)amount, 0f, this.MaxMana);
+    }
+
+    protected void OnManaChanged(int newMana)
+    {
+        Debug.Log("health changed to " + newMana);
+        this.mana = newMana;
+    }
 
 
     //      //

@@ -110,7 +110,6 @@ GameObject:
   - component: {fileID: 688054269736528898}
   - component: {fileID: 5780433056153423292}
   - component: {fileID: 3773291542346555772}
-  - component: {fileID: 3753070950535358559}
   m_Layer: 15
   m_Name: BaseCharacter
   m_TagString: Player
@@ -337,18 +336,6 @@ MonoBehaviour:
   groupMin: 2
   groupMax: 5
   spawn: {fileID: 0}
---- !u!114 &3753070950535358559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3578065717224169321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2bdbdc0247507448beb29e83b3dcd08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6787035184660491250
 GameObject:
   m_ObjectHideFlags: 0
