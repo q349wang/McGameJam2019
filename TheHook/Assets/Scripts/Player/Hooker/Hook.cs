@@ -85,7 +85,7 @@ namespace HookUtils
         {
             if (bPlayer != null)
             {   
-                bPlayer.castAbility(abCost);
+                bPlayer.ServerUseMana(abCost);
                 Debug.Log("Fired");
                 hasFired = true;
                 bPlayer.SetControl(false);

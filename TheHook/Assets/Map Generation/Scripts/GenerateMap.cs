@@ -18,7 +18,7 @@ namespace MapGen
             if (GUILayout.Button("Regenerate Map"))
             {
                 mapGenerator.DestroyMap();
-                mapGenerator.Regenerate();
+                mapGenerator.RegenerateMap();
             }
             if (GUILayout.Button("Destroy Map"))
             {
@@ -76,7 +76,7 @@ namespace MapGen
         }
     }
 
-    public class GenerateMap : MonoBehaviour
+    public class GenerateMap : NetworkBehaviour
     {
 
         public int mapHeight;
@@ -95,6 +95,7 @@ namespace MapGen
         public int mapWeapMin;
         public int mapWeapMax;
 
+        [SyncVar(hook = "Regenerate")]
         public int seed;
 
         [SerializeField] private List<GameObject> pickups;
@@ -102,7 +103,7 @@ namespace MapGen
         [SerializeField] private List<GameObject> possibleObstacles;
         private List<GameObject> obstacles = new List<GameObject>();
         private RectWall walls = new RectWall();
-        private MapSpace[,] mapSpaces = new MapSpace[0,0];
+        private MapSpace[,] mapSpaces = new MapSpace[0, 0];
         private List<GameObject> manaPickups = new List<GameObject>();
         private List<Tuple<GameObject, int>> weaponPickups = new List<Tuple<GameObject, int>>();
         private static System.Random rng;
@@ -110,34 +111,31 @@ namespace MapGen
         [SerializeField] private int groupMin;
         [SerializeField] private int groupMax;
         [SerializeField] private GameObject spawn;
-
-        private int[] seeds = new int[6] { 151, 51351, 1353, 461, 8918, 1032 };
-        private int seedIndex = 0;
-
         private List<Tuple<int, int>> possiblePos = new List<Tuple<int, int>>();
         private bool generated = false;
-        
+
         // Use this for initialization
         public void Start()
         {
             mapSpaces = new MapSpace[mapWidth, mapHeight];
-
-            makeSeed(seeds[0]);
-            RpcStartGenerate(seeds[0]);
+            makeSeed();
         }
 
         // this is called whenever this script is recompiled, or a value in editor is changed
         void OnValidate()
         {
-           if (mapSpaces.Length == 0) mapSpaces = new MapSpace[mapWidth, mapHeight];
+            if (mapSpaces.Length == 0) mapSpaces = new MapSpace[mapWidth, mapHeight];
 
-            makeSeed(seeds[0]);
-            //RpcStartGenerate(seeds[0]);
+            makeSeed();
         }
 
-        private void makeSeed(int someSeed)
+        private void makeSeed()
         {
-            seed = someSeed;
+            if (isServer)
+            {
+                rng = new System.Random();
+                this.seed = rng.Next();
+            }
         }
 
         public void DestroyMap()
@@ -205,10 +203,9 @@ namespace MapGen
             // }
         }
 
-        public void Regenerate()
+        public void RegenerateMap()
         {
-            seedIndex = (seedIndex + 1) % seeds.Length;
-            Regenerate(seeds[seedIndex]);
+            makeSeed();
         }
 
         public void Regenerate(int newSeed)

@@ -29,7 +29,7 @@ public class Block : Ability
             timeSinceManaUse += Time.deltaTime;
             if (timeSinceManaUse >= 0.3f)
             {
-                bPlayer.UseMana(abCost);
+                bPlayer.ServerUseMana(abCost);
                 timeSinceManaUse = 0f;
             }
         }
@@ -53,7 +53,7 @@ public class Block : Ability
     public override void Fire()
     {
         bPlayer.Block();
-        bPlayer.UseMana(abCost);
+        bPlayer.ServerUseMana(abCost);
         sr.enabled = true;
         c.enabled = true;
         isBlocking = true;

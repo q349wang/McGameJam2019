@@ -46,11 +46,11 @@ public class Heal : RaycastAbility
             {
                 //Call the damage function of that script, passing in our gunDamage variable
                 target.ServerTakeDamage(gunDamage);
-                self.UseMana(abCost);
+                self.ServerUseMana(abCost);
             }
             Debug.Log("Healing " + hit.collider.gameObject.name);
             Debug.Log("Mana: " + self.CurrentMana);
-            self.UseMana(abCost);
+            self.ServerUseMana(abCost);
             Debug.Log("Mana: " + self.CurrentMana);
 
             //Check if the object we hit has a rigidbody attached

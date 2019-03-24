@@ -30,8 +30,6 @@ public class EndGame : MonoBehaviour
         }
     }
 
-    
-
     public static void AddSurvivor()
     {
         if (currentSurvivors == -1) currentSurvivors++;

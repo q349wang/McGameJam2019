@@ -19,7 +19,7 @@ public class BasePlayer : NetworkBehaviour
     }
 
     protected int MaxMana = 100;
-    [SyncVar]
+    [SyncVar(hook = "OnManaChanged")]
     public int mana = 100;
     public int CurrentMana
     {
@@ -103,16 +103,16 @@ public class BasePlayer : NetworkBehaviour
         }
     }
 
-    public void UseMana(float amount)
+    public void ServerUseMana(float amount)
     {
-        float sub = amount;
-        float result = this.mana - sub;
-        this.mana = (int)result;
+        if (!isServer || player.IsDead) return;
+        this.mana = (int)Mathf.Clamp(this.mana - (int)amount, 0f, this.MaxMana);
     }
 
-    public void castAbility(int cost)
+    protected void OnManaChanged(int newMana)
     {
-        this.mana = Mathf.Max(0, this.mana - cost);
+        Debug.Log("health changed to " + newMana);
+        this.mana = newMana;
     }
 
     public void Stun()
