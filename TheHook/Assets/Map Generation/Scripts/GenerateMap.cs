@@ -17,7 +17,7 @@ public class MapGeneratorEditor : Editor
         if (GUILayout.Button("Regenerate Map"))
         {
             mapGenerator.DestroyMap();
-            mapGenerator.RegenerateMap();
+            mapGenerator.RegenerateMap(123);
         }
         if (GUILayout.Button("Destroy Map"))
         {
@@ -94,8 +94,8 @@ public class GenerateMap : NetworkBehaviour
     public int mapWeapMin;
     public int mapWeapMax;
 
-    [SyncVar(hook = "Regenerate")]
-    public int seed;
+    [SyncVar(hook="Regenerate")]
+    private int seed;
 
     [SerializeField] private List<GameObject> pickups;
 
@@ -115,8 +115,13 @@ public class GenerateMap : NetworkBehaviour
     // Use this for initialization
     public void Start()
     {
+        rng = new System.Random();
         mapSpaces = new MapSpace[mapWidth, mapHeight];
-        makeSeed();
+        walls = new RectWall();
+        if (isServer) {
+            Debug.Log("Generating seed...");
+            this.seed = rng.Next();
+        }
     }
 
     // this is called whenever this script is recompiled, or a value in editor is changed
@@ -124,16 +129,6 @@ public class GenerateMap : NetworkBehaviour
     {
         if (mapSpaces.Length == 0) mapSpaces = new MapSpace[mapWidth, mapHeight];
 
-        makeSeed();
-    }
-
-    private void makeSeed()
-    {
-        if (isServer)
-        {
-            rng = new System.Random();
-            this.seed = rng.Next();
-        }
     }
 
     public void DestroyMap()
@@ -190,32 +185,17 @@ public class GenerateMap : NetworkBehaviour
         // }
     }
 
-    public void RegenerateMap()
+    public void RegenerateMap(int newSeed)
     {
-        makeSeed();
+        Regenerate(newSeed);
     }
 
-    public void Regenerate(int newSeed)
+    private void Regenerate(int newSeed)
     {
         Debug.Log("Generating map...");
         this.seed = newSeed;
         rng = new System.Random(newSeed);
-        for (int i = 0; i < obstacles.Count; i++)
-        {
-            DestroyImmediate(obstacles[i], true);
-        }
-        obstacles.Clear();
-        for (int i = 0; i < manaPickups.Count; i++)
-        {
-            DestroyImmediate(manaPickups[i], true);
-        }
-        manaPickups.Clear();
-        for (int i = 0; i < weaponPickups.Count; i++)
-        {
-            DestroyImmediate(weaponPickups[i].Item1, true);
-        }
-        weaponPickups.Clear();
-        walls = new RectWall();
+        DestroyMap();
         mapSpaces = new MapSpace[mapWidth, mapHeight];
         GenerateWallsRect(0f, 0f, mapWidth, mapHeight);
         GenerateMazeScuffedRecursiveDiv(0, 0, mapWidth, mapHeight, mapCellSize, ref mapSpaces, mapCellDepth);

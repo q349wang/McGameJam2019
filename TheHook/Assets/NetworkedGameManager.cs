@@ -29,14 +29,17 @@ public class NetworkedGameManager : NetworkBehaviour
         Invoke("RegenerateMap", 3f);
     }
 
-    void RegenerateMap()
+
+[ClientRpc]
+    void RpcRegenerateMap()
     {
         foreach (BasePlayer player in FindObjectsOfType<BasePlayer>())
         {
             Debug.Log("Unkilling player");
             player.ResetPlayer();
         }
-        mapGen.RegenerateMap();
+        System.Random rng = new System.Random();
+        mapGen.RegenerateMap(rng.Next());
     }
 
 }
