@@ -81,7 +81,6 @@ public class GenerateMap : NetworkBehaviour
     public int seed;
 
     public bool ServerSeedGenerated;
-
     public int mapHeight;
     public int mapWidth;
     public int mapCellSize;
@@ -120,6 +119,11 @@ public class GenerateMap : NetworkBehaviour
         rng = new System.Random();
         mapSpaces = new MapSpace[mapWidth, mapHeight];
         walls = new RectWall();
+
+        if (this.seed != 0)
+        {
+            Regenerate(this.seed);
+        }
     }
 
     // this is called whenever this script is recompiled, or a value in editor is changed
@@ -184,6 +188,7 @@ public class GenerateMap : NetworkBehaviour
     private void GenerateSeed(int seed)
     {
         this.seed = seed;
+        Debug.Log("Copying seed...");
         this.ServerSeedGenerated = true;
         Regenerate(this.seed);
     }
@@ -195,6 +200,7 @@ public class GenerateMap : NetworkBehaviour
 
     private void Regenerate(int newSeed)
     {
+
         Debug.Log("Generating map...");
         rng = new System.Random(newSeed);
         DestroyMap();
@@ -202,6 +208,7 @@ public class GenerateMap : NetworkBehaviour
         GenerateWallsRect(0f, 0f, mapWidth, mapHeight);
         GenerateMazeScuffedRecursiveDiv(0, 0, mapWidth, mapHeight, mapCellSize, ref mapSpaces, mapCellDepth);
         GeneratePickupsAndSpawns(mapManaMin, mapManaMax, mapWeapMin, mapWeapMax, 0, 0, mapWidth, mapHeight, mapCellSize, mapSpawnpoints);
+
 
     }
 
