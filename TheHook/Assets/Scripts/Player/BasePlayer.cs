@@ -34,7 +34,7 @@ public class BasePlayer : NetworkBehaviour
     {
         get { return isDead; }
     }
-    
+
     private bool isBlocking = false;
     public bool IsBlocking
     {
@@ -87,14 +87,10 @@ public class BasePlayer : NetworkBehaviour
         Destroy(ability.gameObject);
     }
 
-    public void UseMana(float amount)
+    public void ServerUseMana(float amount)
     {
-        this.mana = (int)(this.mana - amount);
-    }
-
-    public void castAbility(int cost)
-    {
-        this.mana = Mathf.Max(0, this.mana - cost);
+        if (!isServer || IsDead) return;
+        this.mana = (int) Mathf.Max(0, this.mana - amount);
     }
 
 
@@ -207,6 +203,7 @@ public class BasePlayer : NetworkBehaviour
 
     public void addMana(int amount)
     {
+        if (!isServer || IsDead) return;
         this.mana = Mathf.Min(MaxMana, this.mana + amount);
     }
 

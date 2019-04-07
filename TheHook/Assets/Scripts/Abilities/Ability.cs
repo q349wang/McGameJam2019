@@ -37,7 +37,7 @@ public abstract class Ability : NetworkBehaviour
     {
         if (AbilityReady())
         {
-            bPlayer.UseMana(abCost);
+            bPlayer.ServerUseMana(abCost);
             Fire();
         }
     }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.Networking;
 
 namespace MapGen
 {
@@ -76,7 +77,7 @@ namespace MapGen
         }
     }
 
-    public class GenerateMap : MonoBehaviour
+    public class GenerateMap : NetworkBehaviour
     {
 
         public int mapHeight;
@@ -95,14 +96,16 @@ namespace MapGen
         public int mapWeapMin;
         public int mapWeapMax;
 
+        [SyncVar(hook = "GenerateSeed")]
         public int seed;
+        public bool ServerMadeSeed;
 
         [SerializeField] private List<GameObject> pickups;
 
         [SerializeField] private List<GameObject> possibleObstacles;
         private List<GameObject> obstacles = new List<GameObject>();
         private RectWall walls = new RectWall();
-        private MapSpace[,] mapSpaces = new MapSpace[0,0];
+        private MapSpace[,] mapSpaces = new MapSpace[0, 0];
         private List<GameObject> manaPickups = new List<GameObject>();
         private List<Tuple<GameObject, int>> weaponPickups = new List<Tuple<GameObject, int>>();
         private static System.Random rng;
@@ -111,33 +114,30 @@ namespace MapGen
         [SerializeField] private int groupMax;
         [SerializeField] private GameObject spawn;
 
-        private int[] seeds = new int[6] { 151, 51351, 1353, 461, 8918, 1032 };
-        private int seedIndex = 0;
 
         private List<Tuple<int, int>> possiblePos = new List<Tuple<int, int>>();
         private bool generated = false;
-        
+
         // Use this for initialization
         public void Start()
         {
+            ServerMadeSeed = false;
             mapSpaces = new MapSpace[mapWidth, mapHeight];
+            walls = new RectWall();
+            rng = new System.Random();
+            if (this.seed != 0)
+            {
+                RegenerateMap(this.seed);
+            }
 
-            makeSeed(seeds[0]);
-            RpcStartGenerate(seeds[0]);
         }
 
         // this is called whenever this script is recompiled, or a value in editor is changed
         void OnValidate()
         {
-           if (mapSpaces.Length == 0) mapSpaces = new MapSpace[mapWidth, mapHeight];
+            if (mapSpaces.Length == 0) mapSpaces = new MapSpace[mapWidth, mapHeight];
 
-            makeSeed(seeds[0]);
             //RpcStartGenerate(seeds[0]);
-        }
-
-        private void makeSeed(int someSeed)
-        {
-            seed = someSeed;
         }
 
         public void DestroyMap()
@@ -181,56 +181,34 @@ namespace MapGen
 
         }
 
-        private void RpcStartGenerate(int newSeed)
-        {
-            seed = newSeed;
-            rng = new System.Random(seed);
-            Debug.Log("Generating map...");
-            GenerateWallsRect(0f, 0f, mapWidth, mapHeight);
-            GenerateMazeScuffedRecursiveDiv(0, 0, mapWidth, mapHeight, mapCellSize, ref mapSpaces, mapCellDepth);
-            GeneratePickupsAndSpawns(mapManaMin, mapManaMax, mapWeapMin, mapWeapMax, 0, 0, mapWidth, mapHeight, mapCellSize, mapSpawnpoints);
-            generated = true;
-        }
-
         // Update is called once per frame
         void Update()
         {
-            // if (Input.GetKeyDown("2"))
-            // {
-            //     if(seedIndex >= seeds.Length)
-            //     {
-            //         seedIndex = 0;
-            //     }
-            //     Regenerate(seeds[seedIndex++]);
-            // }
+            if (isServer && !ServerMadeSeed)
+            {
+                this.seed = rng.Next();
+                Debug.Log("Generating seed...");
+            }
+        }
+
+        private void GenerateSeed(int seed)
+        {
+            this.seed = seed;
+            Debug.Log("Copying seed...");
+            ServerMadeSeed = true;
+            RegenerateMap(this.seed);
         }
 
         public void Regenerate()
         {
-            seedIndex = (seedIndex + 1) % seeds.Length;
-            Regenerate(seeds[seedIndex]);
+            this.seed = rng.Next();
         }
 
-        public void Regenerate(int newSeed)
+        public void RegenerateMap(int newSeed)
         {
-
+            Debug.Log("Generating map...");
             rng = new System.Random(newSeed);
-            for (int i = 0; i < obstacles.Count; i++)
-            {
-                DestroyImmediate(obstacles[i]);
-            }
-            obstacles.Clear();
-            for (int i = 0; i < manaPickups.Count; i++)
-            {
-                DestroyImmediate(manaPickups[i]);
-            }
-            manaPickups.Clear();
-            for (int i = 0; i < weaponPickups.Count; i++)
-            {
-                DestroyImmediate(weaponPickups[i].Item1);
-            }
-            weaponPickups.Clear();
-            walls = new RectWall();
+            DestroyMap();
             mapSpaces = new MapSpace[mapWidth, mapHeight];
             GenerateWallsRect(0f, 0f, mapWidth, mapHeight);
             GenerateMazeScuffedRecursiveDiv(0, 0, mapWidth, mapHeight, mapCellSize, ref mapSpaces, mapCellDepth);
