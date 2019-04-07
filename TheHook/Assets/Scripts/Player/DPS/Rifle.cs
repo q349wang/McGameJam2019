@@ -48,7 +48,7 @@ public class Rifle : ProjectileAbility
     public override void Fire()
     {
         ProjectileBehavior bulletInstance = Instantiate(bullet, nozzle.position, transform.rotation).GetComponent<ProjectileBehavior>();
-        bPlayer.UseMana(abCost);
+        bPlayer.ServerUseMana(abCost);
     }
 
     public override void OnButtonRelease()
